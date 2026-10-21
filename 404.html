@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Zavia Seguros</title>
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #0A0D12; color: #8A95A8; font: 15px system-ui, sans-serif; }
+a { color: #38BDF8; }
+</style>
+</head>
+<body>
+<p id="m">Abrindo…</p>
+<script>
+/* Links curtos das mensagens da Zavia (o GitHub Pages entrega esta página para qualquer caminho que não existe):
+   /s/<campanha>/<variação>   → quero receber (WhatsApp)     /se/... → quero receber (e-mail)
+   /x/<campanha>/<variação>   → sair da lista (WhatsApp)     /xe/... → sair da lista (e-mail)
+   Funciona com o domínio próprio e também com zaviaplataforma-jpg.github.io/zavia-propostas/. */
+(function () {
+  "use strict";
+  var base = location.pathname.indexOf("/zavia-propostas/") === 0 ? "/zavia-propostas/" : "/";
+  var partes = location.pathname.slice(base.length).split("/").filter(Boolean);
+  var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
+  var rota = { s: ["sim", "w"], se: ["sim", "e"], x: ["sair", "w"], xe: ["sair", "e"] }[partes[0]];
+  if (rota) {
+    location.replace(base + "r/?a=" + rota[0] + "&c=" + encodeURIComponent(limpa(partes[1])) + "&v=" + encodeURIComponent(limpa(partes[2])) + "&k=" + rota[1]);
+  } else {
+    document.getElementById("m").innerHTML = 'Página não encontrada. <a href="https://plataformazavia.com">Ir para a Zavia Seguros</a>';
+  }
+})();
+</script>
+</body>
+</html>
