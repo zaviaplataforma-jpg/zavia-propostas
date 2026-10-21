@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zavia Seguros · Suas preferências</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500&display=swap">
+<style>
+/* Botões "quero receber" e "sair da lista" das mensagens da Zavia. Não guarda nada:
+   abre a resposta pronta no WhatsApp (ou no e-mail) e o João registra no painel. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0D12; --surface: #121722; --line: #202938; --fg: #EEF2F8; --mut: #8A95A8;
+  --hub: #38BDF8; --hub-ink: #061018; --ok: #22C55E; --bad: #F87171;
+  --display: "Montserrat", "Segoe UI", system-ui, sans-serif; --body: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% -10%, rgba(56,189,248,.14), transparent 55%), var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 480px; margin: 0 auto; padding: max(28px, env(safe-area-inset-top)) 16px 40px; }
+.marca { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.marca i { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.45); }
+.marca svg { width: 18px; height: 18px; fill: none; stroke: var(--hub); stroke-width: 2; }
+.marca b { display: block; font: 800 16px/1.1 var(--display); }
+.marca small { font-size: 11.5px; color: var(--mut); }
+.card { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--cor, var(--hub)); border-radius: 16px; padding: 22px 18px; }
+h1 { font: 800 22px/1.25 var(--display); margin: 0 0 8px; }
+p { margin: 0 0 14px; color: var(--mut); }
+a.btn { display: flex; align-items: center; justify-content: center; gap: 8px; font: 700 15px var(--display); padding: 14px; border-radius: 12px; background: var(--cor, var(--hub)); color: var(--hub-ink); text-decoration: none; margin-top: 6px; }
+a.btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+footer { margin-top: 22px; font-size: 11.5px; color: var(--mut); text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
+  <div class="card" id="card">
+    <h1 id="titulo">Só falta confirmar</h1>
+    <p id="texto">Estamos abrindo sua resposta pronta. Toque em enviar para confirmar.</p>
+    <a class="btn" id="btn" href="#" rel="noopener">Confirmar</a>
+  </div>
+  <footer>ZAVIA PLATAFORMA DE SEGUROS LTDA · SUSEP 262179983<br>Esta página não guarda nenhum dado.</footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var WHATS = "5511934248161", EMAIL = "zaviaplataforma@gmail.com";
+  var q = new URLSearchParams(location.search), limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
+  var sair = q.get("a") === "sair", porEmail = q.get("k") === "e", cod = [limpa(q.get("c")), limpa(q.get("v"))].filter(Boolean).join(" ");
+  var msg = sair ? "SAIR. Não quero mais receber mensagens da Zavia Seguros." : "Quero continuar recebendo informações de seguro da Zavia.";
+  msg += "\n\nCódigo: ZV-" + (sair ? "SAIR" : "SIM") + (cod ? " " + cod : "");
+  var url = porEmail
+    ? "mailto:" + EMAIL + "?subject=" + encodeURIComponent(sair ? "SAIR da lista" : "Quero continuar recebendo") + "&body=" + encodeURIComponent(msg)
+    : "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(msg);
+  document.getElementById("card").style.setProperty("--cor", sair ? "var(--bad)" : "var(--ok)");
+  document.getElementById("titulo").textContent = sair ? "Vamos tirar você da lista" : "Que bom que quer continuar";
+  document.getElementById("texto").textContent = (porEmail ? "Abrimos um e-mail" : "Abrimos o WhatsApp") + " com a sua resposta pronta. Toque em enviar para confirmar" +
+    (sair ? ": depois disso você não recebe mais nenhuma mensagem nossa." : ". As próximas mensagens serão só sobre seguro da sua área.");
+  var b = document.getElementById("btn"); b.href = url; b.textContent = sair ? "Confirmar saída" : "Confirmar";
+  setTimeout(function () { window.location.href = url; }, 600);
+})();
+</script>
+</body>
+</html>
