@@ -24,8 +24,11 @@ a { color: #38BDF8; }
   var partes = location.pathname.slice(base.length).split("/").filter(Boolean);
   var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
   var rota = { s: ["sim", "w"], se: ["sim", "e"], x: ["sair", "w"], xe: ["sair", "e"] }[partes[0]];
+  var FORMS = ["rc", "rc-advogados"]; // /<formulário>/<campanha>/<variação>
   if (rota) {
     location.replace(base + "r/?a=" + rota[0] + "&c=" + encodeURIComponent(limpa(partes[1])) + "&v=" + encodeURIComponent(limpa(partes[2])) + "&k=" + rota[1]);
+  } else if (FORMS.indexOf(partes[0]) >= 0 && partes.length >= 2) {
+    location.replace(base + partes[0] + "/?c=" + encodeURIComponent(limpa(partes[1])) + "&v=" + encodeURIComponent(limpa(partes[2])));
   } else {
     document.getElementById("m").innerHTML = 'Página não encontrada. <a href="https://plataformazavia.com">Ir para a Zavia Seguros</a>';
   }
