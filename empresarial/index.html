@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cotação de Seguro Empresarial · Zavia Seguros</title>
+<meta name="description" content="Responda em cerca de 4 minutos e receba uma cotação de seguro para a sua empresa, comparando seguradoras.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap">
+<style>
+/* Formulário público da Zavia: não guarda nada; ao enviar, abre o WhatsApp da Zavia com os dados e o código ZV-EMP. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0D12; --surface: #121722; --sunk: #0E131C; --line: #202938;
+  --fg: #EEF2F8; --mut: #8A95A8; --hub: #38BDF8; --hub-ink: #061018; --gold: #C9A961; --bad: #F87171; --ok: #22C55E;
+  --display: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --body: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: radial-gradient(ellipse at 50% -10%, rgba(56,189,248,.14), transparent 55%), var(--bg); color: var(--fg); font: 15px/1.55 var(--body); min-height: 100vh; }
+.wrap { max-width: 560px; margin: 0 auto; padding: max(20px, env(safe-area-inset-top)) 16px 48px; }
+.marca { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+.marca i { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.45); box-shadow: 0 0 16px rgba(56,189,248,.25); }
+.marca svg { width: 18px; height: 18px; fill: none; stroke: var(--hub); stroke-width: 2; }
+.marca b { display: block; font: 800 16px/1.1 var(--display); letter-spacing: .02em; }
+.marca small { font-size: 11.5px; color: var(--mut); }
+h1 { font: 800 26px/1.2 var(--display); margin: 0 0 10px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--hub); }
+.lead { color: var(--mut); margin: 0 0 18px; }
+form { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--hub); border-radius: 16px; padding: 18px 16px; }
+.passo { display: grid; gap: 14px; }
+.passo[hidden] { display: none; }
+.prog { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font: 600 12px var(--display); color: var(--mut); }
+.prog .tr { flex: 1; height: 6px; background: var(--sunk); border-radius: 99px; overflow: hidden; }
+.prog .tr div { height: 100%; background: var(--hub); border-radius: 99px; transition: width .3s ease; box-shadow: 0 0 10px rgba(56,189,248,.5); }
+h2 { font: 700 12px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--mut); margin: 6px 0 -4px; }
+label { display: grid; gap: 5px; font-size: 13px; color: var(--mut); }
+label b, .q b { color: var(--fg); font-weight: 500; }
+.q { display: grid; gap: 6px; font-size: 13px; color: var(--mut); }
+.q[hidden], label[hidden] { display: none; }
+input, select { font: 16px var(--body); padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--sunk); color: var(--fg); width: 100%; color-scheme: dark; }
+input:focus, select:focus { outline: 2px solid var(--hub); outline-offset: 1px; }
+input[aria-invalid="true"], select[aria-invalid="true"], .opcoes[aria-invalid="true"] { border-color: var(--bad); }
+.opcoes[aria-invalid="true"] { border: 1px solid var(--bad); border-radius: 12px; padding: 6px; }
+.dois { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.opcoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.opcoes label { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--sunk); color: var(--fg); cursor: pointer; font-size: 14px; }
+.opcoes input { width: auto; accent-color: var(--hub); margin: 0; }
+.opcoes label:has(input:checked) { border-color: var(--hub); background: rgba(56,189,248,.14); }
+.aceite { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-size: 12.5px; }
+.aceite input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--hub); }
+.aceite a { color: var(--hub); }
+.erro { color: var(--bad); font-size: 13px; min-height: 1em; margin: -4px 0 0; }
+.acoes { display: flex; gap: 10px; }
+button { font: 700 15px var(--display); padding: 14px 16px; border-radius: 12px; border: 0; background: var(--hub); color: var(--hub-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 22px rgba(56,189,248,.35); flex: 1; }
+button.vol { flex: 0 0 auto; background: var(--sunk); color: var(--fg); border: 1px solid var(--line); box-shadow: none; }
+button svg { width: 20px; height: 20px; }
+button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.nota { font-size: 12px; color: var(--mut); text-align: center; margin: -2px 0 0; }
+.dica { font-size: 12px; color: var(--mut); margin: -8px 0 0; }
+.ok { display: none; text-align: center; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--ok); border-radius: 16px; padding: 22px 16px; }
+.ok.on { display: block; }
+.ok h2 { color: var(--ok); margin: 0 0 8px; font-size: 13px; }
+.ok a { color: var(--hub); }
+footer { margin-top: 26px; font-size: 11.5px; color: var(--mut); text-align: center; line-height: 1.6; }
+footer a { color: var(--mut); }
+@media (max-width: 380px) { .dois { grid-template-columns: 1fr; } h1 { font-size: 23px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
+
+  <h1>Cotação de <em>seguro para a sua empresa</em></h1>
+  <p class="lead">São 4 telas curtas, uns 4 minutos. Um corretor da Zavia compara seguradoras e te responde pelo WhatsApp, sem compromisso. Não sabe algum valor? Marque "não sei agora" e a gente completa depois.</p>
+
+  <form id="f" novalidate>
+    <div class="prog" aria-hidden="true"><span id="prog-t">1 de 4</span><div class="tr"><div id="prog-b" style="width:25%"></div></div></div>
+
+    <!-- 1. Você e a empresa -->
+    <div class="passo" data-p="1">
+      <h2>Você e a empresa</h2>
+      <label><b>Seu nome</b><input name="nome" autocomplete="name" maxlength="80" required></label>
+      <div class="dois">
+        <label><b>WhatsApp</b><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20" required></label>
+        <label><b>E-mail</b> (opcional)<input name="email" type="email" autocomplete="email" maxlength="80"></label>
+      </div>
+      <label><b>Nome da empresa</b><input name="empresa" autocomplete="organization" maxlength="100" required></label>
+      <label><b>CNPJ</b> (opcional: se não tiver agora, mande depois)<input name="cnpj" inputmode="numeric" placeholder="00.000.000/0000-00" maxlength="18"></label>
+      <label><b>Tipo de negócio</b>
+        <select name="ramo" required><option value="">Escolha</option><option>Loja ou comércio</option><option>Escritório ou serviços</option><option>Restaurante, bar ou lanchonete</option><option>Clínica, consultório ou salão</option><option>Oficina ou pequena indústria</option><option>Depósito ou distribuidora</option><option>Outro</option></select></label>
+      <label><b>O que a empresa faz no local</b><input name="atividade" maxlength="100" placeholder="ex.: venda de roupas; contabilidade; conserto de celulares" required></label>
+      <label><b>Pessoas trabalhando no local</b>
+        <select name="funcionarios" required><option value="">Escolha</option><option>Só eu</option><option>2 a 5</option><option>6 a 15</option><option>16 a 50</option><option>Mais de 50</option></select></label>
+      <div class="q"><b>Tem seguro da empresa hoje?</b>
+        <div class="opcoes" data-r="temseguro"><label><input type="radio" name="temseguro" value="Não">Não</label><label><input type="radio" name="temseguro" value="Sim">Sim</label></div></div>
+      <div class="dois" id="seg-atual" hidden>
+        <label><b>Seguradora</b> (opcional)<input name="seguradora" maxlength="40"></label>
+        <label><b>Vence em</b>
+          <select name="vencimento"><option value="">Não sei</option><option>janeiro</option><option>fevereiro</option><option>março</option><option>abril</option><option>maio</option><option>junho</option><option>julho</option><option>agosto</option><option>setembro</option><option>outubro</option><option>novembro</option><option>dezembro</option></select></label>
+      </div>
+    </div>
+
+    <!-- 2. O local -->
+    <div class="passo" data-p="2" hidden>
+      <h2>O local a segurar</h2>
+      <div class="dois">
+        <label><b>CEP</b><input name="cep" inputmode="numeric" placeholder="00000-000" maxlength="9" required></label>
+        <label><b>Número</b><input name="numero" maxlength="10" required></label>
+      </div>
+      <label><b>Complemento</b> (opcional)<input name="complemento" maxlength="40" placeholder="sala, loja, bloco"></label>
+      <div class="q"><b>O imóvel é</b>
+        <div class="opcoes" data-r="imovel"><label><input type="radio" name="imovel" value="Alugado">Alugado</label><label><input type="radio" name="imovel" value="Próprio">Próprio</label></div></div>
+      <label><b>Tipo de imóvel</b>
+        <select name="tipo" required><option value="">Escolha</option><option>Loja de rua</option><option>Sala em prédio comercial</option><option>Galpão</option><option>Casa adaptada</option><option>Loja em shopping ou galeria</option><option>Outro</option></select></label>
+      <div class="q"><b>A construção é de alvenaria (tijolo e concreto)?</b>
+        <div class="opcoes" data-r="alvenaria"><label><input type="radio" name="alvenaria" value="Sim">Sim</label><label><input type="radio" name="alvenaria" value="Não">Não, tem madeira, lona ou metálica</label><label><input type="radio" name="alvenaria" value="Não sei">Não sei</label></div></div>
+      <label><b>Área aproximada</b> (opcional)
+        <select name="area"><option value="">Não sei</option><option>Até 50 m²</option><option>50 a 150 m²</option><option>150 a 500 m²</option><option>Mais de 500 m²</option></select></label>
+    </div>
+
+    <!-- 3. Valores -->
+    <div class="passo" data-p="3" hidden>
+      <h2>Valores aproximados</h2>
+      <p class="dica">Pode arredondar. Pense em quanto custaria comprar tudo novo hoje.</p>
+      <label id="q-predio" hidden><b>Quanto custaria reconstruir o imóvel</b>
+        <select name="predio"><option value="">Escolha</option><option>Até R$ 300 mil</option><option>R$ 300 a 700 mil</option><option>R$ 700 mil a 1,5 milhão</option><option>Acima de R$ 1,5 milhão</option><option>Não sei agora</option></select></label>
+      <label><b>Máquinas, equipamentos e móveis</b>
+        <select name="equipamentos" required><option value="">Escolha</option><option>Até R$ 20 mil</option><option>R$ 20 a 50 mil</option><option>R$ 50 a 100 mil</option><option>R$ 100 a 300 mil</option><option>R$ 300 a 700 mil</option><option>Acima de R$ 700 mil</option><option>Não sei agora</option></select></label>
+      <label><b>Mercadorias e estoque (média)</b>
+        <select name="estoque" required><option value="">Escolha</option><option>Não tenho estoque</option><option>Até R$ 20 mil</option><option>R$ 20 a 50 mil</option><option>R$ 50 a 150 mil</option><option>R$ 150 a 500 mil</option><option>Acima de R$ 500 mil</option><option>Não sei agora</option></select></label>
+      <label id="q-aluguel" hidden><b>Aluguel mensal</b>
+        <select name="aluguel"><option value="">Escolha</option><option>Até R$ 3 mil</option><option>R$ 3 a 8 mil</option><option>R$ 8 a 20 mil</option><option>Acima de R$ 20 mil</option><option>Não sei agora</option></select></label>
+      <label><b>Faturamento mensal</b>
+        <select name="faturamento" required><option value="">Escolha</option><option>Até R$ 30 mil</option><option>R$ 30 a 100 mil</option><option>R$ 100 a 400 mil</option><option>Acima de R$ 400 mil</option><option>Prefiro não dizer</option></select></label>
+    </div>
+
+    <!-- 4. Proteção e rotina -->
+    <div class="passo" data-p="4" hidden>
+      <h2>Proteção e rotina</h2>
+      <div class="q"><b>O que o local tem</b> (marque tudo que tiver)
+        <div class="opcoes" data-c="protecao"><label><input type="checkbox" name="protecao" value="Alarme monitorado">Alarme monitorado</label><label><input type="checkbox" name="protecao" value="Câmeras">Câmeras</label><label><input type="checkbox" name="protecao" value="Grades">Grades</label><label><input type="checkbox" name="protecao" value="Extintores">Extintores</label><label><input type="checkbox" name="protecao" value="Vigia ou portaria">Vigia ou portaria</label><label><input type="checkbox" name="protecao" value="Nenhum">Nenhum</label></div></div>
+      <label><b>Gás ou inflamáveis no local</b>
+        <select name="gas" required><option value="">Escolha</option><option>Não tem</option><option>Botijão de gás</option><option>Gás encanado</option><option>Guarda inflamáveis (tintas, solventes, combustível)</option><option>Mais de um desses</option></select></label>
+      <label><b>Dinheiro guardado no local, no fim do dia</b>
+        <select name="dinheiro" required><option value="">Escolha</option><option>Não guardo</option><option>Até R$ 5 mil</option><option>R$ 5 a 20 mil</option><option>Acima de R$ 20 mil</option></select></label>
+      <div class="q"><b>Clientes vão até o local?</b>
+        <div class="opcoes" data-r="atende"><label><input type="radio" name="atende" value="Sim">Sim</label><label><input type="radio" name="atende" value="Não">Não</label></div></div>
+      <div class="q"><b>A empresa trabalha na casa, na obra ou na empresa dos clientes?</b>
+        <div class="opcoes" data-r="externo"><label><input type="radio" name="externo" value="Sim">Sim</label><label><input type="radio" name="externo" value="Não">Não</label></div></div>
+      <div class="q"><b>Leva equipamentos para fora (notebook, ferramentas, máquinas)?</b>
+        <div class="opcoes" data-r="portateis"><label><input type="radio" name="portateis" value="Sim">Sim</label><label><input type="radio" name="portateis" value="Não">Não</label></div></div>
+      <div class="q"><b>Nos últimos 5 anos, teve roubo, incêndio, alagamento ou outro prejuízo no local?</b>
+        <div class="opcoes" data-r="sinistro"><label><input type="radio" name="sinistro" value="Não">Não</label><label><input type="radio" name="sinistro" value="Sim">Sim</label></div></div>
+      <label id="q-sinistro" hidden><b>O que aconteceu e quando</b><input name="sinistrodet" maxlength="120" placeholder="ex.: roubo em 2024"></label>
+      <div class="q"><b>O que mais te preocupa?</b> (até 3)
+        <div class="opcoes" data-c="preocupa"><label><input type="checkbox" name="preocupa" value="Incêndio">Incêndio</label><label><input type="checkbox" name="preocupa" value="Roubo">Roubo</label><label><input type="checkbox" name="preocupa" value="Danos elétricos">Danos elétricos</label><label><input type="checkbox" name="preocupa" value="Vendaval e granizo">Vendaval e granizo</label><label><input type="checkbox" name="preocupa" value="Quebra de vidros">Quebra de vidros</label><label><input type="checkbox" name="preocupa" value="Ficar parado">Ficar parado (perder faturamento)</label><label><input type="checkbox" name="preocupa" value="Danos a clientes ou terceiros">Danos a clientes ou terceiros</label><label><input type="checkbox" name="preocupa" value="Equipamentos fora do local">Equipamentos fora do local</label></div></div>
+
+      <label class="aceite"><input type="checkbox" name="ciencia"><span>Li o <a href="/privacidade/" target="_blank" rel="noopener">aviso de privacidade</a> e entendo que estes dados serão usados para a cotação do meu seguro.</span></label>
+      <label class="aceite"><input type="checkbox" name="ofertas"><span>Opcional: aceito receber, de vez em quando, sugestões de outros seguros. Posso cancelar quando quiser.</span></label>
+    </div>
+
+    <p class="erro" id="erro" role="alert"></p>
+    <div class="acoes">
+      <button type="button" class="vol" id="voltar" hidden>Voltar</button>
+      <button type="submit" id="seguir">Continuar</button>
+    </div>
+    <p class="nota" id="nota-envio" hidden>O botão abre o WhatsApp da Zavia com suas respostas já escritas. É só apertar enviar.</p>
+  </form>
+
+  <div class="ok" id="ok" role="status">
+    <h2>Quase lá</h2>
+    <p>Abrimos o WhatsApp com as suas respostas. Aperte <b>enviar</b> por lá para a cotação chegar até nós.</p>
+    <p>Não abriu? <a id="ok-link" href="#" target="_blank" rel="noopener">Toque aqui para abrir o WhatsApp</a>.</p>
+  </div>
+
+  <footer>A cotação depende da análise e da aceitação de cada seguradora.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda nenhum dado: tudo segue direto para o WhatsApp da Zavia. <a href="/privacidade/">Aviso de privacidade</a></footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var WHATS = "5511934248161"; // WhatsApp comercial da Zavia
+  var q = new URLSearchParams(location.search);
+  var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
+  var camp = limpa(q.get("c")), varia = limpa(q.get("v"));
+  var f = document.getElementById("f"), passo = 1, TOTAL = 4;
+  var $ = function (id) { return document.getElementById(id); };
+  var radio = function (n) { return (f.querySelector("[name=" + n + "]:checked") || {}).value || ""; };
+  var marcados = function (n) { return Array.prototype.map.call(f.querySelectorAll("[name=" + n + "]:checked"), function (x) { return x.value; }); };
+  var val = function (n) { return String(f[n].value || "").trim(); };
+
+  function mascara(el, fn) { el.addEventListener("input", function () { el.value = fn(el.value.replace(/\D/g, "")); }); }
+  mascara(f.cnpj, function (d) {
+    d = d.slice(0, 14);
+    if (d.length > 12) return d.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/, "$1.$2.$3/$4-$5");
+    if (d.length > 8) return d.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4})/, "$1.$2.$3/$4");
+    if (d.length > 5) return d.replace(/^(\d{2})(\d{3})(\d{0,3})/, "$1.$2.$3");
+    if (d.length > 2) return d.replace(/^(\d{2})(\d{0,3})/, "$1.$2");
+    return d;
+  });
+  mascara(f.cep, function (d) { d = d.slice(0, 8); return d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d; });
+
+  // perguntas condicionais
+  function condicionais() {
+    $("seg-atual").hidden = radio("temseguro") !== "Sim";
+    $("q-predio").hidden = radio("imovel") !== "Próprio";
+    $("q-aluguel").hidden = radio("imovel") !== "Alugado";
+    $("q-sinistro").hidden = radio("sinistro") !== "Sim";
+  }
+  f.addEventListener("change", function (ev) {
+    condicionais();
+    if (ev.target.name === "preocupa" && marcados("preocupa").length > 3) { ev.target.checked = false; $("erro").textContent = "Escolha no máximo 3."; }
+    if (ev.target.name === "protecao") { // "Nenhum" exclui as outras opções
+      var nenhum = f.querySelector('[name=protecao][value="Nenhum"]');
+      if (ev.target === nenhum && nenhum.checked) f.querySelectorAll("[name=protecao]").forEach(function (x) { if (x !== nenhum) x.checked = false; });
+      else if (ev.target !== nenhum && ev.target.checked) nenhum.checked = false;
+    }
+  });
+
+  function marcar(el, ruim) { if (el && el.setAttribute) el.setAttribute("aria-invalid", ruim ? "true" : "false"); }
+  function exige(nome, msg) { var el = f[nome], v = val(nome), ruim = !v; marcar(el, ruim); return ruim ? msg : ""; }
+  function exigeRadio(nome, msg) { var g = f.querySelector('[data-r="' + nome + '"]'), ruim = !radio(nome); marcar(g, ruim); return ruim ? msg : ""; }
+  function validar(p) {
+    var e = [];
+    if (p === 1) {
+      e.push(exige("nome", "Preencha seu nome."));
+      var tel = val("whatsapp").replace(/\D/g, ""), telOk = tel.length === 10 || tel.length === 11 || (tel.length >= 12 && tel.length <= 13 && tel.indexOf("55") === 0);
+      marcar(f.whatsapp, !telOk); e.push(telOk ? "" : "Confira o WhatsApp, com DDD.");
+      var em = val("email"), emOk = !em || /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em); marcar(f.email, !emOk); e.push(emOk ? "" : "Confira o e-mail (ou deixe em branco).");
+      e.push(exige("empresa", "Preencha o nome da empresa."));
+      var cn = val("cnpj").replace(/\D/g, ""), cnOk = !cn || cn.length === 14; marcar(f.cnpj, !cnOk); e.push(cnOk ? "" : "O CNPJ precisa ter 14 números (ou deixe em branco).");
+      e.push(exige("ramo", "Escolha o tipo de negócio."), exige("atividade", "Conte o que a empresa faz no local."), exige("funcionarios", "Escolha quantas pessoas trabalham no local."), exigeRadio("temseguro", "Diga se já tem seguro."));
+    } else if (p === 2) {
+      var cep = val("cep").replace(/\D/g, ""); marcar(f.cep, cep.length !== 8); e.push(cep.length === 8 ? "" : "Confira o CEP (8 números).");
+      e.push(exige("numero", "Preencha o número."), exigeRadio("imovel", "Diga se o imóvel é alugado ou próprio."), exige("tipo", "Escolha o tipo de imóvel."), exigeRadio("alvenaria", "Responda sobre a construção."));
+    } else if (p === 3) {
+      if (radio("imovel") === "Próprio") e.push(exige("predio", "Escolha o valor do imóvel (ou \"não sei agora\")."));
+      if (radio("imovel") === "Alugado") e.push(exige("aluguel", "Escolha o aluguel (ou \"não sei agora\")."));
+      e.push(exige("equipamentos", "Escolha o valor dos equipamentos (ou \"não sei agora\")."), exige("estoque", "Escolha o estoque."), exige("faturamento", "Escolha o faturamento (ou \"prefiro não dizer\")."));
+    } else {
+      var pr = f.querySelector('[data-c="protecao"]'); marcar(pr, !marcados("protecao").length); e.push(marcados("protecao").length ? "" : "Marque o que o local tem (ou \"Nenhum\").");
+      e.push(exige("gas", "Responda sobre gás e inflamáveis."), exige("dinheiro", "Responda sobre dinheiro no local."));
+      e.push(exigeRadio("atende", "Responda se clientes vão até o local."), exigeRadio("externo", "Responda se trabalha fora."), exigeRadio("portateis", "Responda sobre equipamentos fora."), exigeRadio("sinistro", "Responda sobre prejuízos nos últimos 5 anos."));
+      if (!f.ciencia.checked) e.push("Marque que leu o aviso de privacidade.");
+    }
+    e = e.filter(Boolean);
+    $("erro").textContent = e[0] || "";
+    if (e.length) { var x = f.querySelector('.passo[data-p="' + p + '"] [aria-invalid="true"]'); if (x && x.focus) x.focus(); }
+    return !e.length;
+  }
+
+  function mostrar(p) {
+    passo = p;
+    f.querySelectorAll(".passo").forEach(function (el) { el.hidden = +el.getAttribute("data-p") !== p; });
+    $("prog-t").textContent = p + " de " + TOTAL; $("prog-b").style.width = (p / TOTAL * 100) + "%";
+    $("voltar").hidden = p === 1; $("nota-envio").hidden = p !== TOTAL;
+    $("seguir").textContent = p === TOTAL ? "Enviar pelo WhatsApp" : "Continuar";
+    $("erro").textContent = ""; condicionais(); window.scrollTo(0, 0);
+  }
+  $("voltar").addEventListener("click", function () { mostrar(passo - 1); });
+
+  f.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!validar(passo)) return;
+    if (passo < TOTAL) return mostrar(passo + 1);
+    var proprio = radio("imovel") === "Próprio";
+    // o painel da Zavia reconhece este formato no botão "Colar lead"
+    var L = [
+      "Quero uma cotação de Seguro Empresarial.", "",
+      "Nome: " + val("nome"),
+      "WhatsApp: " + val("whatsapp"),
+      val("email") ? "E-mail: " + val("email") : null,
+      "Empresa: " + val("empresa"),
+      val("cnpj") ? "CNPJ: " + val("cnpj") : "CNPJ: mando depois",
+      "Tipo de negócio: " + val("ramo"),
+      "Atividade no local: " + val("atividade"),
+      "Pessoas no local: " + val("funcionarios"),
+      "Tem seguro hoje: " + radio("temseguro") + (radio("temseguro") === "Sim" ? " (" + [val("seguradora"), val("vencimento") ? "vence em " + val("vencimento") : ""].filter(Boolean).join(", ") + ")" : ""),
+      "",
+      "CEP: " + val("cep") + " · Nº " + val("numero") + (val("complemento") ? " · " + val("complemento") : ""),
+      "Imóvel: " + radio("imovel") + " · " + val("tipo"),
+      "Alvenaria: " + radio("alvenaria"),
+      val("area") ? "Área: " + val("area") : null,
+      "",
+      proprio ? "Reconstrução do imóvel: " + val("predio") : null,
+      "Equipamentos e móveis: " + val("equipamentos"),
+      "Estoque: " + val("estoque"),
+      !proprio ? "Aluguel mensal: " + val("aluguel") : null,
+      "Faturamento mensal: " + val("faturamento"),
+      "",
+      "Proteção: " + marcados("protecao").join(", "),
+      "Gás ou inflamáveis: " + val("gas"),
+      "Dinheiro no local: " + val("dinheiro"),
+      "Clientes no local: " + radio("atende"),
+      "Trabalha na casa ou obra de clientes: " + radio("externo"),
+      "Equipamentos fora: " + radio("portateis"),
+      "Prejuízo em 5 anos: " + radio("sinistro") + (radio("sinistro") === "Sim" && val("sinistrodet") ? " (" + val("sinistrodet") + ")" : ""),
+      marcados("preocupa").length ? "Preocupações: " + marcados("preocupa").join(", ") : null,
+      "Aceita sugestões de outros seguros: " + (f.ofertas.checked ? "Sim" : "Não"),
+      "",
+      "Código: ZV-EMP" + (camp ? " " + camp : "") + (varia ? " " + varia : "")
+    ].filter(function (l) { return l !== null; }).join("\n"); // null = campo que não se aplica
+    var url = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(L);
+    $("ok-link").href = url;
+    f.style.display = "none"; $("ok").className = "ok on";
+    window.scrollTo(0, 0);
+    window.location.href = url;
+  });
+  mostrar(1);
+})();
+</script>
+</body>
+</html>
