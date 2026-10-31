@@ -176,7 +176,7 @@ footer a { color: var(--mut); }
     <p>Não abriu? <a id="ok-link" href="#" target="_blank" rel="noopener">Toque aqui para abrir o WhatsApp</a>.</p>
   </div>
 
-  <footer>A cotação depende da análise e da aceitação de cada seguradora.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda nenhum dado: tudo segue direto para o WhatsApp da Zavia. <a href="/privacidade/">Aviso de privacidade</a></footer>
+  <footer>A cotação depende da análise e da aceitação de cada seguradora.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados pessoais: tudo segue direto para o WhatsApp da Zavia. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
 </div>
 <script>
 (function () {
@@ -185,6 +185,14 @@ footer a { color: var(--mut); }
   var q = new URLSearchParams(location.search);
   var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
   var camp = limpa(q.get("c")), varia = limpa(q.get("v"));
+  // ID do vídeo e canal (links curtos /v/): vão no código da mensagem e no contador do Painel, sem dado pessoal
+  var CONT = /^ZV-(CTB|EMP|CND|PRF|TRN|AUT|RES|VID|INS)-\d{3}(-[A-C])?$/;
+  var canal = limpa(q.get("s")).toLowerCase(), pub = CONT.test(varia) && canal ? varia + "-" + canal : "";
+  var conta = function (e) {
+    if (!pub || !navigator.sendBeacon) return;
+    try { navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: e })); } catch (x) {}
+  };
+  conta("diagnostico");
   var f = document.getElementById("f"), passo = 1, TOTAL = 4;
   var $ = function (id) { return document.getElementById(id); };
   var radio = function (n) { return (f.querySelector("[name=" + n + "]:checked") || {}).value || ""; };
@@ -300,12 +308,13 @@ footer a { color: var(--mut); }
       marcados("preocupa").length ? "Preocupações: " + marcados("preocupa").join(", ") : null,
       "Aceita sugestões de outros seguros: " + (f.ofertas.checked ? "Sim" : "Não"),
       "",
-      "Código: ZV-EMP" + (camp ? " " + camp : "") + (varia ? " " + varia : "")
+      "Código: ZV-EMP" + (camp ? " " + camp : "") + (varia ? " " + varia : "") + (pub ? " " + canal : "")
     ].filter(function (l) { return l !== null; }).join("\n"); // null = campo que não se aplica
     var url = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(L);
     $("ok-link").href = url;
     f.style.display = "none"; $("ok").className = "ok on";
     window.scrollTo(0, 0);
+    conta("envio");
     window.location.href = url;
   });
   mostrar(1);

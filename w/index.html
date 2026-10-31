@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zavia Seguros · Falar com a Závia</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500&display=swap">
+<style>
+/* Links dos vídeos para públicos sem formulário (condomínio, auto, residencial, vida, institucional):
+   abre o WhatsApp com a mensagem pronta e o código do vídeo. Não guarda dado pessoal. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0D12; --surface: #121722; --line: #202938; --fg: #EEF2F8; --mut: #8A95A8;
+  --hub: #38BDF8; --hub-ink: #061018; --ok: #22C55E; --bad: #F87171;
+  --display: "Montserrat", "Segoe UI", system-ui, sans-serif; --body: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% -10%, rgba(56,189,248,.14), transparent 55%), var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 480px; margin: 0 auto; padding: max(28px, env(safe-area-inset-top)) 16px 40px; }
+.marca { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.marca i { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.45); }
+.marca svg { width: 18px; height: 18px; fill: none; stroke: var(--hub); stroke-width: 2; }
+.marca b { display: block; font: 800 16px/1.1 var(--display); }
+.marca small { font-size: 11.5px; color: var(--mut); }
+.card { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--cor, var(--hub)); border-radius: 16px; padding: 22px 18px; }
+h1 { font: 800 22px/1.25 var(--display); margin: 0 0 8px; }
+p { margin: 0 0 14px; color: var(--mut); }
+a.btn { display: flex; align-items: center; justify-content: center; gap: 8px; font: 700 15px var(--display); padding: 14px; border-radius: 12px; background: var(--cor, var(--hub)); color: var(--hub-ink); text-decoration: none; margin-top: 6px; }
+a.btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+footer { margin-top: 22px; font-size: 11.5px; color: var(--mut); text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
+  <div class="card" id="card">
+    <h1 id="titulo">Vamos conversar</h1>
+    <p id="texto">Abrimos o WhatsApp da Závia com a sua mensagem pronta. Toque em enviar e respondemos por lá.</p>
+    <a class="btn" id="btn" href="#" rel="noopener">Abrir o WhatsApp</a>
+  </div>
+  <footer>ZAVIA PLATAFORMA DE SEGUROS LTDA · SUSEP 262179983<br>Esta página não guarda dados pessoais. Contamos só os acessos, sem identificar você. <a href="../privacidade/" style="color:inherit">Aviso de privacidade</a></footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var WHATS = "5511934248161"; // WhatsApp comercial da Zavia
+  var q = new URLSearchParams(location.search);
+  var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
+  var camp = limpa(q.get("c")), varia = limpa(q.get("v"));
+  // ID do vídeo e canal (links curtos /v/): vão no código da mensagem e no contador do Painel, sem dado pessoal
+  var CONT = /^ZV-(CTB|EMP|CND|PRF|TRN|AUT|RES|VID|INS)-\d{3}(-[A-C])?$/;
+  var canal = limpa(q.get("s")).toLowerCase(), pub = CONT.test(varia) && canal ? varia + "-" + canal : "";
+  var conta = function (e) {
+    if (!pub || !navigator.sendBeacon) return;
+    try { navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: e })); } catch (x) {}
+  };
+  conta("diagnostico");
+  var MSG = {
+    cnd: ["Quero um Raio-X do seguro do meu condomínio.", "ZV-RAIOX"],
+    aut: ["Quero entender as opções de seguro auto.", "ZV-AUTO"],
+    res: ["Quero entender as opções de seguro residencial.", "ZV-RES"],
+    vid: ["Quero entender as opções de seguro de vida.", "ZV-VIDA"],
+    ins: ["Quero conhecer o diagnóstico de riscos da Závia.", "ZV-DIAG"]
+  }[limpa(q.get("t")).toLowerCase()] || ["Quero falar com a Závia sobre seguros.", "ZV-CONTATO"];
+  var txt = MSG[0] + "\n\nCódigo: " + MSG[1] + (camp ? " " + camp : "") + (varia ? " " + varia : "") + (pub ? " " + canal : "");
+  var url = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(txt);
+  document.getElementById("btn").href = url;
+  setTimeout(function () { conta("envio"); location.href = url; }, 600);
+})();
+</script>
+</body>
+</html>
