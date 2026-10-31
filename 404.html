@@ -17,6 +17,7 @@ a { color: #38BDF8; }
 /* Links curtos das mensagens da Zavia (o GitHub Pages entrega esta página para qualquer caminho que não existe):
    /s/<campanha>/<variação>   → quero receber (WhatsApp)     /se/... → quero receber (e-mail)
    /x/<campanha>/<variação>   → sair da lista (WhatsApp)     /xe/... → sair da lista (e-mail)
+   /v/<publicação>            → link de um vídeo, ex.: /v/ZV-CTB-001-A-ig (conta o clique e abre o destino do público)
    Funciona com o domínio próprio e também com zaviaplataforma-jpg.github.io/zavia-propostas/. */
 (function () {
   "use strict";
@@ -25,7 +26,18 @@ a { color: #38BDF8; }
   var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
   var rota = { s: ["sim", "w"], se: ["sim", "e"], x: ["sair", "w"], xe: ["sair", "e"] }[partes[0]];
   var FORMS = ["rc", "rc-advogados"]; // /<formulário>/<campanha>/<variação>
-  if (rota) {
+  var PUB = /^ZV-(CTB|EMP|CND|PRF|TRN|AUT|RES|VID|INS)-(\d{3})(-[A-C])?-(ig|fb|li|yt|wa|bni|gg|qr|bio|ev|parc|pmeta|pgoogle)$/;
+  var v = partes[0] === "v" ? PUB.exec(String(partes[1] || "").replace(/^zv-/, "ZV-").toUpperCase().replace(/-([A-Z]+)$/, function (m, c) { return "-" + c.toLowerCase(); })) : null;
+  if (v) {
+    // destino por público: formulário de RC, formulário Empresarial ou WhatsApp com mensagem pronta (/w/)
+    var pub = v[0], cont = pub.slice(0, pub.lastIndexOf("-")), canal = v[4];
+    var DEST = { CTB: ["rc", "contabilidade"], PRF: ["rc", "profissionais"], EMP: ["empresarial", "empresas"], TRN: ["empresarial", "transportadoras"],
+      CND: ["w", "condominios"], AUT: ["w", "auto"], RES: ["w", "residencial"], VID: ["w", "vida"], INS: ["w", "institucional"] }[v[1]];
+    var MEIO = { pmeta: "paid_social", pgoogle: "cpc", qr: "qr", bni: "direct_message", wa: "direct_message", ev: "event", parc: "referral", gg: "organic" }[canal] || "organic_social";
+    try { if (navigator.sendBeacon) navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: "clique" })); } catch (x) {}
+    location.replace(base + DEST[0] + "/?c=" + DEST[1] + "&v=" + cont + "&s=" + canal + (DEST[0] === "w" ? "&t=" + v[1].toLowerCase() : "") +
+      "&utm_source=" + canal + "&utm_medium=" + MEIO + "&utm_campaign=" + DEST[1] + "&utm_content=" + cont);
+  } else if (rota) {
     location.replace(base + "r/?a=" + rota[0] + "&c=" + encodeURIComponent(limpa(partes[1])) + "&v=" + encodeURIComponent(limpa(partes[2])) + "&k=" + rota[1]);
   } else if (FORMS.indexOf(partes[0]) >= 0 && partes.length >= 2) {
     location.replace(base + partes[0] + "/?c=" + encodeURIComponent(limpa(partes[1])) + "&v=" + encodeURIComponent(limpa(partes[2])));
