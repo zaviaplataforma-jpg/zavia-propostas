@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Cotação de Seguro Residencial · Zavia Seguros</title>
-<meta name="description" content="Responda em cerca de 3 minutos e receba as melhores opções de seguro para a sua casa, comparando seguradoras.">
+<meta name="description" content="Responda em cerca de 5 minutos e receba as melhores opções de seguro para a sua casa, comparando seguradoras.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,6 +67,8 @@ button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 footer { margin-top: 26px; font-size: 11.5px; color: var(--mut); text-align: center; line-height: 1.6; }
 footer a { color: var(--mut); }
 @media (max-width: 380px) { .dois { grid-template-columns: 1fr; } h1 { font-size: 23px; } }
+.passo-sub { display: grid; gap: 14px; }
+.passo-sub[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -74,69 +76,133 @@ footer a { color: var(--mut); }
   <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
 
   <h1>Cotação de <em>seguro para a sua casa</em></h1>
-  <p class="lead">São 4 telas curtas, uns 3 minutos. Um corretor da Zavia compara seguradoras e te manda só as melhores opções pelo WhatsApp, sem compromisso. Não sabe algum valor? Marque "não sei agora" e a gente completa depois.</p>
+  <p class="lead">São 5 telas, uns 5 minutos. Tenha o RG e o CPF à mão. Um corretor da Zavia compara seguradoras e te manda só as melhores opções pelo WhatsApp, sem compromisso. Não sabe algum valor? Marque "não sei" e a gente completa depois.</p>
 
   <form id="f" novalidate>
-    <div class="prog" aria-hidden="true"><span id="prog-t">1 de 4</span><div class="tr"><div id="prog-b" style="width:25%"></div></div></div>
+    <div class="prog" aria-hidden="true"><span id="prog-t">1 de 5</span><div class="tr"><div id="prog-b" style="width:20%"></div></div></div>
 
-    <!-- 1. Você -->
+    <!-- 1. Dados do proponente (proposta Porto 114/10) -->
     <div class="passo" data-p="1">
-      <h2>Você</h2>
-      <label><b>Seu nome</b><input name="nome" autocomplete="name" maxlength="80" required></label>
+      <h2>Seus dados</h2>
+      <p class="dica">Quem contrata o seguro. Precisa ser a mesma pessoa do CPF.</p>
+      <label><b>Nome completo</b><input name="nome" autocomplete="name" maxlength="100" required></label>
+      <label><b>Nome social</b> (opcional)<input name="social" maxlength="80"></label>
       <div class="dois">
-        <label><b>WhatsApp</b><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20" required></label>
-        <label><b>E-mail</b> (opcional)<input name="email" type="email" autocomplete="email" maxlength="80"></label>
+        <label><b>CPF</b><input name="cpf" inputmode="numeric" placeholder="000.000.000-00" maxlength="14" required></label>
+        <label><b>Data de nascimento</b><input name="nascimento" inputmode="numeric" autocomplete="bday" placeholder="dd/mm/aaaa" maxlength="10" required></label>
       </div>
-      <label><b>Data de nascimento</b><input name="nascimento" inputmode="numeric" autocomplete="bday" placeholder="dd/mm/aaaa" maxlength="10" required></label>
-      <div class="q"><b>O imóvel é</b>
-        <div class="opcoes" data-r="posse"><label><input type="radio" name="posse" value="Próprio">Próprio</label><label><input type="radio" name="posse" value="Alugado">Alugado</label></div></div>
-      <p class="dica">O CPF não é pedido aqui. Se a seguradora precisar, o corretor pede pelo WhatsApp.</p>
+      <div class="q"><b>Sexo</b>
+        <div class="opcoes" data-r="sexo"><label><input type="radio" name="sexo" value="Feminino">Feminino</label><label><input type="radio" name="sexo" value="Masculino">Masculino</label></div></div>
+      <label><b>Estado civil</b>
+        <select name="civil" required><option value="">Escolha</option><option>Solteiro(a)</option><option>Casado(a) ou união estável</option><option>Divorciado(a)</option><option>Viúvo(a)</option></select></label>
+      <label><b>RG ou RNE</b><input name="rg" maxlength="20" required></label>
+      <div class="dois">
+        <label><b>Órgão emissor</b><input name="orgao" maxlength="12" placeholder="ex.: SSP-SP" required></label>
+        <label><b>Data de expedição</b><input name="expedicao" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" required></label>
+      </div>
+      <label><b>Profissão</b><input name="profissao" maxlength="60" required></label>
+      <label><b>Renda mensal</b>
+        <select name="renda" required><option value="">Escolha</option><option>Até R$ 2.500</option><option>R$ 2.500,01 a R$ 5.000</option><option>R$ 5.000,01 a R$ 10.000</option><option>Acima de R$ 10.000</option></select></label>
+      <div class="q"><b>Você é estrangeiro(a)?</b>
+        <div class="opcoes" data-r="estrangeiro"><label><input type="radio" name="estrangeiro" value="Não">Não</label><label><input type="radio" name="estrangeiro" value="Sim">Sim</label></div></div>
+      <label id="q-pais" hidden><b>País de residência</b><input name="pais" maxlength="40"></label>
+      <div class="q"><b>Você é pessoa politicamente exposta?</b> Quem tem ou teve cargo público relevante nos últimos 5 anos.
+        <div class="opcoes" data-r="pep"><label><input type="radio" name="pep" value="Não">Não</label><label><input type="radio" name="pep" value="Sim">Sim</label><label><input type="radio" name="pep" value="Relacionamento próximo">Tenho parente ou relação próxima</label></div></div>
+      <label id="q-pep" hidden><b>Nome, CPF e parentesco dessa pessoa</b><input name="pepdet" maxlength="120"></label>
     </div>
 
-    <!-- 2. O imóvel -->
+    <!-- 2. Contato e endereço do proponente -->
     <div class="passo" data-p="2" hidden>
-      <h2>O imóvel</h2>
+      <h2>Contato</h2>
+      <div class="dois">
+        <label><b>Celular (WhatsApp)</b><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20" required></label>
+        <label><b>Outro telefone</b> (opcional)<input name="telefone2" type="tel" inputmode="tel" placeholder="para agendar inspeção" maxlength="20"></label>
+      </div>
+      <label><b>E-mail</b> (a apólice chega por ele)<input name="email" type="email" autocomplete="email" maxlength="80" required></label>
+      <h2>Seu endereço</h2>
       <div class="dois">
         <label><b>CEP</b><input name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required></label>
         <label><b>Número</b><input name="numero" maxlength="10" required></label>
       </div>
+      <label><b>Rua ou avenida</b><input name="rua" autocomplete="address-line1" maxlength="100" required></label>
       <label><b>Complemento</b> (opcional)<input name="complemento" maxlength="40" placeholder="apto, bloco, casa"></label>
-      <label><b>Tipo de imóvel</b>
-        <select name="tipo" required><option value="">Escolha</option><option>Apartamento</option><option>Casa de rua</option><option>Casa em condomínio fechado</option></select></label>
-      <label><b>Como o imóvel é usado</b>
-        <select name="uso" required><option value="">Escolha</option><option>Moradia do dia a dia</option><option>Casa de praia ou campo</option><option>Alugado para outra pessoa</option><option>Temporada (Airbnb ou parecido)</option></select></label>
-      <div class="q"><b>Fica vazio por mais de 60 dias seguidos?</b>
-        <div class="opcoes" data-r="vazio"><label><input type="radio" name="vazio" value="Não">Não</label><label><input type="radio" name="vazio" value="Sim">Sim</label></div></div>
-      <label><b>Do que é feita a construção</b>
-        <select name="construcao" required><option value="">Escolha</option><option>Alvenaria (tijolo e concreto)</option><option>Madeira</option><option>Steel frame, wood frame ou painel</option><option>Mista</option><option>Não sei</option></select></label>
-      <label><b>Alguém trabalha no imóvel?</b>
-        <select name="trabalho" required><option value="">Escolha</option><option>Não</option><option>Só home office</option><option>Atendo clientes aqui</option><option>Tenho empresa ou MEI aqui</option></select></label>
+      <label><b>Bairro</b><input name="bairro" maxlength="60" required></label>
+      <div class="dois">
+        <label><b>Cidade</b><input name="cidade" autocomplete="address-level2" maxlength="60" required></label>
+        <label><b>Estado (UF)</b><input name="uf" autocomplete="address-level1" maxlength="2" placeholder="SP" autocapitalize="characters" required></label>
+      </div>
     </div>
 
-    <!-- 3. Valores e proteção -->
+    <!-- 3. O imóvel (enquadramentos dos manuais Porto e Tokio) -->
     <div class="passo" data-p="3" hidden>
+      <h2>O imóvel a segurar</h2>
+      <div class="q"><b>É o mesmo endereço da tela anterior?</b>
+        <div class="opcoes" data-r="mesmo"><label><input type="radio" name="mesmo" value="Sim">Sim</label><label><input type="radio" name="mesmo" value="Não">Não, é outro</label></div></div>
+      <div class="passo-sub" id="end-risco" hidden>
+        <div class="dois">
+          <label><b>CEP do imóvel</b><input name="rcep" inputmode="numeric" placeholder="00000-000" maxlength="9"></label>
+          <label><b>Número</b><input name="rnumero" maxlength="10"></label>
+        </div>
+        <label><b>Rua ou avenida</b><input name="rrua" maxlength="100"></label>
+        <label><b>Complemento</b> (opcional)<input name="rcomplemento" maxlength="40"></label>
+        <label><b>Bairro</b><input name="rbairro" maxlength="60"></label>
+        <div class="dois">
+          <label><b>Cidade</b><input name="rcidade" maxlength="60"></label>
+          <label><b>Estado (UF)</b><input name="ruf" maxlength="2" placeholder="SP" autocapitalize="characters"></label>
+        </div>
+      </div>
+      <div class="q"><b>Você é</b>
+        <div class="opcoes" data-r="posse"><label><input type="radio" name="posse" value="Proprietário(a)">Proprietário(a)</label><label><input type="radio" name="posse" value="Inquilino(a)">Inquilino(a)</label></div></div>
+      <label><b>Tipo de imóvel</b>
+        <select name="tipo" required><option value="">Escolha</option><option>Apartamento</option><option>Casa</option><option>Casa em condomínio fechado</option><option>Chácara, sítio ou fazenda</option></select></label>
+      <label id="q-imposto" hidden><b>Qual imposto o imóvel paga?</b>
+        <select name="imposto"><option value="">Escolha</option><option>IPTU (zona urbana)</option><option>ITR (zona rural)</option><option>Não sei</option></select></label>
+      <label><b>Como o imóvel é usado</b>
+        <select name="uso" required><option value="">Escolha</option><option>Moradia do dia a dia</option><option>Veraneio (praia ou campo)</option><option>Alugado para outra pessoa, contrato de 12 meses ou mais</option><option>Temporada por plataforma (Airbnb ou parecido)</option><option>Quartos alugados, república ou pensão</option></select></label>
+      <label><b>Ocupação</b>
+        <select name="ocupacao" required><option value="">Escolha</option><option>Tem gente morando o ano todo</option><option>Fica vazio mais de 30 dias seguidos</option><option>Está desocupado hoje</option></select></label>
+      <label><b>Paredes</b>
+        <select name="paredes" required><option value="">Escolha</option><option>Alvenaria (tijolo, bloco ou concreto)</option><option>Até 25% de madeira</option><option>Mais de 25% de madeira, ou mista</option><option>Steel frame com placa cimentícia</option><option>Steel frame com placa de madeira</option><option>Isopor ou isopainel</option><option>Contêiner</option><option>Não sei</option></select></label>
+      <label><b>Telhado</b>
+        <select name="telhado" required><option value="">Escolha</option><option>Laje, cerâmica, fibrocimento ou metal</option><option>Madeira, sapê, palha, lona ou plástico</option><option>Não sei</option></select></label>
+      <div class="q"><b>O imóvel está em obra ou reforma?</b>
+        <div class="opcoes" data-r="obra"><label><input type="radio" name="obra" value="Não">Não</label><label><input type="radio" name="obra" value="Sim">Sim</label></div></div>
+      <div class="q"><b>É tombado pelo patrimônio histórico?</b>
+        <div class="opcoes" data-r="tombado"><label><input type="radio" name="tombado" value="Não">Não</label><label><input type="radio" name="tombado" value="Sim">Sim</label><label><input type="radio" name="tombado" value="Não sei">Não sei</label></div></div>
+      <label><b>Alguém trabalha no imóvel?</b>
+        <select name="trabalho" required><option value="">Escolha</option><option>Não</option><option>Só home office</option><option>Atendo clientes aqui</option><option>Tenho empresa ou MEI aqui</option></select></label>
+      <label id="q-atividade" hidden><b>Qual é a atividade?</b><input name="atividade" maxlength="80" placeholder="ex.: manicure, contabilidade, doces"></label>
+    </div>
+
+    <!-- 4. Valores e proteção -->
+    <div class="passo" data-p="4" hidden>
       <h2>Valores aproximados</h2>
       <p class="dica">Pode arredondar. Não é o preço de venda: é quanto custaria refazer ou comprar tudo de novo.</p>
       <label id="q-predio" hidden><b>Quanto custaria reconstruir o imóvel</b>
         <select name="predio"><option value="">Escolha</option><option>Até R$ 300 mil</option><option>R$ 300 a 700 mil</option><option>R$ 700 mil a 1,5 milhão</option><option>Acima de R$ 1,5 milhão</option><option>Não sei agora</option></select></label>
       <label><b>Móveis, eletrodomésticos e eletrônicos</b>
-        <select name="conteudo" required><option value="">Escolha</option><option>Até R$ 30 mil</option><option>R$ 30 a 80 mil</option><option>R$ 80 a 200 mil</option><option>Acima de R$ 200 mil</option><option>Não sei agora</option></select></label>
+        <select name="conteudo" required><option value="">Escolha</option><option>Não quero segurar</option><option>Até R$ 30 mil</option><option>R$ 30 a 80 mil</option><option>R$ 80 a 200 mil</option><option>Acima de R$ 200 mil</option><option>Não sei agora</option></select></label>
       <label id="q-aluguel" hidden><b>Aluguel mensal</b> (opcional)
         <select name="aluguel"><option value="">Não informar</option><option>Até R$ 2 mil</option><option>R$ 2 a 5 mil</option><option>R$ 5 a 10 mil</option><option>Acima de R$ 10 mil</option></select></label>
+      <h2>Proteção</h2>
       <div class="q"><b>O que o imóvel tem</b> (marque tudo que tiver)
         <div class="opcoes" data-c="protecao"><label><input type="checkbox" name="protecao" value="Portaria 24h">Portaria 24h</label><label><input type="checkbox" name="protecao" value="Alarme">Alarme</label><label><input type="checkbox" name="protecao" value="Câmeras">Câmeras</label><label><input type="checkbox" name="protecao" value="Grades">Grades</label><label><input type="checkbox" name="protecao" value="Muro ou cerca">Muro ou cerca</label><label><input type="checkbox" name="protecao" value="Nenhum">Nenhum</label></div></div>
       <div class="q"><b>Tem placa solar ou carregador de carro elétrico?</b>
         <div class="opcoes" data-r="solar"><label><input type="radio" name="solar" value="Não">Não</label><label><input type="radio" name="solar" value="Sim">Sim</label></div></div>
     </div>
 
-    <!-- 4. Seguro de hoje e o que você quer -->
-    <div class="passo" data-p="4" hidden>
+    <!-- 5. Seguro de hoje e o que você quer -->
+    <div class="passo" data-p="5" hidden>
       <h2>Seguro de hoje</h2>
       <div class="q"><b>O imóvel tem seguro hoje?</b>
         <div class="opcoes" data-r="temseguro"><label><input type="radio" name="temseguro" value="Não">Não</label><label><input type="radio" name="temseguro" value="Sim">Sim</label></div></div>
-      <div class="dois" id="seg-atual" hidden>
-        <label><b>Seguradora</b> (opcional)<input name="seguradora" maxlength="40"></label>
-        <label><b>Vence em</b> (opcional)<input name="vencimento" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10"></label>
+      <div class="passo-sub" id="seg-atual" hidden>
+        <div class="dois">
+          <label><b>Seguradora</b> (opcional)<input name="seguradora" maxlength="40"></label>
+          <label><b>Vence em</b> (opcional)<input name="vencimento" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10"></label>
+        </div>
+        <label><b>Classe de bônus</b> (está na apólice)
+          <select name="bonus"><option value="">Não sei</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></label>
       </div>
       <div class="q"><b>Nos últimos 2 anos, teve roubo, incêndio, vazamento ou outro prejuízo no imóvel?</b>
         <div class="opcoes" data-r="sinistro"><label><input type="radio" name="sinistro" value="Não">Não</label><label><input type="radio" name="sinistro" value="Sim">Sim</label></div></div>
@@ -147,7 +213,7 @@ footer a { color: var(--mut); }
         <div class="opcoes" data-c="preocupa"><label><input type="checkbox" name="preocupa" value="Incêndio">Incêndio</label><label><input type="checkbox" name="preocupa" value="Roubo">Roubo</label><label><input type="checkbox" name="preocupa" value="Danos elétricos">Danos elétricos</label><label><input type="checkbox" name="preocupa" value="Vendaval e granizo">Vendaval e granizo</label><label><input type="checkbox" name="preocupa" value="Vazamento de cano">Vazamento de cano</label><label><input type="checkbox" name="preocupa" value="Alagamento">Alagamento</label><label><input type="checkbox" name="preocupa" value="Quebra de vidros">Quebra de vidros</label><label><input type="checkbox" name="preocupa" value="Danos a vizinhos ou visitas">Danos a vizinhos ou visitas</label><label><input type="checkbox" name="preocupa" value="Assistência (chaveiro, eletricista, encanador)">Assistência (chaveiro, eletricista, encanador)</label></div></div>
       <label><b>Algo mais que a gente deve saber</b> (opcional)<input name="obs" maxlength="200" placeholder="ex.: tenho pet; tenho bicicletas ou joias de valor"></label>
 
-      <label class="aceite"><input type="checkbox" name="ciencia"><span>Li o <a href="/privacidade/" target="_blank" rel="noopener">aviso de privacidade</a> e autorizo a Zavia a usar estes dados para cotar o meu seguro com as seguradoras parceiras.</span></label>
+      <label class="aceite"><input type="checkbox" name="ciencia"><span>Declaro que as informações são verdadeiras e sei que omitir algo que influencie a aceitação ou o preço pode me fazer perder o direito à indenização. Li o <a href="/privacidade/" target="_blank" rel="noopener">aviso de privacidade</a> e autorizo a Zavia a usar estes dados para cotar o meu seguro com as seguradoras parceiras.</span></label>
       <label class="aceite"><input type="checkbox" name="ofertas"><span>Opcional: aceito receber, de vez em quando, sugestões de outros seguros. Posso cancelar quando quiser.</span></label>
     </div>
 
@@ -171,7 +237,7 @@ footer a { color: var(--mut); }
 (function () {
   "use strict";
   var WHATS = "5511934248161"; // WhatsApp comercial da Zavia
-  var AVISO = "aviso de privacidade de 23/10/2026"; // versão aceita, vai na mensagem como prova do consentimento
+  var AVISO = "aviso de privacidade de 05/11/2026"; // versão aceita, vai na mensagem como prova do consentimento
   var q = new URLSearchParams(location.search);
   var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
   var camp = limpa(q.get("c")), varia = limpa(q.get("v"));
@@ -183,7 +249,7 @@ footer a { color: var(--mut); }
     try { navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: e })); } catch (x) {}
   };
   conta("diagnostico");
-  var f = document.getElementById("f"), passo = 1, TOTAL = 4;
+  var f = document.getElementById("f"), passo = 1, TOTAL = 5;
   var $ = function (id) { return document.getElementById(id); };
   var radio = function (n) { return (f.querySelector("[name=" + n + "]:checked") || {}).value || ""; };
   var marcados = function (n) { return Array.prototype.map.call(f.querySelectorAll("[name=" + n + "]:checked"), function (x) { return x.value; }); };
@@ -191,9 +257,24 @@ footer a { color: var(--mut); }
 
   function mascara(el, fn) { el.addEventListener("input", function () { el.value = fn(el.value.replace(/\D/g, "")); }); }
   var data = function (d) { d = d.slice(0, 8); return d.length > 4 ? d.slice(0, 2) + "/" + d.slice(2, 4) + "/" + d.slice(4) : d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d; };
-  mascara(f.cep, function (d) { d = d.slice(0, 8); return d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d; });
-  mascara(f.nascimento, data); mascara(f.vencimento, data);
+  var fcep = function (d) { d = d.slice(0, 8); return d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d; };
+  mascara(f.cep, fcep); mascara(f.rcep, fcep);
+  mascara(f.nascimento, data); mascara(f.expedicao, data); mascara(f.vencimento, data);
+  mascara(f.cpf, function (d) {
+    d = d.slice(0, 11);
+    if (d.length > 9) return d.slice(0, 3) + "." + d.slice(3, 6) + "." + d.slice(6, 9) + "-" + d.slice(9);
+    if (d.length > 6) return d.slice(0, 3) + "." + d.slice(3, 6) + "." + d.slice(6);
+    if (d.length > 3) return d.slice(0, 3) + "." + d.slice(3);
+    return d;
+  });
+  [f.uf, f.ruf].forEach(function (el) { el.addEventListener("input", function () { el.value = el.value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 2); }); });
 
+  // dígitos verificadores do CPF
+  function cpfOk(s) {
+    var d = String(s).replace(/\D/g, ""); if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
+    for (var t = 9; t < 11; t++) { var soma = 0; for (var i = 0; i < t; i++) soma += +d[i] * (t + 1 - i); if (((soma * 10) % 11) % 10 !== +d[t]) return false; }
+    return true;
+  }
   // dd/mm/aaaa válida; idade entre min e max anos (null = sem limite)
   function dataOk(s, min, max) {
     var m = String(s).match(/^(\d{2})\/(\d{2})\/(\d{4})$/); if (!m) return false;
@@ -204,8 +285,13 @@ footer a { color: var(--mut); }
 
   // perguntas condicionais
   function condicionais() {
-    $("q-predio").hidden = radio("posse") !== "Próprio";
-    $("q-aluguel").hidden = radio("posse") !== "Alugado";
+    $("q-pais").hidden = radio("estrangeiro") !== "Sim";
+    $("q-pep").hidden = !radio("pep") || radio("pep") === "Não";
+    $("end-risco").hidden = radio("mesmo") !== "Não";
+    $("q-imposto").hidden = !/^(Casa|Chácara)/.test(val("tipo"));
+    $("q-atividade").hidden = !/clientes|empresa/.test(val("trabalho"));
+    $("q-predio").hidden = radio("posse") !== "Proprietário(a)";
+    $("q-aluguel").hidden = radio("posse") !== "Inquilino(a)";
     $("seg-atual").hidden = radio("temseguro") !== "Sim";
     $("q-sinistro").hidden = radio("sinistro") !== "Sim";
   }
@@ -222,28 +308,42 @@ footer a { color: var(--mut); }
   function marcar(el, ruim) { if (el && el.setAttribute) el.setAttribute("aria-invalid", ruim ? "true" : "false"); }
   function exige(nome, msg) { var el = f[nome], v = val(nome), ruim = !v; marcar(el, ruim); return ruim ? msg : ""; }
   function exigeRadio(nome, msg) { var g = f.querySelector('[data-r="' + nome + '"]'), ruim = !radio(nome); marcar(g, ruim); return ruim ? msg : ""; }
+  function exigeCep(nome) { var d = val(nome).replace(/\D/g, ""); marcar(f[nome], d.length !== 8); return d.length === 8 ? "" : "Confira o CEP (8 números)."; }
+  function exigeUf(nome) { var ok = /^[A-Z]{2}$/.test(val(nome)); marcar(f[nome], !ok); return ok ? "" : "Confira o estado (2 letras, ex.: SP)."; }
   function validar(p) {
     var e = [];
     if (p === 1) {
-      e.push(exige("nome", "Preencha seu nome."));
-      var tel = val("whatsapp").replace(/\D/g, ""), telOk = tel.length === 10 || tel.length === 11 || (tel.length >= 12 && tel.length <= 13 && tel.indexOf("55") === 0);
-      marcar(f.whatsapp, !telOk); e.push(telOk ? "" : "Confira o WhatsApp, com DDD.");
-      var em = val("email"), emOk = !em || /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em); marcar(f.email, !emOk); e.push(emOk ? "" : "Confira o e-mail (ou deixe em branco).");
+      var nm = val("nome"), nmOk = /\S+\s+\S+/.test(nm); marcar(f.nome, !nmOk); e.push(nmOk ? "" : "Preencha o nome completo.");
+      var cOk = cpfOk(val("cpf")); marcar(f.cpf, !cOk); e.push(cOk ? "" : "Confira o CPF.");
       var nOk = dataOk(val("nascimento"), 18, 110); marcar(f.nascimento, !nOk); e.push(nOk ? "" : "Confira a data de nascimento (dd/mm/aaaa).");
-      e.push(exigeRadio("posse", "Diga se o imóvel é próprio ou alugado."));
+      e.push(exigeRadio("sexo", "Escolha o sexo."), exige("civil", "Escolha o estado civil."), exige("rg", "Preencha o RG ou RNE."), exige("orgao", "Preencha o órgão emissor."));
+      var xOk = dataOk(val("expedicao"), 0, 100); marcar(f.expedicao, !xOk); e.push(xOk ? "" : "Confira a data de expedição (dd/mm/aaaa).");
+      e.push(exige("profissao", "Preencha a profissão."), exige("renda", "Escolha a renda mensal."), exigeRadio("estrangeiro", "Diga se é estrangeiro(a)."));
+      if (radio("estrangeiro") === "Sim") e.push(exige("pais", "Preencha o país de residência."));
+      e.push(exigeRadio("pep", "Responda sobre pessoa politicamente exposta."));
+      if (radio("pep") && radio("pep") !== "Não") e.push(exige("pepdet", "Informe nome, CPF e parentesco."));
     } else if (p === 2) {
-      var cep = val("cep").replace(/\D/g, ""); marcar(f.cep, cep.length !== 8); e.push(cep.length === 8 ? "" : "Confira o CEP (8 números).");
-      e.push(exige("numero", "Preencha o número."), exige("tipo", "Escolha o tipo de imóvel."), exige("uso", "Diga como o imóvel é usado."), exigeRadio("vazio", "Diga se o imóvel fica vazio."), exige("construcao", "Diga do que é feita a construção."), exige("trabalho", "Diga se alguém trabalha no imóvel."));
+      var tel = val("whatsapp").replace(/\D/g, ""), telOk = tel.length === 10 || tel.length === 11 || (tel.length >= 12 && tel.length <= 13 && tel.indexOf("55") === 0);
+      marcar(f.whatsapp, !telOk); e.push(telOk ? "" : "Confira o celular, com DDD.");
+      var em = val("email"), emOk = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em); marcar(f.email, !emOk); e.push(emOk ? "" : "Confira o e-mail.");
+      e.push(exigeCep("cep"), exige("numero", "Preencha o número."), exige("rua", "Preencha a rua."), exige("bairro", "Preencha o bairro."), exige("cidade", "Preencha a cidade."), exigeUf("uf"));
     } else if (p === 3) {
-      if (radio("posse") === "Próprio") e.push(exige("predio", "Escolha o valor do imóvel (ou \"não sei agora\")."));
-      e.push(exige("conteudo", "Escolha o valor dos móveis (ou \"não sei agora\")."));
+      e.push(exigeRadio("mesmo", "Diga se o imóvel fica no mesmo endereço."));
+      if (radio("mesmo") === "Não") e.push(exigeCep("rcep"), exige("rnumero", "Preencha o número do imóvel."), exige("rrua", "Preencha a rua do imóvel."), exige("rbairro", "Preencha o bairro do imóvel."), exige("rcidade", "Preencha a cidade do imóvel."), exigeUf("ruf"));
+      e.push(exigeRadio("posse", "Diga se é proprietário(a) ou inquilino(a)."), exige("tipo", "Escolha o tipo de imóvel."));
+      if (/^(Casa|Chácara)/.test(val("tipo"))) e.push(exige("imposto", "Diga qual imposto o imóvel paga."));
+      e.push(exige("uso", "Diga como o imóvel é usado."), exige("ocupacao", "Escolha a ocupação."), exige("paredes", "Diga do que são as paredes."), exige("telhado", "Diga do que é o telhado."), exigeRadio("obra", "Diga se está em obra ou reforma."), exigeRadio("tombado", "Diga se é tombado."), exige("trabalho", "Diga se alguém trabalha no imóvel."));
+      if (/clientes|empresa/.test(val("trabalho"))) e.push(exige("atividade", "Conte qual é a atividade."));
+    } else if (p === 4) {
+      if (radio("posse") === "Proprietário(a)") e.push(exige("predio", "Escolha o valor do imóvel (ou \"não sei agora\")."));
+      e.push(exige("conteudo", "Escolha o valor dos móveis."));
       var pr = f.querySelector('[data-c="protecao"]'); marcar(pr, !marcados("protecao").length); e.push(marcados("protecao").length ? "" : "Marque o que o imóvel tem (ou \"Nenhum\").");
       e.push(exigeRadio("solar", "Responda sobre placa solar ou carregador."));
     } else {
       e.push(exigeRadio("temseguro", "Diga se o imóvel tem seguro hoje."));
       if (radio("temseguro") === "Sim") { var vc = val("vencimento"), vOk = !vc || dataOk(vc, -2, 1); marcar(f.vencimento, !vOk); e.push(vOk ? "" : "Confira o vencimento (dd/mm/aaaa) ou deixe em branco."); }
       e.push(exigeRadio("sinistro", "Responda sobre prejuízos nos últimos 2 anos."));
-      if (!f.ciencia.checked) e.push("Marque que leu o aviso de privacidade e autoriza a cotação.");
+      if (!f.ciencia.checked) e.push("Marque a declaração para enviar.");
     }
     e = e.filter(Boolean);
     $("erro").textContent = e[0] || "";
@@ -265,23 +365,40 @@ footer a { color: var(--mut); }
     ev.preventDefault();
     if (!validar(passo)) return;
     if (passo < TOTAL) return mostrar(passo + 1);
-    var proprio = radio("posse") === "Próprio", seg = radio("temseguro") === "Sim";
+    var proprio = radio("posse") === "Proprietário(a)", seg = radio("temseguro") === "Sim", mesmo = radio("mesmo") === "Sim";
     var hoje = new Date(), quando = ("0" + hoje.getDate()).slice(-2) + "/" + ("0" + (hoje.getMonth() + 1)).slice(-2) + "/" + hoje.getFullYear() + " " + ("0" + hoje.getHours()).slice(-2) + ":" + ("0" + hoje.getMinutes()).slice(-2);
+    var ender = function (p) { return val(p + "rua") + ", " + val(p + "numero") + (val(p + "complemento") ? " · " + val(p + "complemento") : "") + " · " + val(p + "bairro") + " · " + val(p + "cidade") + "-" + val(p + "uf") + " · CEP " + val(p + "cep"); };
     // o painel da Zavia reconhece este formato no botão "Colar lead" (ver Zavia/formularios/ficha_residencial.md)
     var L = [
       "Quero uma cotação de Seguro Residencial.", "",
       "Nome: " + val("nome"),
-      "WhatsApp: " + val("whatsapp"),
-      val("email") ? "E-mail: " + val("email") : null,
+      val("social") ? "Nome social: " + val("social") : null,
+      "CPF: " + val("cpf"),
       "Nascimento: " + val("nascimento"),
-      "Imóvel: " + radio("posse"),
+      "Sexo: " + radio("sexo"),
+      "Estado civil: " + val("civil"),
+      "RG: " + val("rg") + " · " + val("orgao") + " · expedido em " + val("expedicao"),
+      "Profissão: " + val("profissao"),
+      "Renda mensal: " + val("renda"),
+      "Estrangeiro: " + radio("estrangeiro") + (radio("estrangeiro") === "Sim" ? " (" + val("pais") + ")" : ""),
+      "Pessoa politicamente exposta: " + radio("pep") + (radio("pep") !== "Não" ? " (" + val("pepdet") + ")" : ""),
       "",
-      "CEP: " + val("cep") + " · Nº " + val("numero") + (val("complemento") ? " · " + val("complemento") : ""),
+      "WhatsApp: " + val("whatsapp"),
+      val("telefone2") ? "Outro telefone: " + val("telefone2") : null,
+      "E-mail: " + val("email"),
+      "Endereço: " + ender(""),
+      "",
+      "Imóvel segurado: " + (mesmo ? "o mesmo endereço" : ender("r")),
+      "Posse: " + radio("posse"),
       "Tipo: " + val("tipo"),
+      val("imposto") && /^(Casa|Chácara)/.test(val("tipo")) ? "Imposto: " + val("imposto") : null,
       "Uso: " + val("uso"),
-      "Vazio mais de 60 dias: " + radio("vazio"),
-      "Construção: " + val("construcao"),
-      "Trabalho no imóvel: " + val("trabalho"),
+      "Ocupação: " + val("ocupacao"),
+      "Paredes: " + val("paredes"),
+      "Telhado: " + val("telhado"),
+      "Em obra ou reforma: " + radio("obra"),
+      "Tombado: " + radio("tombado"),
+      "Trabalho no imóvel: " + val("trabalho") + (/clientes|empresa/.test(val("trabalho")) ? " (" + val("atividade") + ")" : ""),
       "",
       proprio ? "Reconstrução do imóvel: " + val("predio") : null,
       "Móveis e eletrônicos: " + val("conteudo"),
@@ -292,11 +409,12 @@ footer a { color: var(--mut); }
       "Tem seguro hoje: " + radio("temseguro"),
       seg ? "Seguradora atual: " + (val("seguradora") || "não informou") : null,
       seg ? "Vencimento: " + (val("vencimento") || "não sei") : null,
+      seg ? "Bônus: " + (val("bonus") || "não sei") : null,
       "Prejuízo em 2 anos: " + radio("sinistro") + (radio("sinistro") === "Sim" && val("sinistrodet") ? " (" + val("sinistrodet") + ")" : ""),
       marcados("preocupa").length ? "Preocupações: " + marcados("preocupa").join(", ") : null,
       val("obs") ? "Observações: " + val("obs") : null,
       "Aceita sugestões de outros seguros: " + (f.ofertas.checked ? "Sim" : "Não"),
-      "Consentimento: li o " + AVISO + " e autorizo a cotação, em " + quando,
+      "Consentimento: declarei que as informações são verdadeiras, li o " + AVISO + " e autorizo a cotação, em " + quando,
       "",
       "Código: ZV-RES" + (camp ? " " + camp : "") + (varia ? " " + varia : "") + (pub ? " " + canal : "")
     ].filter(function (l) { return l !== null; }).join("\n"); // null = campo que não se aplica
