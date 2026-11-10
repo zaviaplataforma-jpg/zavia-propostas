@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Descubra quanto de proteção a sua equipe realmente precisa antes de cotar o seguro de vida em grupo. Diagnóstico gratuito da Zavia.">
+<meta name="description" content="Descubra quanto de proteção você ou a sua equipe realmente precisam antes de cotar o seguro de vida, em grupo (CNPJ) ou individual (CPF). Diagnóstico gratuito da Zavia.">
 <meta name="robots" content="noindex">
 <style>:root{color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-family:system-ui,sans-serif;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Diagnóstico de Proteção de Pessoas · Zavia Seguros</title>
+<title>Diagnóstico de Proteção · Zavia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -132,7 +132,18 @@ footer a{color:var(--muted)}
 .cta{margin-top:22px;background:var(--sunk,#0E131C);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px}
 .cta p{margin:0;font-size:14px;color:var(--muted)}
 .cta b{color:var(--ink)}
+/* mode picker */
+.modesel{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.modesel .lbl{grid-column:1/-1;margin:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.mode{text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.mode:hover{border-color:var(--gold)}
+.mode[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft);box-shadow:0 0 18px rgba(56,189,248,.18)}
+.mode .k{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;color:var(--gold)}
+.mode b{font-family:var(--f-display);font-size:18px}
+.mode span{color:var(--muted);font-size:13.5px}
+.copyfb{width:100%;height:160px;font-family:var(--f-mono);font-size:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px}
 @media (max-width:760px){
+.modesel{grid-template-columns:1fr}
 .band{grid-template-columns:1fr}
 .scen{grid-template-columns:1fr}
 .report dl{grid-template-columns:1fr;gap:2px}
@@ -146,8 +157,8 @@ footer a{color:var(--muted)}
 <header class="top">
 <div>
 <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
-<h1>Diagnóstico de <em>proteção de pessoas</em></h1>
-<p class="tag">Antes de definir quanto custa proteger sua equipe, descubra quanto de proteção ela realmente precisa. Preencha os perfis da equipe, veja o diagnóstico e, se quiser, mande para um corretor da Zavia cotar pelo WhatsApp, sem compromisso.</p>
+<h1 id="hTitle">Diagnóstico de <em>proteção de pessoas</em></h1>
+<p class="tag" id="hTag">Antes de definir quanto custa proteger sua equipe, descubra quanto de proteção ela realmente precisa. Preencha os perfis da equipe, veja o diagnóstico e, se quiser, mande para um corretor da Zavia cotar pelo WhatsApp, sem compromisso.</p>
 </div>
 <div class="top-actions">
 <button class="btn" id="exampleBtn" type="button">Ver exemplo preenchido</button>
@@ -155,6 +166,12 @@ footer a{color:var(--muted)}
 <button class="btn primary" id="goReport" type="button">Ver diagnóstico</button>
 </div>
 </header>
+<section class="modesel" aria-label="Tipo de seguro de vida">
+<p class="lbl">Para quem é o seguro de vida?</p>
+<button class="mode" type="button" data-m="cnpj" aria-pressed="true"><span class="k">CNPJ · VIDA EM GRUPO</span><b>Empresa ou grupo</b><span>Para proteger sócios e colaboradores. Você preenche perfis da equipe.</span></button>
+<button class="mode" type="button" data-m="cpf" aria-pressed="false"><span class="k">CPF · VIDA INDIVIDUAL</span><b>Só para mim</b><span>Para proteger a sua família. Você responde sobre renda, dependentes, dívidas e reservas.</span></button>
+</section>
+<div id="viewCnpj">
 <section class="band" aria-live="polite">
 <div>
 <p class="q">Se um dos seus colaboradores sofrer um acidente grave amanhã, por quanto tempo a proteção contratada ajudará a sustentar a família dele?</p>
@@ -242,6 +259,126 @@ footer a{color:var(--muted)}
 <div class="copyrow"><button class="btn" id="copyBtn" type="button">Copiar resumo</button><span id="copymsg"></span></div>
 <textarea id="copyfallback" hidden readonly></textarea>
 </section>
+</div>
+<div id="viewCpf" hidden>
+<section class="band" aria-live="polite">
+<div>
+<p class="q">Se você faltar amanhã, por quanto tempo a sua família conseguiria manter o padrão de vida de hoje?</p>
+<div class="row">
+<label>Capital</label>
+<div class="capsel" id="fCapsel"></div>
+</div>
+<div class="sub" id="fSug"></div>
+</div>
+<div>
+<div class="big" id="fBandMonths">0<small>meses</small></div>
+<div class="sub" id="fBandSub"></div>
+<div class="meter"><i id="fBandMeter" style="width:0"></i></div>
+<div class="sub" id="fBandStatus"></div>
+</div>
+</section>
+<!-- 1 Você -->
+<section class="step">
+<header><span class="num">1</span><h2>Você e a sua renda</h2><p class="hint">Quem é o segurado e quanto a família depende da renda dele.</p></header>
+<div class="lgpd"><b>LGPD</b><span>Não peça nome, CPF nem informações de saúde aqui. Os números ficam só neste navegador e só seguem para a Zavia se você enviar pelo WhatsApp.</span></div>
+<div class="grid">
+<div class="f"><label for="fIdade">Idade</label><input type="number" id="fIdade" min="0" max="90" step="1"></div>
+<div class="f"><label for="fOcup">Profissão</label><input type="text" id="fOcup"></div>
+<div class="f"><label for="fRegime">Como você trabalha</label><select class="in" id="fRegime"><option value="clt">CLT</option><option value="autonomo">Autônomo / profissional liberal</option><option value="empresario">Sócio / empresário</option><option value="servidor">Servidor público</option></select></div>
+<div class="f"><label for="fRenda">Sua renda mensal líquida (R$)</label><input type="number" id="fRenda" min="0" step="100"></div>
+</div>
+</section>
+<!-- 2 Família -->
+<section class="step">
+<header><span class="num">2</span><h2>Família e dependentes</h2><p class="hint">O que a casa gasta por mês e quanto continuaria entrando sem a sua renda.</p></header>
+<div class="grid">
+<div class="f"><label for="fDesp">Despesas mensais da família (R$)</label><input type="number" id="fDesp" min="0" step="100"></div>
+<div class="f"><label for="fOutDep">Ajuda mensal a outros dependentes, como pais (R$)</label><input type="number" id="fOutDep" min="0" step="100"></div>
+<div class="f"><label for="fRendaConj">Renda do cônjuge que continua (R$/mês)</label><input type="number" id="fRendaConj" min="0" step="100"></div>
+<div class="f"><label for="fInss">Pensão por morte estimada do INSS (R$/mês)</label><input type="number" id="fInss" min="0" step="100"></div>
+<div class="f"><label for="fFilhos">Filhos que dependem de você</label><input type="number" id="fFilhos" min="0" step="1"></div>
+<div class="f"><label for="fIdadeNovo">Idade do filho mais novo</label><input type="number" id="fIdadeNovo" min="0" max="30" step="1"></div>
+<div class="f"><label for="fEduc">Escola e faculdade por filho (R$/ano)</label><input type="number" id="fEduc" min="0" step="1000"></div>
+</div>
+<p class="note">Despesas mensais: tudo o que a casa gasta hoje (moradia, alimentação, escola do dia a dia, saúde, transporte). Não inclua as parcelas de dívidas, que entram na etapa 3. Se ainda não sabe a pensão do INSS, deixe zero: o cálculo fica mais conservador.</p>
+</section>
+<!-- 3 Dívidas -->
+<section class="step">
+<header><span class="num">3</span><h2>Dívidas e despesas imediatas</h2><p class="hint">O que a família teria de pagar ou quitar logo após o falecimento.</p></header>
+<div class="grid">
+<div class="f"><label for="fImovel">Saldo do financiamento do imóvel (R$)</label><input type="number" id="fImovel" min="0" step="1000"></div>
+<div class="f"><label for="fVeic">Saldo do financiamento do veículo (R$)</label><input type="number" id="fVeic" min="0" step="1000"></div>
+<div class="f"><label for="fEmp">Empréstimos e cartão (R$)</label><input type="number" id="fEmp" min="0" step="1000"></div>
+<div class="f"><label for="fOutDiv">Outras dívidas (R$)</label><input type="number" id="fOutDiv" min="0" step="1000"></div>
+<div class="f"><label for="fImed">Funeral, inventário e transição (R$)</label><input type="number" id="fImed" min="0" step="1000"></div>
+</div>
+<label class="chip" style="margin-top:12px"><input type="checkbox" id="fMip"> O financiamento do imóvel tem seguro habitacional que quita o saldo (MIP)</label>
+<p class="note">Inventário: o imposto de herança (ITCMD) em SP é de 4% sobre os bens, mais custas e advogado. Uma referência prática é separar de 8% a 10% do patrimônio a inventariar.</p>
+</section>
+<!-- 4 Recursos -->
+<section class="step">
+<header><span class="num">4</span><h2>Recursos e proteções que você já tem</h2><p class="hint">O que já estaria disponível para a família. Isso reduz o capital necessário.</p></header>
+<div class="grid">
+<div class="f"><label for="fReserva">Reservas e investimentos que a família pode sacar (R$)</label><input type="number" id="fReserva" min="0" step="1000"></div>
+<div class="f"><label for="fPrev">Previdência privada, PGBL ou VGBL (R$)</label><input type="number" id="fPrev" min="0" step="1000"></div>
+<div class="f"><label for="fSegInd">Seguro de vida individual que já tem (R$)</label><input type="number" id="fSegInd" min="0" step="10000"></div>
+<div class="f"><label for="fSegEmp">Seguro de vida pela empresa (R$)</label><input type="number" id="fSegEmp" min="0" step="10000"></div>
+</div>
+<label class="chip" style="margin-top:12px"><input type="checkbox" id="fContaEmp"> Contar o seguro da empresa no cálculo</label>
+<p class="note">O seguro em grupo da empresa termina quando você sai do emprego e o capital costuma ser fixo. Por isso ele fica fora do cálculo, a não ser que você marque a opção.</p>
+</section>
+<!-- 5 Riscos e premissas -->
+<section class="step">
+<header><span class="num">5</span><h2>Rotina e premissas</h2><p class="hint">Marque o que faz parte da sua vida. A ferramenta indica quais coberturas ganham prioridade.</p></header>
+<div class="chips" id="fRiskChips"></div>
+<div class="prio" id="fPrio"></div>
+<h3 style="font-family:var(--f-display);font-size:16px;margin:22px 0 10px">Premissas dos cenários</h3>
+<div class="grid">
+<div class="f"><label for="fMeses">Falecimento: meses de renda à família</label><input type="number" id="fMeses" min="1" step="1"></div>
+<div class="f"><label for="fIndep">Idade em que os filhos ficam independentes</label><input type="number" id="fIndep" min="14" max="30" step="1"></div>
+<div class="f"><label for="fInv">Invalidez: meses de renda a repor</label><input type="number" id="fInv" min="1" step="1"></div>
+<div class="f"><label for="fPerda">Invalidez: perda da capacidade (%)</label><input type="number" id="fPerda" min="0" max="100" step="5"></div>
+<div class="f"><label for="fAdapt">Invalidez: adaptações e despesas extras (R$)</label><input type="number" id="fAdapt" min="0" step="1000"></div>
+<div class="f"><label for="fDias">Afastamento temporário (dias)</label><select class="in" id="fDias"><option value="90">90 dias</option><option value="180">180 dias</option><option value="365">365 dias</option></select></div>
+<div class="f"><label for="fRepo">Renda reposta no afastamento (%)</label><input type="number" id="fRepo" min="0" max="100" step="5"></div>
+</div>
+<p class="note" id="fMesesHint"></p>
+<div class="scen" id="fScen"></div>
+</section>
+<!-- 6 Capital -->
+<section class="step">
+<header><span class="num">6</span><h2>Adequação do capital segurado</h2><p class="hint">Quanto da sua necessidade cada capital atende.</p></header>
+<div class="tablewrap"><table id="fCapTable"></table></div>
+<div class="legend">
+<span class="pill r">Insuficiente</span> abaixo de 75%
+<span class="pill a">Parcial</span> 75% a menos de 100%
+<span class="pill g">Compatível</span> 100% ou mais
+</div>
+<p class="note">Faixas de metodologia própria da Závia. Não são classificação regulatória nem garantia de suficiência. A invalidez por acidente indeniza conforme o grau da lesão (tabela da seguradora); o percentual considera invalidez total. O capital aprovado depende da renda comprovada, da idade e da análise da seguradora.</p>
+</section>
+<!-- 7 Investimento -->
+<section class="step">
+<header><span class="num">7</span><h2>Investimento</h2><p class="hint">Se já recebeu cotações, informe seguradora, capital e prêmio mensal. Marque o plano de referência para ver a diferença.</p></header>
+<div class="plans" id="fPlans"></div>
+<div class="copyrow"><button class="btn" id="fAddPlan" type="button">Adicionar cotação</button></div>
+<p class="note">No seguro individual o preço muda com a idade, a profissão e as coberturas escolhidas (doenças graves, invalidez, diária por incapacidade, funeral). Compare as coberturas antes do preço.</p>
+</section>
+<!-- Diagnóstico -->
+<section class="report" id="fReport">
+<div class="eyebrow">Diagnóstico Závia · Proteção individual</div>
+<h2 id="fTitle">Seu diagnóstico</h2>
+<dl id="fDl"></dl>
+<p class="closing">A proteção que você tem hoje garante à sua família o tempo e o dinheiro de que ela precisaria?</p>
+<p class="fine">Estimativa de necessidade financeira com base nas informações fornecidas e em premissas ajustáveis. O diagnóstico identifica e orienta; não garante que o capital será suficiente em um caso real. Coberturas, carências, exclusões, limites de capital e aceitação seguem as condições gerais e a análise de cada seguradora, inclusive a declaração de saúde. Preços sujeitos a recálculo na data de início da vigência.</p>
+<div class="cta">
+<p><b>Quer as melhores opções para o seu caso?</b> Um corretor da Zavia compara as seguradoras com base neste diagnóstico e responde pelo WhatsApp, sem compromisso.</p>
+<button class="btn wa" id="fWaBtn" type="button">Enviar diagnóstico pelo WhatsApp</button>
+<p style="font-size:12px">O botão abre o WhatsApp da Zavia com o resumo já escrito. É só apertar enviar. Vão só os números do diagnóstico, sem nome nem CPF.</p>
+</div>
+<div class="copyrow"><button class="btn" id="fCopyBtn" type="button">Copiar resumo</button><span id="fCopymsg" style="font-size:13px;color:var(--green)"></span></div>
+<textarea id="fCopyfallback" class="copyfb" hidden readonly></textarea>
+</section>
+</div>
 <footer>Estimativa com premissas ajustáveis. Os valores de seguro dependem da análise e da aceitação de cada seguradora.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados pessoais: o que você digita fica só neste navegador e só segue para a Zavia se você enviar pelo WhatsApp. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
 </div>
 <script>
@@ -449,12 +586,209 @@ const t="Olá! Fiz o diagnóstico de proteção de pessoas no site da Zavia e qu
 conta("envio");
 window.open("https://wa.me/"+WHATS+"?text="+encodeURIComponent(t),"_blank","noopener");
 };
-$("goReport").onclick=()=>$("report").scrollIntoView({behavior:"smooth"});
-$("resetBtn").onclick=()=>{S=clone(BLANK);save();init()};
-$("exampleBtn").onclick=()=>{S=clone(EXAMPLE);save();init()};
+window.__modes=window.__modes||{};
+window.__modes.cnpj={report:"report",reset:()=>{S=clone(BLANK);save();init()},example:()=>{S=clone(EXAMPLE);save();init()}};
 $("addPlan").onclick=()=>{const id="p"+Date.now();S.plans.push({id,ins:"",nome:"Novo plano",preco:0,capital:100000,cov:[],flag:"",ref:"",edit:true});update()};
 function init(){bindSimple();renderRisks();renderProfiles();renderCapsel();update()}
 init();
+})();
+</script>
+<script>
+/* Modo pessoa física (CPF individual) */
+(function(){
+const CAPS=[100000,200000,300000,500000,750000,1000000];
+const RISKS=[
+{id:"carro",label:"Dirige todos os dias"},
+{id:"moto",label:"Usa moto"},
+{id:"fisico",label:"Profissão com risco físico (obra, altura, eletricidade)"},
+{id:"viagem",label:"Viaja com frequência"},
+{id:"esporte",label:"Pratica esporte de aventura"},
+{id:"sorenda",label:"A família depende só da minha renda"},
+{id:"soempresa",label:"Meu único seguro de vida é o da empresa"}
+];
+const PREM={meses:60,indep:24,inv:60,perda:100,adapt:30000,dias:180,repo:70};
+const REPO={clt:70,autonomo:30,empresario:30,servidor:90};
+const BLANK={
+p:{idade:0,ocup:"",regime:"clt",renda:0},
+f:{desp:0,outDep:0,rendaConj:0,inss:0,filhos:0,idadeNovo:0,educ:0},
+d:{imovel:0,veic:0,emp:0,outDiv:0,imed:0,mip:false},
+r:{reserva:0,prev:0,segInd:0,segEmp:0,contaEmp:false},
+risks:{},prem:Object.assign({},PREM),cap:0,base:"q1",
+plans:[{id:"q1",ins:"",nome:"Plano A",preco:0,capital:300000},{id:"q2",ins:"",nome:"Plano B",preco:0,capital:500000}]
+};
+const EXAMPLE={
+p:{idade:38,ocup:"Engenheiro",regime:"clt",renda:12000},
+f:{desp:9000,outDep:800,rendaConj:3500,inss:0,filhos:2,idadeNovo:8,educ:12000},
+d:{imovel:280000,veic:35000,emp:10000,outDiv:0,imed:30000,mip:true},
+r:{reserva:60000,prev:40000,segInd:0,segEmp:150000,contaEmp:false},
+risks:{carro:true,viagem:true,soempresa:true},prem:Object.assign({},PREM,{meses:72}),cap:0,base:"q1",
+plans:[{id:"q1",ins:"",nome:"Plano A",preco:0,capital:500000},{id:"q2",ins:"",nome:"Plano B",preco:0,capital:750000}]
+};
+const KEY="zavia-rmp-pf-v1";
+const clone=o=>JSON.parse(JSON.stringify(o));
+let S=load();
+function load(){try{const o=JSON.parse(localStorage.getItem(KEY)||"null");if(o&&o.p&&o.f&&o.d&&o.r&&o.plans)return o}catch(e){}return clone(BLANK)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const brl=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+const brl2=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:2,maximumFractionDigits:2});
+const kcap=v=>v>=1000000?"R$ "+(v/1000000).toLocaleString("pt-BR")+" mi":"R$ "+(v/1000).toLocaleString("pt-BR")+" mil";
+const pct=v=>isFinite(v)?Math.round(v*100)+"%":"—";
+const n=v=>{const x=parseFloat(v);return isFinite(x)?x:0};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const status=r=>!isFinite(r)?["n","Sem dados"]:r<.75?["r","Insuficiente"]:r<1?["a","Parcial"]:["g","Compatível"];
+const pill=r=>{const [c,t]=status(r);return `<span class="pill ${c}">${t}</span>`};
+function calc(){
+const {p,f,d,r}=S,P=S.prem;
+const gapMes=Math.max(0,f.desp+f.outDep-f.rendaConj-f.inss);
+const anosEduc=f.filhos>0?Math.max(0,P.indep-f.idadeNovo):0;
+const educ=f.filhos*f.educ*anosEduc;
+const dividas=(d.mip?0:d.imovel)+d.veic+d.emp+d.outDiv;
+const recursos=r.reserva+r.prev+r.segInd+(r.contaEmp?r.segEmp:0);
+const fixos=dividas+d.imed+educ;
+const A=Math.max(0,gapMes*P.meses+fixos-recursos);
+const B=p.renda<=0?0:Math.max(0,p.renda*P.inv*(P.perda/100)+P.adapt+dividas-recursos);
+const meses=P.dias/30,gap=p.renda*(1-P.repo/100),C=Math.max(0,gap*meses);
+const sug=A>0?Math.ceil(A/50000)*50000:0;
+const sugMeses=f.filhos>0?Math.max(24,anosEduc*12):0;
+return {gapMes,anosEduc,educ,dividas,recursos,fixos,A,B,C,gap,meses,sug,sugMeses};
+}
+function monthsFor(c,cap){return c.gapMes<=0?Infinity:Math.max(0,cap+c.recursos-c.fixos)/c.gapMes}
+const MAP=[["fIdade","p","idade",1],["fOcup","p","ocup",0],["fRenda","p","renda",1],
+["fDesp","f","desp",1],["fOutDep","f","outDep",1],["fRendaConj","f","rendaConj",1],["fInss","f","inss",1],["fFilhos","f","filhos",1],["fIdadeNovo","f","idadeNovo",1],["fEduc","f","educ",1],
+["fImovel","d","imovel",1],["fVeic","d","veic",1],["fEmp","d","emp",1],["fOutDiv","d","outDiv",1],["fImed","d","imed",1],
+["fReserva","r","reserva",1],["fPrev","r","prev",1],["fSegInd","r","segInd",1],["fSegEmp","r","segEmp",1],
+["fMeses","prem","meses",1],["fIndep","prem","indep",1],["fInv","prem","inv",1],["fPerda","prem","perda",1],["fAdapt","prem","adapt",1],["fDias","prem","dias",1],["fRepo","prem","repo",1]];
+function bind(){
+MAP.forEach(([id,g,k,num])=>{const el=$(id);el.value=S[g][k];el.oninput=()=>{S[g][k]=num?n(el.value):el.value;update()}});
+$("fRegime").value=S.p.regime;
+$("fRegime").onchange=e=>{S.p.regime=e.target.value;S.prem.repo=REPO[S.p.regime];$("fRepo").value=S.prem.repo;update()};
+[["fMip","d","mip"],["fContaEmp","r","contaEmp"]].forEach(([id,g,k])=>{$(id).checked=!!S[g][k];$(id).onchange=e=>{S[g][k]=e.target.checked;update()}});
+$("fRiskChips").innerHTML=RISKS.map(r=>`<label class="chip"><input type="checkbox" id="frk_${r.id}" ${S.risks[r.id]?"checked":""}> ${r.label}</label>`).join("");
+RISKS.forEach(r=>{$("frk_"+r.id).onchange=e=>{S.risks[r.id]=e.target.checked;update()}});
+}
+function update(){
+save();
+const c=calc(),P=S.prem,f=S.f;
+// capital chips: fixed list + suggested
+if(!S.cap)S.cap=c.sug||300000;
+const caps=[...new Set([...CAPS,...(c.sug?[c.sug]:[])])].sort((a,b)=>a-b);
+$("fCapsel").innerHTML=caps.map(v=>`<button type="button" aria-pressed="${v===S.cap}" data-c="${v}">${v===c.sug?"★ ":""}${kcap(v).replace("R$ ","")}</button>`).join("");
+$("fCapsel").querySelectorAll("button").forEach(b=>b.onclick=()=>{S.cap=+b.dataset.c;update()});
+$("fSug").textContent=c.sug?`★ Capital sugerido para o seu caso: ${kcap(c.sug)} (necessidade de ${brl(c.A)}, arredondada para cima).`:"Preencha renda, despesas e dívidas para ver o capital sugerido.";
+const m=monthsFor(c,S.cap);
+const has=c.gapMes>0;
+$("fBandMonths").innerHTML=(has&&isFinite(m)?Math.floor(m):"—")+"<small>meses</small>";
+$("fBandSub").textContent=!has?(f.desp>0?"A renda que continua na casa já cobre as despesas mensais. O capital serve para dívidas e despesas imediatas.":"Informe as despesas mensais da família na etapa 2."):`de ${P.meses} meses desejados cobrindo ${brl(c.gapMes)}/mês que faltariam, depois de quitar dívidas, despesas imediatas e educação.`;
+$("fBandMeter").style.width=(has&&isFinite(m)?Math.min(100,m/P.meses*100):0)+"%";
+const ratio=c.A>0?S.cap/c.A:Infinity;
+$("fBandStatus").textContent=c.A>0?`${kcap(S.cap)} atende ${pct(ratio)} da necessidade em caso de falecimento: ${status(ratio)[1].toLowerCase()}.`:"";
+$("fMesesHint").textContent=(c.sugMeses?`Sugestão: ${c.sugMeses} meses, até o filho mais novo completar ${P.indep} anos. `:"")+"Renda reposta no afastamento: CLT recebe os 15 primeiros dias da empresa e depois o auxílio do INSS (limitado ao teto). Autônomos e sócios costumam ter reposição baixa ou nenhuma.";
+// priorities
+const R=S.risks,pr=[];
+if(R.carro||R.moto||R.viagem) pr.push(["Alta","Morte acidental e invalidez por acidente: trânsito e deslocamentos são as causas mais comuns de acidente grave."]);
+if(R.moto) pr.push(["Atenção","Moto: confirmar a aceitação com a seguradora antes da proposta."]);
+if(R.fisico||R.esporte) pr.push(["Alta","Invalidez permanente por acidente: a rotina expõe a lesões graves. Informe a atividade na proposta, porque algumas seguradoras excluem ou agravam o risco."]);
+if(S.p.regime==="autonomo"||S.p.regime==="empresario"||R.fisico) pr.push(["Alta","Diária por incapacidade temporária (DIT): se você parar de trabalhar, a renda para. É o cenário C."]);
+if(R.soempresa||S.r.segEmp>0) pr.push(["Alta","Seguro individual próprio: o da empresa acaba se você sair do emprego e não acompanha a sua família."]);
+if(R.sorenda||f.filhos>0) pr.push(["Média","Doenças graves: antecipa parte do capital em diagnósticos como câncer, infarto e AVC, quando a renda costuma cair."]);
+if(f.filhos>0||S.f.outDep>0) pr.push(["Média","Funeral familiar e coberturas para cônjuge e filhos."]);
+$("fPrio").innerHTML=pr.map(([a,b])=>`<div><span class="pill ${a==="Alta"?"r":"a"}">${a}</span><span>${b}</span></div>`).join("")||`<div><span></span><span class="note">Marque o que faz parte da sua rotina.</span></div>`;
+// scenarios
+$("fScen").innerHTML=`
+<div class="sc"><span class="k">Cenário A</span><h3>Falecimento</h3><div class="v">${brl(c.A)}</div>
+<ul><li>Renda que faltaria: ${brl(c.gapMes)} × ${P.meses} meses = ${brl(c.gapMes*P.meses)}</li><li>Educação dos filhos: ${brl(c.educ)}${c.anosEduc?` (${f.filhos} × ${brl(f.educ)} × ${c.anosEduc} anos)`:""}</li><li>Dívidas a quitar: ${brl(c.dividas)}${S.d.mip&&S.d.imovel?" (imóvel quitado pelo MIP)":""}</li><li>Despesas imediatas: ${brl(S.d.imed)}</li><li>Recursos e seguros existentes: − ${brl(c.recursos)}</li></ul></div>
+<div class="sc"><span class="k">Cenário B</span><h3>Invalidez permanente por acidente</h3><div class="v">${brl(c.B)}</div>
+<ul><li>Renda perdida: ${brl(S.p.renda)} × ${P.inv} meses × ${P.perda}% = ${brl(S.p.renda*P.inv*P.perda/100)}</li><li>Adaptações e despesas extras: ${brl(P.adapt)}</li><li>Dívidas: ${brl(c.dividas)}</li><li>Recursos e seguros existentes: − ${brl(c.recursos)}</li></ul></div>
+<div class="sc"><span class="k">Cenário C</span><h3>Incapacidade temporária</h3><div class="v">${brl(c.C)}</div>
+<ul><li>Perda de renda: ${brl(c.gap)}/mês × ${Math.round(c.meses*10)/10} meses</li></ul>
+<p>Não é atendida pelo capital de morte ou invalidez. Solução possível: diária por incapacidade temporária (DIT).</p></div>`;
+// capital table
+$("fCapTable").innerHTML=`<thead><tr><th>Capital</th><th>Falecimento</th><th></th><th>Diferença</th><th>Sustenta</th><th>Invalidez acid.</th><th></th></tr></thead><tbody>`+caps.map(v=>{
+const rA=c.A>0?v/c.A:Infinity,rB=c.B>0?v/c.B:Infinity,diff=v-c.A,mm=monthsFor(c,v);
+return `<tr class="${v===S.cap?"sel":""}"><td class="m">${v===c.sug?"★ ":""}${kcap(v)}</td><td class="m">${pct(rA)}</td><td>${pill(rA)}</td><td class="m">${c.A<=0?"—":diff<0?"− "+brl(-diff):"+ "+brl(diff)}</td><td class="m">${has&&isFinite(mm)?Math.floor(mm)+" meses":"—"}</td><td class="m">${pct(rB)}</td><td>${pill(rB)}</td></tr>`}).join("")+`</tbody>`;
+// plans
+const base=S.plans.find(x=>x.id===S.base)||S.plans[0];
+$("fPlans").innerHTML=S.plans.map(pl=>{const r=c.A>0?pl.capital/c.A:Infinity,dl=pl.preco-base.preco;
+return `<div class="plan ${pl.id===base.id?"base":""}">
+<div class="f"><label for="fqi_${pl.id}">Seguradora</label><input type="text" id="fqi_${pl.id}" value="${esc(pl.ins)}" placeholder="Ex.: Porto"></div>
+<div class="f"><label for="fqn_${pl.id}">Plano</label><input type="text" id="fqn_${pl.id}" value="${esc(pl.nome)}"></div>
+<div class="f"><label for="fqc_${pl.id}">Capital principal (R$)</label><input type="number" min="0" step="10000" id="fqc_${pl.id}" value="${pl.capital}"></div>
+<div class="price"><label for="fqp_${pl.id}" class="note" style="margin:0">R$</label><input type="number" step="0.01" min="0" id="fqp_${pl.id}" value="${pl.preco}"><span class="note" style="margin:0">/mês</span></div>
+<dl><dt>Anual</dt><dd>${brl2(pl.preco*12)}</dd><dt>Capital principal</dt><dd>${kcap(pl.capital)}</dd><dt>Necessidade atendida</dt><dd>${pct(r)}</dd><dt>Custo por R$ 100 mil</dt><dd>${pl.capital>0?brl2(pl.preco/pl.capital*100000):"—"}</dd></dl>
+<div>${pill(r)}</div>
+<div class="delta">${pl.id===base.id?"Plano de referência.":`${dl>=0?"+":"−"} ${brl2(Math.abs(dl))}/mês vs referência.`}</div>
+<label class="basepick"><input type="radio" name="fbase" value="${pl.id}" ${pl.id===base.id?"checked":""}> Usar como referência</label>${S.plans.length>1?`<button class="x" type="button" id="fqr_${pl.id}" style="align-self:flex-start">Remover cotação</button>`:""}
+</div>`}).join("");
+S.plans.forEach(pl=>{
+$("fqp_"+pl.id).onchange=e=>{pl.preco=n(e.target.value);update()};
+$("fqi_"+pl.id).onchange=e=>{pl.ins=e.target.value;update()};
+$("fqn_"+pl.id).onchange=e=>{pl.nome=e.target.value;update()};
+$("fqc_"+pl.id).onchange=e=>{pl.capital=n(e.target.value);update()};
+const rm=$("fqr_"+pl.id);if(rm)rm.onclick=()=>{S.plans=S.plans.filter(x=>x.id!==pl.id);if(S.base===pl.id)S.base=S.plans[0].id;update()};
+});
+document.querySelectorAll('input[name="fbase"]').forEach(x=>x.onchange=()=>{S.base=x.value;update()});
+// report
+const reg={clt:"CLT",autonomo:"Autônomo / profissional liberal",empresario:"Sócio / empresário",servidor:"Servidor público"}[S.p.regime];
+const capsEval=[...new Set([S.cap,...(c.sug?[c.sug]:[]),...S.plans.map(x=>x.capital)])].filter(Boolean).sort((a,b)=>a-b);
+const L=[
+["Perfil",[S.p.idade?S.p.idade+" anos":"",S.p.ocup,reg].filter(Boolean).join(" · ")],
+["Renda mensal",brl(S.p.renda)],
+["Família",`Despesas de ${brl(f.desp+f.outDep)}/mês · ${f.filhos} filho(s)${f.filhos?`, o mais novo com ${f.idadeNovo} anos`:""}${f.rendaConj?` · cônjuge com renda de ${brl(f.rendaConj)}`:""}`],
+["Renda que faltaria à família",brl(c.gapMes)+"/mês"],
+["Dívidas e despesas imediatas",brl(c.dividas+S.d.imed)],
+["Recursos e seguros considerados",brl(c.recursos)+(S.r.segEmp&&!S.r.contaEmp?` (seguro da empresa de ${brl(S.r.segEmp)} não considerado)`:"")],
+["Necessidade em caso de falecimento",brl(c.A)],
+["Invalidez permanente por acidente",brl(c.B)],
+["Afastamento de "+P.dias+" dias",brl(c.C)+" (fora do capital; diária por incapacidade)"],
+["Capital sugerido",c.sug?kcap(c.sug):"a calcular"],
+["Capitais avaliados",capsEval.map(v=>`${kcap(v)} = ${pct(c.A>0?v/c.A:Infinity)} (${status(c.A>0?v/c.A:Infinity)[1].toLowerCase()})`).join(" · ")],
+["Prioridades de cobertura",pr.filter(x=>x[0]==="Alta").map(x=>x[1].split(":")[0]).join("; ")||"Ver etapa 5"],
+["Investimento mensal",S.plans.map(x=>`${(x.ins+" "+x.nome).trim()} ${kcap(x.capital)}: ${x.preco>0?brl2(x.preco):"a informar"}`).join(" · ")]
+];
+$("fDl").innerHTML=L.map(([a,b])=>`<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join("");
+window.__summaryPF="DIAGNÓSTICO ZÁVIA — PROTEÇÃO INDIVIDUAL (CPF)\n"+L.map(([a,b])=>a+": "+b).join("\n")+"\n\nEstimativa com premissas ajustáveis; não garante suficiência. Závia · SUSEP 262179983";
+}
+$("fAddPlan").onclick=()=>{S.plans.push({id:"q"+Date.now(),ins:"",nome:"Novo plano",preco:0,capital:300000});update()};
+$("fCopyBtn").onclick=()=>{const t=window.__summaryPF||"";const fb=()=>{const ta=$("fCopyfallback");ta.hidden=false;ta.value=t;ta.focus();ta.select();$("fCopymsg").textContent="Selecione e copie o texto abaixo."};
+try{navigator.clipboard.writeText(t).then(()=>{$("fCopymsg").textContent="Resumo copiado."},fb)}catch(e){fb()}};
+const qs=new URLSearchParams(location.search),limpa=s=>String(s||"").replace(/[^A-Za-z0-9_-]/g,"").slice(0,60);
+const camp=limpa(qs.get("c")),varia=limpa(qs.get("v")),canal=limpa(qs.get("s")).toLowerCase();
+const pub=/^ZV-(CTB|EMP|CND|PRF|TRN|AUT|RES|VID|INS)-\d{3}(-[A-C])?$/.test(varia)&&canal?varia+"-"+canal:"";
+$("fWaBtn").onclick=()=>{
+const t="Olá! Fiz o diagnóstico de proteção individual no site da Zavia e quero cotar um seguro de vida para mim.\n\n"+(window.__summaryPF||"")+"\n\nCódigo: ZV-VIDA-PF"+(camp?" "+camp:"")+(varia?" "+varia:"")+(pub?" "+canal:"");
+if(pub&&navigator.sendBeacon){try{navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento",JSON.stringify({p:pub,e:"envio"}))}catch(x){}}
+window.open("https://wa.me/5511934248161?text="+encodeURIComponent(t),"_blank","noopener");
+};
+function init(){bind();update()}
+window.__modes=window.__modes||{};
+window.__modes.cpf={report:"fReport",reset:()=>{S=clone(BLANK);save();init()},example:()=>{S=clone(EXAMPLE);save();init()}};
+init();
+})();
+</script>
+<script>
+/* Escolha do tipo: empresa (CNPJ) ou pessoa física (CPF) */
+(function(){
+const $=id=>document.getElementById(id);
+const TXT={
+cnpj:{h:'Diagnóstico de <em>proteção de pessoas</em>',t:'Antes de definir quanto custa proteger sua equipe, descubra quanto de proteção ela realmente precisa. Preencha os perfis da equipe, veja o diagnóstico e, se quiser, mande para um corretor da Zavia cotar pelo WhatsApp, sem compromisso.'},
+cpf:{h:'Diagnóstico de <em>proteção individual</em>',t:'Antes de definir quanto custa o seu seguro de vida, descubra de quanto a sua família realmente precisaria. Responda sobre renda, dependentes, dívidas e reservas, veja o capital sugerido e, se quiser, mande para um corretor da Zavia cotar pelo WhatsApp, sem compromisso.'}
+};
+const MKEY="zavia-rmp-modo";
+const q=new URLSearchParams(location.search).get("tipo");
+let mode=q==="cpf"||q==="cnpj"?q:(()=>{try{return localStorage.getItem(MKEY)}catch(e){return null}})()||"cnpj";
+function set(m){
+mode=m==="cpf"?"cpf":"cnpj";
+try{localStorage.setItem(MKEY,mode)}catch(e){}
+$("viewCnpj").hidden=mode!=="cnpj";$("viewCpf").hidden=mode!=="cpf";
+document.querySelectorAll(".mode").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.m===mode)));
+$("hTitle").innerHTML=TXT[mode].h;$("hTag").textContent=TXT[mode].t;
+}
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>set(b.dataset.m));
+$("exampleBtn").onclick=()=>window.__modes[mode].example();
+$("resetBtn").onclick=()=>window.__modes[mode].reset();
+$("goReport").onclick=()=>$(window.__modes[mode].report).scrollIntoView({behavior:"smooth"});
+set(mode);
 })();
 </script>
 </body>
