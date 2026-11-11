@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cotação de RC para obras e serviços · Zavia Seguros</title>
+<meta name="description" content="Responda em cerca de 4 minutos e receba uma cotação de seguro de Responsabilidade Civil para obra, instalação, montagem ou prestação de serviço no local do cliente.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap">
+<style>
+/* Formulário público da Zavia: não guarda nada; ao enviar, abre o WhatsApp da Zavia com os dados e o código ZV-RCOB. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0D12; --surface: #121722; --sunk: #0E131C; --line: #202938;
+  --fg: #EEF2F8; --mut: #8A95A8; --hub: #38BDF8; --hub-ink: #061018; --gold: #C9A961; --bad: #F87171; --ok: #22C55E;
+  --display: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --body: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: radial-gradient(ellipse at 50% -10%, rgba(56,189,248,.14), transparent 55%), var(--bg); color: var(--fg); font: 15px/1.55 var(--body); min-height: 100vh; }
+.wrap { max-width: 560px; margin: 0 auto; padding: max(20px, env(safe-area-inset-top)) 16px 48px; }
+.marca { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+.marca i { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.45); box-shadow: 0 0 16px rgba(56,189,248,.25); }
+.marca svg { width: 18px; height: 18px; fill: none; stroke: var(--hub); stroke-width: 2; }
+.marca b { display: block; font: 800 16px/1.1 var(--display); letter-spacing: .02em; }
+.marca small { font-size: 11.5px; color: var(--mut); }
+h1 { font: 800 26px/1.2 var(--display); margin: 0 0 10px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--hub); }
+.lead { color: var(--mut); margin: 0 0 18px; }
+form { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--hub); border-radius: 16px; padding: 18px 16px; }
+.passo { display: grid; gap: 14px; }
+.passo[hidden] { display: none; }
+.prog { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font: 600 12px var(--display); color: var(--mut); }
+.prog .tr { flex: 1; height: 6px; background: var(--sunk); border-radius: 99px; overflow: hidden; }
+.prog .tr div { height: 100%; background: var(--hub); border-radius: 99px; transition: width .3s ease; box-shadow: 0 0 10px rgba(56,189,248,.5); }
+h2 { font: 700 12px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--mut); margin: 6px 0 -4px; }
+label { display: grid; gap: 5px; font-size: 13px; color: var(--mut); }
+label b, .q b { color: var(--fg); font-weight: 500; }
+.q { display: grid; gap: 6px; font-size: 13px; color: var(--mut); }
+.q[hidden], label[hidden], .dois[hidden] { display: none; }
+input, select { font: 16px var(--body); padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--sunk); color: var(--fg); width: 100%; color-scheme: dark; }
+input:focus, select:focus { outline: 2px solid var(--hub); outline-offset: 1px; }
+input[aria-invalid="true"], select[aria-invalid="true"], .opcoes[aria-invalid="true"] { border-color: var(--bad); }
+.opcoes[aria-invalid="true"] { border: 1px solid var(--bad); border-radius: 12px; padding: 6px; }
+.dois { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.opcoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.opcoes label { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--sunk); color: var(--fg); cursor: pointer; font-size: 14px; }
+.opcoes input { width: auto; accent-color: var(--hub); margin: 0; }
+.opcoes label:has(input:checked) { border-color: var(--hub); background: rgba(56,189,248,.14); }
+.aceite { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-size: 12.5px; }
+.aceite input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--hub); }
+.aceite a { color: var(--hub); }
+.erro { color: var(--bad); font-size: 13px; min-height: 1em; margin: -4px 0 0; }
+.acoes { display: flex; gap: 10px; }
+button { font: 700 15px var(--display); padding: 14px 16px; border-radius: 12px; border: 0; background: var(--hub); color: var(--hub-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 22px rgba(56,189,248,.35); flex: 1; }
+button.vol { flex: 0 0 auto; background: var(--sunk); color: var(--fg); border: 1px solid var(--line); box-shadow: none; }
+button svg { width: 20px; height: 20px; }
+button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.nota { font-size: 12px; color: var(--mut); text-align: center; margin: -2px 0 0; }
+.dica { font-size: 12px; color: var(--mut); margin: -8px 0 0; }
+.ok { display: none; text-align: center; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--ok); border-radius: 16px; padding: 22px 16px; }
+.ok.on { display: block; }
+.ok h2 { color: var(--ok); margin: 0 0 8px; font-size: 13px; }
+.ok a { color: var(--hub); }
+footer { margin-top: 26px; font-size: 11.5px; color: var(--mut); text-align: center; line-height: 1.6; }
+footer a { color: var(--mut); }
+@media (max-width: 380px) { .dois { grid-template-columns: 1fr; } h1 { font-size: 23px; } }
+.passo { grid-template-columns: minmax(0, 1fr); }
+.rota { background: var(--sunk); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; color: var(--mut); }
+.rota b { color: var(--fg); font-weight: 600; }
+.rota[hidden], .so-obra[hidden] { display: none; }
+.lmi { background: var(--sunk); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; }
+.lmi[hidden] { display: none; }
+.lmi h3 { margin: 0 0 2px; font: 700 12px var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+#lmi-lista { display: grid; gap: 6px; }
+#lmi-lista > div { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; }
+#lmi-lista > div span:last-child { color: var(--fg); font-weight: 600; white-space: nowrap; }
+.alerta { background: rgba(201,169,97,.10); border: 1px solid rgba(201,169,97,.4); border-radius: 12px; padding: 10px 12px; font-size: 13px; color: var(--fg); }
+.alerta[hidden] { display: none; }
+textarea { font: 16px var(--body); padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--sunk); color: var(--fg); width: 100%; min-height: 84px; resize: vertical; }
+textarea:focus { outline: 2px solid var(--hub); outline-offset: 1px; }
+textarea[aria-invalid="true"] { border-color: var(--bad); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
+
+  <h1>Cotação de <em>RC para obras e serviços</em></h1>
+  <p class="lead">Para quem faz obra, instalação, montagem, manutenção ou limpeza no local do cliente. São 4 telas curtas, uns 4 minutos. Um corretor da Zavia confere o enquadramento certo e te responde pelo WhatsApp, sem compromisso.</p>
+
+  <form id="f" novalidate>
+    <div class="prog" aria-hidden="true"><span id="prog-t">1 de 4</span><div class="tr"><div id="prog-b" style="width:25%"></div></div></div>
+
+    <!-- 1. Você e a empresa -->
+    <div class="passo" data-p="1">
+      <h2>Quem vai ser o segurado</h2>
+      <div class="q"><b>O seguro sai em nome de</b>
+        <div class="opcoes" data-r="pessoa"><label><input type="radio" name="pessoa" value="Empresa (CNPJ)">Empresa (CNPJ)</label><label><input type="radio" name="pessoa" value="Pessoa física (CPF)">Pessoa física (CPF)</label></div></div>
+      <label><b>Seu nome</b><input name="nome" autocomplete="name" maxlength="80" required></label>
+      <div class="dois">
+        <label><b>WhatsApp</b><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20" required></label>
+        <label><b>E-mail</b> (opcional)<input name="email" type="email" autocomplete="email" maxlength="80"></label>
+      </div>
+      <label id="q-empresa"><b>Razão social</b><input name="empresa" autocomplete="organization" maxlength="100"></label>
+      <label id="q-doc"><b>CNPJ</b> (opcional: se não tiver agora, mande depois)<input name="doc" inputmode="numeric" maxlength="18"></label>
+      <div class="dois">
+        <label><b>Empresa existe há</b>
+          <select name="idade" required><option value="">Escolha</option><option>Menos de 1 ano</option><option>1 a 3 anos</option><option>3 a 10 anos</option><option>Mais de 10 anos</option></select></label>
+        <label><b>Funcionários</b>
+          <select name="empregados" required><option value="">Escolha</option><option>Só eu</option><option>2 a 5</option><option>6 a 15</option><option>16 a 50</option><option>Mais de 50</option></select></label>
+      </div>
+    </div>
+
+    <!-- 2. O serviço -->
+    <div class="passo" data-p="2" hidden>
+      <h2>O serviço</h2>
+      <div class="q"><b>O que mais combina com o seu trabalho?</b>
+        <div class="opcoes" data-r="servico">
+          <label><input type="radio" name="servico" value="obra">Obra, instalação ou montagem</label>
+          <label><input type="radio" name="servico" value="manutencao">Manutenção predial ou de máquinas</label>
+          <label><input type="radio" name="servico" value="limpeza">Limpeza ou conservação</label>
+          <label><input type="radio" name="servico" value="jardinagem">Jardinagem ou área verde</label>
+          <label><input type="radio" name="servico" value="outro">Outro serviço</label>
+        </div></div>
+      <p class="rota" id="rota" hidden></p>
+      <label><b>Descreva todos os serviços que você vai executar</b><textarea name="descricao" maxlength="500" placeholder="ex.: instalação elétrica de baixa tensão e montagem de quadros em galpão industrial" required></textarea></label>
+      <div class="q"><b>O seguro é para</b>
+        <div class="opcoes" data-r="contrato"><label><input type="radio" name="contrato" value="Uma obra ou contrato específico">Uma obra ou contrato específico</label><label><input type="radio" name="contrato" value="Vários clientes ao longo do ano">Vários clientes ao longo do ano</label></div></div>
+      <div class="so-obra" id="so-obra-1" hidden>
+        <div class="dois">
+          <label><b>Tipo da obra</b>
+            <select name="tipoobra"><option value="">Escolha</option><option>Industrial</option><option>Comercial</option><option>Residencial</option><option>Predial (condomínio)</option></select></label>
+          <label><b>Tipo do serviço</b>
+            <select name="tiposerv"><option value="">Escolha</option><option>Obra nova</option><option>Ampliação</option><option>Reforma</option><option>Instalação, montagem e desmontagem</option></select></label>
+        </div>
+      </div>
+      <label><b id="lbl-valor">Valor total do contrato</b><input name="valor" inputmode="numeric" placeholder="R$ 0" maxlength="16"></label>
+      <p class="dica" id="dica-valor">Valor cheio do que você vai faturar: material, mão de obra, impostos e margem.</p>
+      <div class="dois">
+        <label><b>Início</b><input name="inicio" type="date"></label>
+        <label><b>Término</b><input name="fim" type="date"></label>
+      </div>
+      <p class="alerta" id="alerta-data" hidden></p>
+    </div>
+
+    <!-- 3. A obra e o local -->
+    <div class="passo" data-p="3" hidden>
+      <h2>A obra e o local</h2>
+      <div class="so-obra" id="so-obra-2" hidden>
+        <div class="passo" style="gap:14px">
+          <div class="q"><b>Tem serviço de fundação?</b>
+            <div class="opcoes" data-r="fundacao"><label><input type="radio" name="fundacao" value="Não">Não</label><label><input type="radio" name="fundacao" value="Sim">Sim</label></div></div>
+          <div class="q"><b>Tem reforço estrutural?</b>
+            <div class="opcoes" data-r="reforco"><label><input type="radio" name="reforco" value="Não">Não</label><label><input type="radio" name="reforco" value="Sim">Sim</label></div></div>
+          <label><b>Estágio atual da obra</b>
+            <select name="estagio"><option value="">Escolha</option><option>Não começou</option><option>Até 20%</option><option>20% a 40%</option><option>40% a 60%</option><option>60% a 85%</option><option>Acima de 85%</option></select></label>
+          <div class="q"><b>Tipo de instalação</b> (marque tudo que tiver)
+            <div class="opcoes" data-c="instal"><label><input type="checkbox" name="instal" value="Elétrica">Elétrica</label><label><input type="checkbox" name="instal" value="Hidráulica">Hidráulica</label><label><input type="checkbox" name="instal" value="Rede e dados">Rede e dados</label><label><input type="checkbox" name="instal" value="Máquinas e equipamentos">Máquinas e equipamentos</label><label><input type="checkbox" name="instal" value="Outra">Outra</label><label><input type="checkbox" name="instal" value="Nenhuma">Nenhuma</label></div></div>
+          <div class="q"><b>Outras empresas trabalham na mesma obra?</b>
+            <div class="opcoes" data-r="outras"><label><input type="radio" name="outras" value="Não">Não, só a minha equipe</label><label><input type="radio" name="outras" value="Sim">Sim, há outras frentes</label></div></div>
+        </div>
+      </div>
+      <label><b>Pessoas da sua equipe neste serviço</b>
+        <select name="equipe" required><option value="">Escolha</option><option>Só eu</option><option>2 a 5</option><option>6 a 15</option><option>Mais de 15</option></select></label>
+      <h2>Onde o serviço vai ser feito</h2>
+      <div class="dois">
+        <label><b>CEP</b><input name="cep" inputmode="numeric" placeholder="00000-000" maxlength="9" required></label>
+        <label><b>Número</b> (opcional)<input name="numero" maxlength="10"></label>
+      </div>
+      <p class="dica">Se forem vários clientes, informe o CEP da sua base.</p>
+    </div>
+
+    <!-- 4. Histórico -->
+    <div class="passo" data-p="4" hidden>
+      <h2>Histórico</h2>
+      <div class="q"><b>Já teve seguro de Responsabilidade Civil?</b>
+        <div class="opcoes" data-r="jateve"><label><input type="radio" name="jateve" value="Não">Não</label><label><input type="radio" name="jateve" value="Sim">Sim</label></div></div>
+      <div class="q"><b>Nos últimos 3 anos, alguém reclamou (na Justiça ou fora dela) de um serviço seu?</b>
+        <div class="opcoes" data-r="reclamacao"><label><input type="radio" name="reclamacao" value="Não">Não</label><label><input type="radio" name="reclamacao" value="Sim">Sim</label></div></div>
+      <label id="q-reclamacao" hidden><b>O que aconteceu e quando</b><input name="reclamacaodet" maxlength="140"></label>
+
+      <div class="lmi" id="lmi" hidden>
+        <h3>Proteção sugerida para esta obra</h3>
+        <div id="lmi-lista"></div>
+        <p class="dica" style="margin:4px 0 0">É uma sugestão técnica pelo valor da obra. O valor do seguro é calculado pela seguradora, e a Zavia ajusta os limites com você antes de emitir.</p>
+      </div>
+
+      <label class="aceite"><input type="checkbox" name="ciencia"><span>Li o <a href="/privacidade/" target="_blank" rel="noopener">aviso de privacidade</a> e entendo que estes dados serão usados para a cotação do meu seguro.</span></label>
+      <label class="aceite"><input type="checkbox" name="ofertas"><span>Opcional: aceito receber, de vez em quando, sugestões de outros seguros. Posso cancelar quando quiser.</span></label>
+    </div>
+
+    <p class="erro" id="erro" role="alert"></p>
+    <div class="acoes">
+      <button type="button" class="vol" id="voltar" hidden>Voltar</button>
+      <button type="submit" id="seguir">Continuar</button>
+    </div>
+    <p class="nota" id="nota-envio" hidden>O botão abre o WhatsApp da Zavia com suas respostas já escritas. É só apertar enviar.</p>
+  </form>
+
+  <div class="ok" id="ok" role="status">
+    <h2>Quase lá</h2>
+    <p>Abrimos o WhatsApp com as suas respostas. Aperte <b>enviar</b> por lá para a cotação chegar até nós.</p>
+    <p>Não abriu? <a id="ok-link" href="#" target="_blank" rel="noopener">Toque aqui para abrir o WhatsApp</a>.</p>
+  </div>
+
+  <footer>A cotação depende da análise e da aceitação de cada seguradora. O seguro precisa ser emitido antes do início da obra.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados pessoais: tudo segue direto para o WhatsApp da Zavia. <a href="/privacidade/">Aviso de privacidade</a></footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var WHATS = "5511934248161"; // WhatsApp comercial da Zavia
+  var q = new URLSearchParams(location.search);
+  var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
+  var camp = limpa(q.get("c")), varia = limpa(q.get("v"));
+  var f = document.getElementById("f"), passo = 1, TOTAL = 4;
+  var $ = function (id) { return document.getElementById(id); };
+  var radio = function (n) { return (f.querySelector("[name=" + n + "]:checked") || {}).value || ""; };
+  var marcados = function (n) { return Array.prototype.map.call(f.querySelectorAll("[name=" + n + "]:checked"), function (x) { return x.value; }); };
+  var val = function (n) { return String(f[n].value || "").trim(); };
+  var brl = function (n) { return "R$ " + n.toLocaleString("pt-BR"); };
+  var valor = function () { return parseInt(val("valor").replace(/\D/g, ""), 10) || 0; };
+  var pf = function () { return radio("pessoa") === "Pessoa física (CPF)"; };
+  var obra = function () { return radio("servico") === "obra"; };
+  var ROTA = {
+    obra: ["RC Obras e Montagens", "Protege danos a terceiros e ao local durante a execução. Vale para esta obra: em outra obra, é preciso um novo seguro."],
+    manutencao: ["RC Prestação de Serviço em locais de terceiros", "Cobre danos causados enquanto você trabalha no local do cliente."],
+    limpeza: ["RC Prestação de Serviço em locais de terceiros", "Cobre danos causados enquanto você trabalha no local do cliente."],
+    jardinagem: ["RC Prestação de Serviço em locais de terceiros", "Cobre danos causados enquanto você trabalha no local do cliente."],
+    outro: ["A definir", "A Zavia analisa o serviço e indica a cobertura certa. A seguradora pode levar até 15 dias para analisar."]
+  };
+
+  function mascara(el, fn) { el.addEventListener("input", function () { el.value = fn(el.value.replace(/\D/g, "")); }); }
+  mascara(f.doc, function (d) {
+    if (pf()) { d = d.slice(0, 11); return d.replace(/^(\d{3})(\d{0,3})(\d{0,3})(\d{0,2}).*/, function (m, a, b, c, e) { return [a, b, c].filter(Boolean).join(".") + (e ? "-" + e : ""); }); }
+    d = d.slice(0, 14);
+    if (d.length > 12) return d.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/, "$1.$2.$3/$4-$5");
+    if (d.length > 8) return d.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4})/, "$1.$2.$3/$4");
+    if (d.length > 5) return d.replace(/^(\d{2})(\d{3})(\d{0,3})/, "$1.$2.$3");
+    if (d.length > 2) return d.replace(/^(\d{2})(\d{0,3})/, "$1.$2");
+    return d;
+  });
+  mascara(f.cep, function (d) { d = d.slice(0, 8); return d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d; });
+  mascara(f.valor, function (d) { d = d.slice(0, 11); return d ? "R$ " + (+d).toLocaleString("pt-BR") : ""; });
+
+  function limites() {
+    var v = valor();
+    if (!obra() || !v) return [];
+    var r = [["RC Obras (execução)", Math.round(v * 0.375 / 1000) * 1000], ["Danos ao dono da obra", Math.round(v * 0.25 / 1000) * 1000]];
+    if (radio("outras") === "Sim") r.push(["RC Cruzada (outras frentes)", 100000]);
+    r.push(["RC Empregador", 100000], ["Danos morais", 50000], ["Danos morais (empregador)", 100000]);
+    return r;
+  }
+
+  function condicionais() {
+    $("q-empresa").hidden = pf();
+    $("q-doc").firstChild.textContent = pf() ? "CPF" : "CNPJ";
+    var s = radio("servico");
+    $("rota").hidden = !s;
+    if (s) $("rota").innerHTML = "Produto indicado: <b>" + ROTA[s][0] + "</b>. " + ROTA[s][1];
+    $("so-obra-1").hidden = $("so-obra-2").hidden = !obra();
+    $("lbl-valor").textContent = obra() ? "Valor total do contrato ou da obra" : "Valor do contrato por ano (se souber)";
+    $("dica-valor").textContent = obra() ? "Valor cheio do que você vai faturar: material, mão de obra, impostos e margem." : "Pode deixar em branco se não souber.";
+    $("q-reclamacao").hidden = radio("reclamacao") !== "Sim";
+    var ini = val("inicio"), a = $("alerta-data");
+    a.hidden = true;
+    if (ini) {
+      var hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+      var d = Math.round((new Date(ini + "T00:00:00") - hoje) / 86400000);
+      if (d <= 3) { a.hidden = false; a.textContent = d < 0 ? "A data de início já passou. O seguro precisa ser emitido antes do início: fale com a Zavia hoje." : "Faltam " + d + " dia(s) para o início. O seguro precisa ser emitido antes: fale com a Zavia hoje."; }
+    }
+    var l = limites();
+    $("lmi").hidden = !l.length;
+    $("lmi-lista").innerHTML = l.map(function (r) { return "<div><span>" + r[0] + "</span><span>" + brl(r[1]) + "</span></div>"; }).join("");
+  }
+  f.addEventListener("change", function (ev) {
+    if (ev.target.name === "pessoa") f.doc.value = "";
+    if (ev.target.name === "instal") {
+      var nen = f.querySelector('[name=instal][value="Nenhuma"]');
+      if (ev.target === nen && nen.checked) f.querySelectorAll("[name=instal]").forEach(function (x) { if (x !== nen) x.checked = false; });
+      else if (ev.target !== nen && ev.target.checked) nen.checked = false;
+    }
+    condicionais();
+  });
+  f.addEventListener("input", condicionais);
+
+  function marcar(el, ruim) { if (el && el.setAttribute) el.setAttribute("aria-invalid", ruim ? "true" : "false"); }
+  function exige(nome, msg) { var el = f[nome], v = val(nome), ruim = !v; marcar(el, ruim); return ruim ? msg : ""; }
+  function exigeRadio(nome, msg) { var g = f.querySelector('[data-r="' + nome + '"]'), ruim = !radio(nome); marcar(g, ruim); return ruim ? msg : ""; }
+  function validar(p) {
+    var e = [];
+    if (p === 1) {
+      e.push(exigeRadio("pessoa", "Diga se o seguro sai em nome de empresa ou pessoa física."), exige("nome", "Preencha seu nome."));
+      var tel = val("whatsapp").replace(/\D/g, ""), telOk = tel.length === 10 || tel.length === 11 || (tel.length >= 12 && tel.length <= 13 && tel.indexOf("55") === 0);
+      marcar(f.whatsapp, !telOk); e.push(telOk ? "" : "Confira o WhatsApp, com DDD.");
+      var em = val("email"), emOk = !em || /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em); marcar(f.email, !emOk); e.push(emOk ? "" : "Confira o e-mail (ou deixe em branco).");
+      if (!pf()) e.push(exige("empresa", "Preencha a razão social."));
+      var dc = val("doc").replace(/\D/g, ""), dcOk = !dc || dc.length === (pf() ? 11 : 14); marcar(f.doc, !dcOk); e.push(dcOk ? "" : (pf() ? "O CPF precisa ter 11 números (ou deixe em branco)." : "O CNPJ precisa ter 14 números (ou deixe em branco)."));
+      e.push(exige("idade", "Escolha há quanto tempo a empresa existe."), exige("empregados", "Escolha o número de funcionários."));
+    } else if (p === 2) {
+      e.push(exigeRadio("servico", "Escolha o tipo de serviço."), exige("descricao", "Descreva os serviços."), exigeRadio("contrato", "Diga se é uma obra específica ou vários clientes."));
+      if (obra()) {
+        e.push(exige("tipoobra", "Escolha o tipo da obra."), exige("tiposerv", "Escolha o tipo do serviço."));
+        marcar(f.valor, !valor()); e.push(valor() ? "" : "Informe o valor da obra.");
+        e.push(exige("inicio", "Informe a data de início."), exige("fim", "Informe a data de término."));
+        if (val("inicio") && val("fim") && val("fim") < val("inicio")) { marcar(f.fim, true); e.push("O término precisa ser depois do início."); }
+      }
+    } else if (p === 3) {
+      if (obra()) {
+        e.push(exigeRadio("fundacao", "Responda sobre fundação."), exigeRadio("reforco", "Responda sobre reforço estrutural."), exige("estagio", "Escolha o estágio da obra."), exigeRadio("outras", "Diga se há outras empresas na obra."));
+        var ins = f.querySelector('[data-c="instal"]'); marcar(ins, !marcados("instal").length); e.push(marcados("instal").length ? "" : "Marque o tipo de instalação (ou \"Nenhuma\").");
+      }
+      e.push(exige("equipe", "Escolha quantas pessoas da equipe trabalham no serviço."));
+      var cep = val("cep").replace(/\D/g, ""); marcar(f.cep, cep.length !== 8); e.push(cep.length === 8 ? "" : "Confira o CEP (8 números).");
+    } else {
+      e.push(exigeRadio("jateve", "Diga se já teve seguro de RC."), exigeRadio("reclamacao", "Responda sobre reclamações."));
+      if (!f.ciencia.checked) e.push("Marque que leu o aviso de privacidade.");
+    }
+    e = e.filter(Boolean);
+    $("erro").textContent = e[0] || "";
+    if (e.length) { var x = f.querySelector('.passo[data-p="' + p + '"] [aria-invalid="true"]'); if (x && x.focus) x.focus(); }
+    return !e.length;
+  }
+
+  function mostrar(p) {
+    passo = p;
+    f.querySelectorAll(".passo[data-p]").forEach(function (el) { el.hidden = +el.getAttribute("data-p") !== p; });
+    $("prog-t").textContent = p + " de " + TOTAL; $("prog-b").style.width = (p / TOTAL * 100) + "%";
+    $("voltar").hidden = p === 1; $("nota-envio").hidden = p !== TOTAL;
+    $("seguir").textContent = p === TOTAL ? "Enviar pelo WhatsApp" : "Continuar";
+    $("erro").textContent = ""; condicionais(); window.scrollTo(0, 0);
+  }
+  $("voltar").addEventListener("click", function () { mostrar(passo - 1); });
+
+  var data = function (s) { if (!s) return ""; var p = s.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; };
+  f.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!validar(passo)) return;
+    if (passo < TOTAL) return mostrar(passo + 1);
+    var s = radio("servico"), l = limites(), ob = obra();
+    var L = [
+      "Quero uma cotação de RC para obra ou serviço.", "",
+      "Nome: " + val("nome"),
+      "WhatsApp: " + val("whatsapp"),
+      val("email") ? "E-mail: " + val("email") : null,
+      "Segurado: " + radio("pessoa"),
+      !pf() ? "Empresa: " + val("empresa") : null,
+      (pf() ? "CPF: " : "CNPJ: ") + (val("doc") || "mando depois"),
+      "Empresa existe há: " + val("idade"),
+      "Funcionários: " + val("empregados"),
+      "",
+      "Produto indicado: " + ROTA[s][0],
+      "Serviços: " + val("descricao"),
+      "Seguro para: " + radio("contrato"),
+      ob ? "Obra: " + val("tipoobra") + " · " + val("tiposerv") : null,
+      valor() ? "Valor do contrato: " + brl(valor()) : null,
+      val("inicio") || val("fim") ? "Período: " + (data(val("inicio")) || "?") + " a " + (data(val("fim")) || "?") : null,
+      ob ? "Fundação: " + radio("fundacao") + " · Reforço estrutural: " + radio("reforco") : null,
+      ob ? "Estágio: " + val("estagio") : null,
+      ob ? "Instalações: " + marcados("instal").join(", ") : null,
+      ob ? "Outras empresas na obra: " + radio("outras") : null,
+      "Equipe no serviço: " + val("equipe"),
+      "CEP do local: " + val("cep") + (val("numero") ? " · Nº " + val("numero") : ""),
+      "",
+      "Já teve RC: " + radio("jateve"),
+      "Reclamação em 3 anos: " + radio("reclamacao") + (radio("reclamacao") === "Sim" && val("reclamacaodet") ? " (" + val("reclamacaodet") + ")" : ""),
+      l.length ? "" : null,
+      l.length ? "Limites sugeridos: " + l.map(function (r) { return r[0] + " " + brl(r[1]); }).join("; ") : null,
+      "Aceita sugestões de outros seguros: " + (f.ofertas.checked ? "Sim" : "Não"),
+      "",
+      "Código: ZV-RCOB" + (camp ? " " + camp : "") + (varia ? " " + varia : "")
+    ].filter(function (x) { return x !== null; }).join("\n");
+    var url = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(L);
+    $("ok-link").href = url;
+    f.style.display = "none"; $("ok").className = "ok on";
+    window.scrollTo(0, 0);
+    window.location.href = url;
+  });
+  mostrar(1);
+})();
+</script>
+</body>
+</html>
