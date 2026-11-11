@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ZÁVIA — Diagnóstico de Exposição a Riscos</title>
+<meta name="description" content="Descubra onde a sua empresa pode ser responsabilizada. Um diagnóstico inicial de exposição empresarial em menos de um minuto — sem cotação." />
+<meta name="theme-color" content="#111315" />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+  :root{
+    --bg:#111315; --bg-2:#0e0f11; --bg-3:#0b0c0e;
+    --surface:#16181b; --surface-2:#1b1d20; --surface-hi:#212429;
+    --line:rgba(201,205,210,.10); --line-2:rgba(201,205,210,.20);
+    --text:#f7f5f2; --text-2:#c6cbd2; --text-3:#8a9098;
+    --gold:#b6934f; --gold-2:#d8b876; --gold-deep:#8f6f39;
+    --navy:#1d3557; --navy-2:#2a4d78;
+    --risk:#c8834e;
+    --grad-gold:linear-gradient(135deg,#ecd6a1 0%,#b6934f 42%,#8f6f39 60%,#dcbd7c 100%);
+    --ease:cubic-bezier(.16,1,.3,1);
+    --maxw:1160px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html.lenis,html.lenis body{height:auto}
+  .lenis.lenis-smooth{scroll-behavior:auto!important}
+  body{
+    background:var(--bg-2); color:var(--text);
+    font-family:'Poppins',system-ui,sans-serif; font-weight:300;
+    line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(182,147,79,.28);color:#fff}
+
+  .grain{
+    position:fixed;inset:-120%;z-index:1;pointer-events:none;
+    opacity:.045;mix-blend-mode:soft-light;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    animation:grain 6s steps(6) infinite;
+  }
+  @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(4%,-5%)}60%{transform:translate(-3%,6%)}80%{transform:translate(5%,3%)}100%{transform:translate(0,0)}}
+
+  /* Nav */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+    padding:20px clamp(20px,5vw,64px);transition:background .4s var(--ease),backdrop-filter .4s,border-color .4s,padding .4s var(--ease);border-bottom:1px solid transparent}
+  .nav.scrolled{background:rgba(14,15,17,.72);backdrop-filter:blur(14px);border-color:var(--line);padding-top:14px;padding-bottom:14px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Montserrat',sans-serif;font-weight:600;letter-spacing:.28em;font-size:.86rem}
+  .brand__logo{height:27px;width:auto;display:block}
+  .brand__name{text-indent:.28em}
+  .brand__status{width:8px;height:8px;border-radius:50%;background:#35d07f;margin-left:3px;
+    box-shadow:0 0 0 0 rgba(53,208,127,.6),0 0 10px rgba(53,208,127,.85);animation:live 2.4s var(--ease) infinite}
+  @keyframes live{0%{box-shadow:0 0 0 0 rgba(53,208,127,.55),0 0 10px rgba(53,208,127,.85)}70%{box-shadow:0 0 0 7px rgba(53,208,127,0),0 0 10px rgba(53,208,127,.85)}100%{box-shadow:0 0 0 0 rgba(53,208,127,0),0 0 10px rgba(53,208,127,.85)}}
+  .nav__links{display:flex;gap:34px}
+  .nav__links a{font-size:.85rem;font-weight:400;color:var(--text-2);letter-spacing:.01em;transition:color .3s}
+  .nav__links a:hover{color:var(--gold-2)}
+  @media(max-width:920px){.nav__links{display:none}}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:11px;cursor:pointer;padding:16px 30px;border-radius:100px;
+    font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border:none;
+    transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .3s,color .3s,background .3s,opacity .3s}
+  .btn svg{width:16px;height:16px;transition:transform .4s var(--ease)}
+  .btn:hover svg{transform:translateX(4px)}
+  .btn--primary{background:var(--navy);color:#eaf0f8;border:1px solid rgba(120,150,190,.32);box-shadow:0 12px 42px -14px rgba(29,53,87,.95),inset 0 1px 0 rgba(255,255,255,.08)}
+  .btn--primary:hover{transform:translateY(-2px);background:var(--navy-2);box-shadow:0 20px 54px -16px rgba(29,53,87,1),inset 0 1px 0 rgba(255,255,255,.12)}
+  .btn--primary[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn--sm{padding:11px 22px;font-size:.72rem}
+  .btn:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px}
+
+  /* Scaffolding */
+  .section{position:relative;z-index:2;padding:clamp(64px,9vh,120px) clamp(20px,5vw,64px)}
+  .wrap{max-width:var(--maxw);margin:0 auto}
+  .wrap--narrow{max-width:920px}
+  .eyebrow{display:inline-flex;align-items:center;gap:13px;font-size:.72rem;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-2);margin-bottom:26px}
+  .eyebrow i{font-style:normal;color:var(--gold);font-family:'Montserrat',sans-serif}
+  .eyebrow::before{content:"";width:30px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+  .title{font-family:'Montserrat',sans-serif;font-weight:600;line-height:1.08;letter-spacing:.005em;color:var(--text);font-size:clamp(1.9rem,4.2vw,3.1rem)}
+  .lead{font-weight:300;color:var(--text-2);font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.7;max-width:62ch;margin-top:22px}
+  .hair{height:1px;background:var(--line);border:0;max-width:var(--maxw);margin:0 auto}
+  .up{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .in .up{opacity:1;transform:none}
+
+  /* Hero */
+  #hero{position:relative;min-height:88svh;display:flex;align-items:center;padding:130px clamp(16px,5vw,64px) 70px;overflow:hidden}
+  #hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(60% 60% at 78% 18%,rgba(29,53,87,.30),transparent 60%),radial-gradient(50% 50% at 12% 88%,rgba(182,147,79,.10),transparent 60%)}
+  #hero .wrap{position:relative;z-index:2}
+  .hero__eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:.72rem;font-weight:500;letter-spacing:.36em;text-transform:uppercase;color:var(--gold-2);margin-bottom:26px}
+  .hero__eyebrow span{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(182,147,79,.8)}
+  .hero h1{font-family:'Montserrat',sans-serif;font-weight:600;font-size:clamp(2.1rem,5vw,3.6rem);line-height:1.08;letter-spacing:.004em;color:#fdfcfa;max-width:20ch}
+  .hero h1 .hl{color:var(--gold-2)}
+  .hero__sub{font-weight:300;font-size:clamp(1.02rem,1.7vw,1.24rem);line-height:1.65;color:#c9ced5;max-width:60ch;margin:24px 0 14px}
+  .hero__tag{font-weight:500;color:var(--text);font-size:1rem;margin-bottom:34px}
+  .hero__tag b{color:var(--gold-2);font-weight:600}
+  .hero__micro{margin-top:26px;font-size:.82rem;color:var(--text-3);letter-spacing:.02em}
+  .hero__micro b{color:var(--gold);font-weight:500;margin:0 9px}
+
+  /* ===== Wizard ===== */
+  #sim{padding-top:20px}
+  .wizard{background:linear-gradient(180deg,rgba(27,29,32,.7),rgba(19,21,23,.7));border:1px solid var(--line);border-radius:22px;
+    padding:clamp(22px,3.4vw,40px);box-shadow:0 40px 90px -50px rgba(0,0,0,.9);backdrop-filter:blur(4px)}
+  .wz-progress{margin-bottom:30px}
+  .wz-progress__row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .wz-step-label{font-family:'Montserrat',sans-serif;font-weight:500;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+  .wz-reset{background:none;border:none;color:var(--text-3);font-family:'Poppins',sans-serif;font-size:.76rem;cursor:pointer;letter-spacing:.02em;transition:color .3s}
+  .wz-reset:hover{color:var(--gold-2)}
+  .wz-reset[hidden]{display:none}
+  .wz-track{height:3px;background:var(--line);border-radius:3px;overflow:hidden}
+  .wz-fill{display:block;height:100%;width:0;background:var(--grad-gold);border-radius:3px;transition:width .5s var(--ease)}
+  .wz-step[hidden]{display:none}
+  .wz-step.wz-active{animation:wzin .5s var(--ease)}
+  @keyframes wzin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .wz-head{margin-bottom:22px}
+  .wz-kicker{display:inline-block;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(182,147,79,.4);border-radius:50px;padding:4px 12px;margin-bottom:16px}
+  .wz-q{font-family:'Montserrat',sans-serif;font-weight:600;font-size:clamp(1.15rem,2.1vw,1.5rem);line-height:1.2;color:var(--text)}
+  .wz-hint{font-size:.9rem;color:var(--text-3);margin-top:10px;max-width:58ch;line-height:1.5}
+  .wz-nav{display:flex;align-items:center;gap:16px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+  .wz-nav[hidden]{display:none}
+  .wz-back{background:none;border:none;color:var(--text-2);font-family:'Poppins',sans-serif;font-size:.86rem;cursor:pointer;letter-spacing:.02em;padding:10px 4px;transition:color .3s}
+  .wz-back:hover{color:var(--gold-2)}
+  .wz-back[hidden]{visibility:hidden}
+  .wz-next{margin-left:auto}
+
+  /* Sector cards */
+  .sectors{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  @media(max-width:900px){.sectors{grid-template-columns:1fr 1fr 1fr}}
+  @media(max-width:620px){.sectors{grid-template-columns:1fr 1fr}}
+  @media(max-width:430px){.sectors{grid-template-columns:1fr}}
+  .sector{position:relative;text-align:left;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 16px;color:var(--text-2);
+    transition:border-color .35s var(--ease),background .35s,transform .35s var(--ease),box-shadow .35s}
+  .sector:hover{transform:translateY(-3px);border-color:var(--line-2);background:var(--surface-2)}
+  .sector[aria-pressed="true"]{border-color:rgba(182,147,79,.7);background:var(--surface-hi);color:var(--text);box-shadow:0 18px 44px -26px rgba(182,147,79,.5),inset 0 1px 0 rgba(255,255,255,.05)}
+  .sector__ic{display:block;width:28px;height:28px;color:var(--gold-2);margin-bottom:13px}
+  .sector__ic svg{width:100%;height:100%;display:block}
+  .sector__t{display:block;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.9rem;line-height:1.25;color:inherit}
+  .sector__d{display:block;font-size:.74rem;color:var(--text-3);margin-top:7px;line-height:1.45}
+  .sector__check{position:absolute;top:13px;right:13px;width:18px;height:18px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;opacity:0;transform:scale(.6);transition:.3s var(--ease)}
+  .sector[aria-pressed="true"] .sector__check{opacity:1;transform:none;border-color:var(--gold-2);background:var(--gold)}
+  .sector__check svg{width:11px;height:11px;color:#141414}
+
+  /* Autocomplete */
+  .ac{position:relative;max-width:520px}
+  .ac-input{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--text);font-family:'Poppins',sans-serif;font-size:1rem;font-weight:300;padding:15px 16px;transition:border-color .3s,background .3s}
+  .ac-input::placeholder{color:var(--text-3)}
+  .ac-input:focus{outline:none;border-color:rgba(182,147,79,.7);background:var(--surface-2)}
+  .ac-list{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:5;background:#14161a;border:1px solid var(--line-2);border-radius:12px;overflow:hidden auto;box-shadow:0 24px 60px -30px rgba(0,0,0,.9);max-height:264px}
+  .ac-list[hidden]{display:none}
+  .ac-item{padding:12px 16px;font-size:.92rem;color:var(--text-2);cursor:pointer;transition:background .2s,color .2s;border-bottom:1px solid var(--line)}
+  .ac-item:last-child{border-bottom:0}
+  .ac-item:hover,.ac-item.is-active{background:var(--surface-hi);color:var(--text)}
+  .ac-item--other{color:var(--gold-2)}
+  .ac-item--other b{font-weight:600}
+
+  /* Fields */
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.fields{grid-template-columns:1fr}}
+  .field label{display:block;font-family:'Montserrat',sans-serif;font-weight:500;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:9px}
+  .field select,.field input[type=text]{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--text);
+    font-family:'Poppins',sans-serif;font-size:.94rem;font-weight:300;padding:14px 15px;transition:border-color .3s,background-color .3s}
+  .field select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:40px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23b6934f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:right 16px center}
+  .field input[type=text]::placeholder{color:var(--text-3)}
+  .field select:hover,.field input[type=text]:hover{border-color:var(--line-2)}
+  .field select:focus,.field input[type=text]:focus{outline:none;border-color:rgba(182,147,79,.7);background-color:var(--surface-2)}
+  .field select option{background:#16181b;color:var(--text)}
+
+  /* Questions (Sim / Não / Não se aplica) */
+  .qlist{display:flex;flex-direction:column;gap:12px}
+  .qitem{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;transition:border-color .3s}
+  .qitem.is-answered{border-color:var(--line-2)}
+  .qitem__q{font-size:.92rem;color:var(--text);line-height:1.4;max-width:44ch}
+  .seg{display:inline-flex;gap:5px;flex:0 0 auto;background:var(--bg-3);border:1px solid var(--line);border-radius:50px;padding:4px}
+  .seg-btn{border:none;background:none;cursor:pointer;font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:400;color:var(--text-3);padding:8px 13px;border-radius:50px;transition:background .25s,color .25s;white-space:nowrap}
+  .seg-btn:hover{color:var(--text-2)}
+  .seg-btn[aria-pressed=true]{font-weight:600}
+  .seg-btn--sim[aria-pressed=true]{background:var(--gold-2);color:var(--navy)}
+  .seg-btn--nao[aria-pressed=true]{background:var(--text-2);color:var(--bg)}
+  .seg-btn--na[aria-pressed=true]{background:var(--surface-hi);color:var(--text-2)}
+  @media(max-width:620px){.qitem{flex-direction:column;align-items:stretch}.seg{width:100%}.seg-btn{flex:1}}
+
+  /* Diagnosis result */
+  .dg-back{display:inline-block;background:none;border:none;color:var(--text-3);font-family:'Poppins',sans-serif;font-size:.8rem;cursor:pointer;letter-spacing:.02em;padding:0;margin-bottom:18px;transition:color .3s}
+  .dg-back:hover{color:var(--gold-2)}
+  .dg-badge{display:block;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-2);margin-bottom:16px}
+  .dg-title{font-family:'Montserrat',sans-serif;font-weight:600;font-size:clamp(1.4rem,2.6vw,2rem);color:var(--text);line-height:1.15}
+  .dg-intro{font-size:.98rem;color:var(--text-2);margin-top:12px;max-width:60ch;line-height:1.6}
+  .dg-summary{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:26px}
+  .dg-summary>div{background:var(--surface);padding:15px 18px}
+  .dg-k{display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
+  .dg-v{display:block;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.96rem;color:var(--text);margin-top:6px;line-height:1.35}
+  @media(max-width:560px){.dg-summary{grid-template-columns:1fr}}
+  .dg-level{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .dg-level__pill{display:block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.35rem;margin-top:8px}
+  .dg-scale{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+  .dg-scale span{text-align:center;font-size:.72rem;letter-spacing:.02em;color:var(--text-3);padding:9px 4px;border:1px solid var(--line);border-radius:8px;transition:.3s}
+  .dg-scale span.on{color:var(--navy);font-weight:700;border-color:transparent}
+  .dg-block{margin-top:22px}
+  .rlabel{font-family:'Montserrat',sans-serif;font-weight:500;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+  .dg-risks{display:flex;flex-direction:column;gap:13px}
+  .dg-risk{display:flex;gap:12px;align-items:flex-start;font-size:.93rem;color:var(--text-2);line-height:1.55}
+  .dg-risk::before{content:"";flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--risk);margin-top:8px}
+
+  .cov{display:flex;flex-direction:column;gap:10px}
+  .cov__item{display:flex;gap:13px;align-items:flex-start;padding:13px 15px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;opacity:0;transform:translateY(10px);animation:covin .5s var(--ease) forwards}
+  @keyframes covin{to{opacity:1;transform:none}}
+  .cov__dot{flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:rgba(182,147,79,.14);display:grid;place-items:center;margin-top:1px}
+  .cov__dot svg{width:12px;height:12px;color:var(--gold-2)}
+  .cov__item > span:last-child{display:flex;flex-direction:column}
+  .cov__name{display:block;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.86rem;color:var(--text)}
+  .cov__why{display:block;font-size:.79rem;color:var(--text-3);margin-top:3px;line-height:1.45}
+  .cov-foot{margin-top:16px;font-size:.78rem;color:var(--text-3);letter-spacing:.01em;line-height:1.5}
+
+  .result-cta{margin-top:26px;background:linear-gradient(135deg,rgba(29,53,87,.34),rgba(19,21,23,.5));border:1px solid var(--line);border-radius:18px;padding:30px clamp(22px,4vw,38px);display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+  .result-cta h3{font-family:'Montserrat',sans-serif;font-weight:600;font-size:1.3rem;color:var(--text);max-width:24ch;line-height:1.2}
+  .result-cta p{font-size:.86rem;color:var(--text-3);margin-top:8px;max-width:46ch}
+  .compliance{margin-top:26px;font-size:.78rem;color:var(--text-3);line-height:1.65;max-width:78ch}
+  .compliance b{color:var(--text-2);font-weight:500}
+
+  /* Method */
+  /* Footer */
+  footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:34px clamp(20px,5vw,64px);background:var(--bg-3)}
+  .foot{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:18px 30px;flex-wrap:wrap;justify-content:space-between;font-size:.8rem;color:var(--text-3)}
+  .foot a{color:var(--text-2)}.foot a:hover{color:var(--gold-2)}
+  .foot__social{display:flex;gap:14px}
+  .soc{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--text-2);transition:.3s var(--ease)}
+  .soc:hover{border-color:rgba(182,147,79,.55);color:var(--gold-2);transform:translateY(-2px)}
+  .soc svg{width:16px;height:16px}
+
+  @media(prefers-reduced-motion:reduce){
+    .up{transition:none;opacity:1;transform:none}
+    .grain,.brand__status,.cov__item,.wz-step.wz-active{animation:none}
+    .cov__item{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ===== NAV ===== -->
+  <header class="nav" id="nav">
+    <a class="brand" href="https://plataformazavia.com">
+      <span class="brand__name">ZÁVIA</span>
+      <span class="brand__status" title="Plataforma online" aria-label="Status: conectado"></span>
+    </a>
+    <nav class="nav__links">
+      <a href="#sim">O diagnóstico</a>
+      <a href="#como">Nosso método</a>
+      <a href="https://plataformazavia.com">ZÁVIA</a>
+    </nav>
+    <a class="btn btn--primary btn--sm" href="#sim">Iniciar diagnóstico</a>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero">
+    <div class="wrap">
+      <div class="hero__eyebrow up"><span></span>Diagnóstico de exposição empresarial</div>
+      <h1 class="up">Descubra onde a sua empresa pode <span class="hl">ser responsabilizada.</span></h1>
+      <p class="hero__sub up">Antes de pensar em seguro, entenda onde estão os riscos da sua operação. Em menos de um minuto, mostramos quais situações podem gerar responsabilidade para a sua empresa — e quais proteções costumam responder por cada cenário.</p>
+      <p class="hero__tag up">Sem cotação. Sem compromisso. <b>Diagnóstico técnico.</b></p>
+      <div class="up">
+        <a class="btn btn--primary" href="#sim">
+          Iniciar diagnóstico
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <p class="hero__micro up">Menos de 1 minuto<b>•</b>Não é cotação<b>•</b>Leitura técnica de risco</p>
+    </div>
+  </section>
+
+  <!-- ===== WIZARD ===== -->
+  <section class="section" id="sim">
+    <div class="wrap wrap--narrow">
+      <div class="eyebrow up"><i>01</i> — Diagnóstico de exposição</div>
+      <h2 class="title up" style="margin-bottom:34px;max-width:20ch">Vamos mapear onde a sua empresa está exposta</h2>
+
+      <div class="wizard up" id="wizard">
+        <div class="wz-progress">
+          <div class="wz-progress__row">
+            <span class="wz-step-label" id="wzStepLabel">Etapa 1 de 4</span>
+            <button type="button" class="wz-reset" id="wzReset" hidden>Recomeçar</button>
+          </div>
+          <div class="wz-track"><span class="wz-fill" id="wzFill"></span></div>
+        </div>
+
+        <div class="wz-viewport">
+          <!-- Step 1: Setor -->
+          <div class="wz-step" data-step="setor">
+            <div class="wz-head">
+              <span class="wz-kicker">Setor</span>
+              <h3 class="wz-q">Em qual segmento a sua empresa atua?</h3>
+              <p class="wz-hint">Cada segmento responde por riscos completamente diferentes. Sua escolha personaliza o diagnóstico para a realidade da sua operação.</p>
+            </div>
+            <div class="sectors" id="sectors" role="group" aria-label="Setor de atuação"></div>
+          </div>
+
+          <!-- Step 2: Atividade -->
+          <div class="wz-step" data-step="atividade" hidden>
+            <div class="wz-head">
+              <span class="wz-kicker">Atividade</span>
+              <h3 class="wz-q">Qual é a principal atividade da empresa?</h3>
+              <p class="wz-hint">Comece a digitar e selecione uma sugestão — ou escreva a atividade da sua empresa. Adaptamos o diagnóstico a ela.</p>
+            </div>
+            <div class="ac" id="ac">
+              <input type="text" class="ac-input" id="atividade" autocomplete="off" spellcheck="false" placeholder="Ex.: instalação elétrica, restaurante, clínica, consultoria…" />
+              <div class="ac-list" id="acList" hidden></div>
+            </div>
+          </div>
+
+          <!-- Step 3: Perfil -->
+          <div class="wz-step" data-step="perfil" hidden>
+            <div class="wz-head">
+              <span class="wz-kicker">Perfil</span>
+              <h3 class="wz-q">Qual é o porte da operação?</h3>
+              <p class="wz-hint">Só o suficiente para dimensionar o risco — nenhum dado técnico de cotação é pedido aqui.</p>
+            </div>
+            <div class="fields">
+              <div class="field">
+                <label for="faturamento">Faturamento anual</label>
+                <select id="faturamento">
+                  <option value="">Selecione…</option>
+                  <option value="ate360">Até R$ 360 mil</option>
+                  <option value="360a1mi">R$ 360 mil a R$ 1 milhão</option>
+                  <option value="1a5mi">R$ 1 milhão a R$ 5 milhões</option>
+                  <option value="5a15mi">R$ 5 milhões a R$ 15 milhões</option>
+                  <option value="acima15">Acima de R$ 15 milhões</option>
+                  <option value="naoinformar">Prefiro não informar</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="colaboradores">Colaboradores</label>
+                <select id="colaboradores">
+                  <option value="">Selecione…</option>
+                  <option value="socios">Somente sócios</option>
+                  <option value="1a5">1 a 5</option>
+                  <option value="6a20">6 a 20</option>
+                  <option value="21a50">21 a 50</option>
+                  <option value="51a100">51 a 100</option>
+                  <option value="acima100">Acima de 100</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="cidade">Cidade</label>
+                <input type="text" id="cidade" autocomplete="off" placeholder="Sua cidade" />
+              </div>
+              <div class="field">
+                <label for="estado">Estado</label>
+                <select id="estado">
+                  <option value="">UF</option>
+                  <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option>
+                  <option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+                  <option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option>
+                  <option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+                  <option>SP</option><option>SE</option><option>TO</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Exposições -->
+          <div class="wz-step" data-step="exposicoes" hidden>
+            <div class="wz-head">
+              <span class="wz-kicker">Exposição</span>
+              <h3 class="wz-q">O que acontece na sua operação?</h3>
+              <p class="wz-hint">Responda rápido. Cada resposta revela uma situação em que a sua empresa pode ser responsabilizada por danos.</p>
+            </div>
+            <div class="qlist" id="qlist"></div>
+          </div>
+
+          <!-- Step 5: Resultado -->
+          <div class="wz-step" data-step="resultado" hidden>
+            <div class="dg">
+              <button type="button" class="dg-back" id="dgBack">← Revisar minhas respostas</button>
+              <span class="dg-badge">Diagnóstico inicial · pronto</span>
+              <h3 class="dg-title">Seu diagnóstico inicial está pronto.</h3>
+              <p class="dg-intro">Com base nas informações fornecidas, identificamos os principais pontos de exposição da sua empresa.</p>
+
+              <div class="dg-summary">
+                <div><span class="dg-k">Segmento</span><span class="dg-v" id="dgSeg">—</span></div>
+                <div><span class="dg-k">Atividade principal</span><span class="dg-v" id="dgAtiv">—</span></div>
+                <div><span class="dg-k">Porte da operação</span><span class="dg-v" id="dgPorte">—</span></div>
+                <div><span class="dg-k">Localização</span><span class="dg-v" id="dgLoc">—</span></div>
+              </div>
+
+              <div class="dg-level">
+                <span class="dg-k">Nível geral de exposição</span>
+                <span class="dg-level__pill" id="dgLevel">—</span>
+                <div class="dg-scale" id="dgScale"></div>
+              </div>
+
+              <div class="dg-block">
+                <div class="rlabel">Principais riscos encontrados</div>
+                <div class="dg-risks" id="dgRisks"></div>
+              </div>
+
+              <div class="dg-block">
+                <div class="rlabel">Modalidades que merecem análise</div>
+                <div class="cov" id="dgMods"></div>
+                <p class="cov-foot">Modalidades que merecem análise — não representam confirmação de cobertura, aceitação ou indenização.</p>
+              </div>
+
+              <div class="result-cta">
+                <div>
+                  <h3>Receba a leitura completa da sua exposição.</h3>
+                  <p>Enviamos o seu diagnóstico inicial e a ZÁVIA devolve a análise detalhada da sua operação.</p>
+                </div>
+                <a class="btn btn--primary" id="dgWa" href="#" target="_blank" rel="noopener">
+                  Receber meu diagnóstico completo
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+
+              <p class="compliance"><b>Sobre este diagnóstico.</b> Esta é uma leitura inicial e educativa da exposição da sua empresa, gerada a partir das informações fornecidas. Não constitui cotação, proposta ou apólice, e não representa oferta de contratação, confirmação de cobertura ou garantia de aceitação. As modalidades citadas são as que merecem análise para operações como a sua; a recomendação final é técnica e individual, conduzida por um corretor habilitado (SUSEP 201069879), conforme a análise de risco e as condições de cada seguradora.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="wz-nav" id="wzNav">
+          <button type="button" class="wz-back" id="wzBack" hidden>← Voltar</button>
+          <button type="button" class="btn btn--primary wz-next" id="wzNext" disabled>
+            Continuar
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hair" />
+
+  <!-- ===== MÉTODO ===== -->
+  <section class="section" id="como">
+    <div class="wrap wrap--narrow">
+      <div class="eyebrow up"><i>02</i> — Nosso método</div>
+      <h2 class="title up" style="max-width:20ch">Primeiro entender. Depois recomendar.</h2>
+      <p class="lead up">Duas proteções podem parecer iguais no papel e responderem a situações completamente diferentes. Este diagnóstico existe para revelar a exposição real da sua operação — antes que o detalhe apareça na hora errada, que é quando o dano acontece. Qualquer recomendação vem depois: técnica, individual e conduzida por um especialista habilitado.</p>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="foot">
+      <span class="brand" style="letter-spacing:.28em">ZÁVIA</span>
+      <span>Diagnóstico de riscos, proteção patrimonial e inteligência para empresas · ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · <a href="https://www2.susep.gov.br/safe/Corretores/pesquisa" target="_blank" rel="noopener">Corretora SUSEP 262179983</a> · <a href="/privacidade/">Aviso de privacidade</a></span>
+      <div class="foot__social">
+        <a class="soc js-wa" href="#" aria-label="WhatsApp da ZÁVIA">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.359.101 11.892c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a11.96 11.96 0 005.71 1.454h.005c6.582 0 11.941-5.359 11.944-11.892a11.86 11.86 0 00-3.474-8.401Z"/></svg>
+        </a>
+        <a class="soc" href="https://www.instagram.com/zavia.plataforma/" target="_blank" rel="noopener" aria-label="Instagram da ZÁVIA">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069M12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0m0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324M12 16a4 4 0 110-8 4 4 0 010 8m6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881"/></svg>
+        </a>
+      </div>
+      <span>© 2026 ZÁVIA</span>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    "use strict";
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var $ = function(s,c){ return (c||document).querySelector(s); };
+    var norm = function(s){ var r=(s||'').normalize('NFD'), o='', i, c; for(i=0;i<r.length;i++){ c=r.charCodeAt(i); if(c<768||c>879){ o+=r.charAt(i); } } return o.toLowerCase().trim(); };
+
+    var IC = {
+      check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>',
+      eng:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-6h6v6"/></svg>',
+      saude:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5C19 15.6 12 20 12 20z"/></svg>',
+      industria:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V10l6 4V10l6 4V6l6 4v10z"/></svg>',
+      servicos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+      outros:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><circle cx="5" cy="6" r="1.6"/><circle cx="19" cy="6" r="1.6"/><circle cx="5" cy="18" r="1.6"/><circle cx="19" cy="18" r="1.6"/><path d="M9.3 10 6.2 7.1M14.7 10l3.1-2.9M9.3 14l-3.1 2.9M14.7 14l3.1 2.9"/></svg>'
+    };
+
+    /* ---------- Setores (5) ---------- */
+    var SECTORS = {
+      eng:{ label:'Engenharia · Construção · Arquitetura', icon:IC.eng, desc:'Obra, canteiro, projeto e entrega.',
+        atividades:['Engenharia','Arquitetura','Instalação elétrica','Construtora / incorporadora','Empreiteira','Reformas e retrofit','Instalações hidráulicas','Montagem industrial','Gerenciamento de obras','Projetos e fiscalização'] },
+      saude:{ label:'Saúde · Clínicas · Consultórios', icon:IC.saude, desc:'Atendimento, procedimento e corpo clínico.',
+        atividades:['Clínica médica','Consultório','Odontologia','Estética','Fisioterapia','Laboratório / exames','Hospital / day clinic','Psicologia'] },
+      industria:{ label:'Indústria · Transporte · Logística', icon:IC.industria, desc:'Produção, produto e frota.',
+        atividades:['Indústria / fábrica','Transportadora','Logística','Distribuidora','Montagem e instalação','Armazenagem'] },
+      servicos:{ label:'Comércio · Prestadores · Condomínios', icon:IC.servicos, desc:'Estabelecimento, serviço e área comum.',
+        atividades:['Comércio / loja','Restaurante','Prestador de serviços','Escritório de advocacia','Consultoria','Escola','Condomínio / administradora','Facilities / manutenção','Eventos'] },
+      outros:{ label:'Outras atividades empresariais', icon:IC.outros, desc:'Tecnologia, educação, alimentação, estética, advocacia, logística, energia, agronegócio, consultorias e demais operações.',
+        aux:'Adaptaremos o diagnóstico conforme a atividade principal da sua empresa.',
+        atividades:['Tecnologia','Educação','Alimentação','Estética','Advocacia','Logística','Energia','Agronegócio','Consultoria','Marketing','Serviços financeiros'] }
+    };
+
+    /* ---------- Perguntas de exposição (condicionais por setor) ---------- */
+    /* mod = modalidade que passa a "merecer análise" quando a resposta é Sim */
+    var QUESTIONS = [
+      { id:'obras', prio:9, sectors:['eng','industria'], text:'A empresa executa obras, instalações ou montagens?',
+        mod:'RC Obras e Instalações', wa:'Executa obras, instalações ou montagens',
+        risk:'A execução de obras, instalações ou montagens é uma das exposições mais relevantes, com risco de danos a terceiros e ao entorno.' },
+      { id:'saude_proc', prio:9, sectors:['saude'], text:'A empresa realiza procedimentos, cirurgias ou exames?',
+        mod:'RC Profissional (Erros & Omissões)', wa:'Realiza procedimentos, cirurgias ou exames',
+        risk:'A realização de procedimentos, cirurgias ou exames concentra a exposição a danos ao paciente e a ações de responsabilidade profissional.' },
+      { id:'local_cliente', prio:8, sectors:['eng','industria','servicos','outros'], text:'A empresa trabalha dentro das instalações dos clientes?',
+        mod:'RC Operações', wa:'Atua nas instalações dos clientes',
+        risk:'Atuar dentro das instalações dos clientes aumenta a exposição a danos materiais durante a prestação do serviço.' },
+      { id:'erro_prejuizo', prio:8, sectors:['eng','saude','servicos','outros'], text:'Um erro na prestação do serviço pode gerar prejuízo financeiro ao cliente?',
+        mod:'RC Profissional (Erros & Omissões)', wa:'Erro no serviço pode gerar prejuízo ao cliente',
+        risk:'Um erro no serviço pode gerar prejuízo financeiro ao cliente — exposição típica de Responsabilidade Civil Profissional.' },
+      { id:'servicos_tec', prio:7, sectors:['eng','saude','servicos','outros'], text:'A empresa presta serviços técnicos ou profissionais?',
+        mod:'RC Profissional (Erros & Omissões)', wa:'Presta serviços técnicos ou profissionais',
+        risk:'A prestação de serviços técnicos cria exposição a falhas profissionais que podem gerar prejuízo ao cliente.' },
+      { id:'produtos', prio:7, sectors:['industria','servicos','outros'], text:'A empresa fabrica ou comercializa produtos?',
+        mod:'RC Produtos', wa:'Fabrica ou comercializa produtos',
+        risk:'Colocar produtos no mercado gera exposição a danos causados por esses produtos após a entrega.' },
+      { id:'ind_transp', prio:6, sectors:['industria'], text:'A empresa realiza transporte, entrega ou armazenagem?',
+        mod:'RC Operações', wa:'Realiza transporte, entrega ou armazenagem',
+        risk:'Transporte, entrega e armazenagem ampliam a exposição a danos a cargas e a terceiros durante a logística.' },
+      { id:'mao_obra', prio:6, sectors:['eng','saude','industria','servicos','outros'], text:'A empresa utiliza funcionários, terceiros ou subcontratados?',
+        mod:'RC Empregador', wa:'Utiliza funcionários, terceiros ou subcontratados',
+        risk:'A utilização de mão de obra própria ou terceirizada cria responsabilidade por acidentes e por atos de prepostos.' },
+      { id:'alimentos', prio:6, sectors:['servicos','outros'], text:'A empresa fornece alimentos ou bebidas?',
+        mod:'RC Produtos (Alimentos)', wa:'Fornece alimentos ou bebidas',
+        risk:'O fornecimento de alimentos ou bebidas adiciona exposição a danos à saúde de consumidores.' },
+      { id:'presencial', prio:5, sectors:['saude','servicos','outros'], text:'A empresa atende clientes presencialmente?',
+        mod:'RC Estabelecimento', wa:'Atende clientes presencialmente',
+        risk:'O atendimento presencial gera exposição a danos a clientes e visitantes nas suas dependências.' },
+      { id:'bens_terceiros', prio:4, sectors:['saude','industria','servicos','outros'], text:'A empresa manipula ou guarda bens de terceiros?',
+        mod:'RC Guarda de Bens de Terceiros', wa:'Manipula ou guarda bens de terceiros',
+        risk:'A guarda ou manipulação de bens de terceiros implica responsabilidade por perdas e danos a esses bens.' },
+      { id:'estacionamento', prio:3, sectors:['industria','servicos','outros'], text:'A empresa possui estacionamento ou guarda veículos?',
+        mod:'RC Guarda de Veículos de Terceiros', wa:'Possui estacionamento ou guarda de veículos',
+        risk:'Manter estacionamento ou guarda de veículos gera responsabilidade por danos a veículos de terceiros sob custódia.' }
+    ];
+    var SECTOR_BASE_MOD = { eng:['RC Obras e Instalações'], saude:['RC Profissional (Erros & Omissões)'], industria:['RC Produtos'], servicos:['RC Estabelecimento'], outros:[] };
+    var MOD_WHY = {
+      'RC Operações':'Danos a terceiros durante a atividade da empresa.',
+      'RC Profissional (Erros & Omissões)':'Falhas técnicas que podem gerar prejuízo ao cliente.',
+      'RC Empregador':'Acidentes envolvendo funcionários e prepostos.',
+      'RC Obras e Instalações':'Danos a terceiros na execução de obras, instalações e montagens.',
+      'RC Produtos':'Danos causados por produtos após a entrega.',
+      'RC Produtos (Alimentos)':'Danos à saúde de consumidores por alimentos ou bebidas.',
+      'RC Estabelecimento':'Danos a clientes e visitantes nas suas dependências.',
+      'RC Guarda de Bens de Terceiros':'Perdas e danos a bens de terceiros sob sua guarda.',
+      'RC Guarda de Veículos de Terceiros':'Danos a veículos de terceiros sob custódia.'
+    };
+    var LEVELS = ['Baixa','Moderada','Relevante','Elevada'];
+    var LEVEL_COLOR = { 'Baixa':'#8f6f39','Moderada':'#b6934f','Relevante':'#d8b876','Elevada':'#c8834e' };
+
+    function questionsFor(sector){
+      return QUESTIONS.filter(function(q){ return q.sectors.indexOf(sector)>=0; })
+        .sort(function(a,b){ return b.prio-a.prio; }).slice(0,7);
+    }
+
+    /* ---------- Estado + salvamento automático ---------- */
+    var STEPS = ['setor','atividade','perfil','exposicoes','resultado'];
+    var KEY = 'zavia_diag_v1';
+    var state = { step:0, sector:null, atividade:'', faturamento:'', colaboradores:'', cidade:'', estado:'', answers:{} };
+
+    function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+    function load(){ try{ var d=JSON.parse(localStorage.getItem(KEY)); if(d&&typeof d==='object'){ Object.assign(state,d); state.answers=d.answers||{}; return true; } }catch(e){} return false; }
+    function clearSave(){ try{ localStorage.removeItem(KEY); }catch(e){} }
+
+    /* ---------- Elementos ---------- */
+    var el = {
+      sectors:$('#sectors'), atividade:$('#atividade'), acList:$('#acList'),
+      faturamento:$('#faturamento'), colaboradores:$('#colaboradores'), cidade:$('#cidade'), estado:$('#estado'),
+      qlist:$('#qlist'), steps:document.querySelectorAll('.wz-step'),
+      fill:$('#wzFill'), stepLabel:$('#wzStepLabel'), reset:$('#wzReset'),
+      nav:$('#wzNav'), back:$('#wzBack'), next:$('#wzNext'), wizard:$('#wizard')
+    };
+
+    /* ---------- Setores ---------- */
+    Object.keys(SECTORS).forEach(function(id){
+      var s=SECTORS[id];
+      var b=document.createElement('button');
+      b.type='button'; b.className='sector'; b.setAttribute('aria-pressed','false'); b.dataset.id=id;
+      b.innerHTML='<span class="sector__check">'+IC.check+'</span><span class="sector__ic">'+s.icon+'</span>'+
+        '<span class="sector__t">'+s.label+'</span><span class="sector__d">'+s.desc+'</span>';
+      b.addEventListener('click', function(){ selectSector(id, true); });
+      el.sectors.appendChild(b);
+    });
+    function markSector(){
+      Array.prototype.forEach.call(el.sectors.children, function(b){ b.setAttribute('aria-pressed', b.dataset.id===state.sector?'true':'false'); });
+    }
+    function selectSector(id, advance){
+      var changed = state.sector!==id;
+      state.sector=id; markSector();
+      if(changed){ state.answers={}; state.atividade=''; if(el.atividade) el.atividade.value=''; }
+      validate(); save();
+      if(advance){ setTimeout(function(){ if(state.step===0) go(1); }, reduce?0:240); }
+    }
+
+    /* ---------- Autocomplete atividade ---------- */
+    function renderAc(){
+      var sec=state.sector?SECTORS[state.sector]:null;
+      var base=sec?sec.atividades:[];
+      var v=el.atividade.value; var nv=norm(v);
+      var matches = base.filter(function(a){ return norm(a).indexOf(nv)>=0; }).slice(0,7);
+      var html='';
+      matches.forEach(function(a){
+        html+='<div class="ac-item" data-v="'+a.replace(/"/g,'&quot;')+'">'+a+'</div>';
+      });
+      var exact = base.some(function(a){ return norm(a)===nv; });
+      if(v.trim().length>=2 && !exact){
+        html+='<div class="ac-item ac-item--other" data-v="'+v.replace(/"/g,'&quot;')+'">Usar minha atividade: <b>'+v.replace(/</g,'&lt;')+'</b></div>';
+      }
+      if(!html){ el.acList.hidden=true; return; }
+      el.acList.innerHTML=html; el.acList.hidden=false;
+      Array.prototype.forEach.call(el.acList.querySelectorAll('.ac-item'), function(it){
+        it.addEventListener('mousedown', function(e){ e.preventDefault(); el.atividade.value=it.dataset.v; state.atividade=it.dataset.v.trim(); el.acList.hidden=true; validate(); save(); });
+      });
+    }
+    if(el.atividade){
+      el.atividade.addEventListener('input', function(){ state.atividade=el.atividade.value.trim(); renderAc(); validate(); save(); });
+      el.atividade.addEventListener('focus', renderAc);
+      el.atividade.addEventListener('blur', function(){ setTimeout(function(){ el.acList.hidden=true; }, 120); });
+      el.atividade.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); el.acList.hidden=true; if(isValid(1)) go(2); } });
+    }
+
+    /* ---------- Perfil ---------- */
+    [el.faturamento, el.colaboradores, el.estado].forEach(function(sel){
+      sel.addEventListener('change', function(){ state[sel.id]=sel.value; validate(); save(); });
+    });
+    el.cidade.addEventListener('input', function(){ state.cidade=el.cidade.value; validate(); save(); });
+
+    /* ---------- Exposições ---------- */
+    function renderQuestions(){
+      var qs=questionsFor(state.sector); el.qlist.innerHTML='';
+      qs.forEach(function(q){
+        var cur=state.answers[q.id]||'';
+        var row=document.createElement('div'); row.className='qitem'+(cur?' is-answered':''); row.dataset.q=q.id;
+        row.innerHTML='<span class="qitem__q">'+q.text+'</span>'+
+          '<span class="seg" role="group" aria-label="'+q.text.replace(/"/g,'')+'">'+
+          '<button type="button" class="seg-btn seg-btn--sim" data-v="sim" aria-pressed="'+(cur==='sim')+'">Sim</button>'+
+          '<button type="button" class="seg-btn seg-btn--nao" data-v="nao" aria-pressed="'+(cur==='nao')+'">Não</button>'+
+          '<button type="button" class="seg-btn seg-btn--na" data-v="na" aria-pressed="'+(cur==='na')+'">Não se aplica</button>'+
+          '</span>';
+        Array.prototype.forEach.call(row.querySelectorAll('.seg-btn'), function(btn){
+          btn.addEventListener('click', function(){
+            state.answers[q.id]=btn.dataset.v;
+            Array.prototype.forEach.call(row.querySelectorAll('.seg-btn'), function(b){ b.setAttribute('aria-pressed', b===btn?'true':'false'); });
+            row.classList.add('is-answered'); validate(); save();
+          });
+        });
+        el.qlist.appendChild(row);
+      });
+    }
+    function allAnswered(){
+      var qs=questionsFor(state.sector); return qs.every(function(q){ return !!state.answers[q.id]; });
+    }
+
+    /* ---------- Diagnóstico ---------- */
+    function computeDiagnosis(){
+      var qs=questionsFor(state.sector);
+      var sims=qs.filter(function(q){ return state.answers[q.id]==='sim'; });
+      // Nível ponderado pela severidade das exposições marcadas (prio), não só pela contagem
+      var maxW=qs.reduce(function(a,q){ return a+q.prio; },0);
+      var gotW=sims.reduce(function(a,q){ return a+q.prio; },0);
+      var ratio = maxW? gotW/maxW : 0;
+      var idx = ratio<=0.20?0 : ratio<=0.44?1 : ratio<=0.68?2 : 3;
+      if(sims.some(function(q){ return q.prio>=8; }) && idx<1) idx=1; // uma exposição crítica já eleva a Moderada
+      if(sims.length===0) idx=0;
+      var level = LEVELS[idx];
+      // modalidades
+      var mods=(SECTOR_BASE_MOD[state.sector]||[]).slice();
+      sims.sort(function(a,b){ return b.prio-a.prio; }).forEach(function(q){ if(mods.indexOf(q.mod)<0) mods.push(q.mod); });
+      if(!mods.length) mods=['RC Operações'];
+      // riscos (top 3 sentences) + wa labels (all)
+      var riskSent = sims.slice(0,3).map(function(q){ return q.risk; });
+      if(!riskSent.length) riskSent=['Com base no perfil informado, as exposições diretas parecem pontuais — ainda assim, algumas modalidades merecem verificação técnica.'];
+      var waRisks = sims.map(function(q){ return q.wa; });
+      if(!waRisks.length) waRisks=['Exposições pontuais — verificação recomendada'];
+      return { level:level, mods:mods, riskSent:riskSent, waRisks:waRisks };
+    }
+
+    function optText(sel){ return sel.value ? sel.options[sel.selectedIndex].text : ''; }
+
+    function renderResult(){
+      var s=SECTORS[state.sector]; var d=computeDiagnosis();
+      $('#dgSeg').textContent = s.label;
+      $('#dgAtiv').textContent = state.atividade || '—';
+      var porte = optText(el.faturamento) + (optText(el.colaboradores)? ' · '+optText(el.colaboradores):'');
+      $('#dgPorte').textContent = porte || '—';
+      $('#dgLoc').textContent = (state.cidade? state.cidade:'') + (state.estado? (state.cidade?'/':'')+state.estado : '') || '—';
+
+      var pill=$('#dgLevel'); pill.textContent=d.level; pill.style.color=LEVEL_COLOR[d.level];
+      var scale=$('#dgScale'); scale.innerHTML='';
+      LEVELS.forEach(function(L){
+        var span=document.createElement('span'); span.textContent=L;
+        if(L===d.level){ span.className='on'; span.style.background=LEVEL_COLOR[d.level]; }
+        scale.appendChild(span);
+      });
+
+      var rw=$('#dgRisks'); rw.innerHTML='';
+      d.riskSent.forEach(function(t){ var el2=document.createElement('div'); el2.className='dg-risk'; el2.textContent=t; rw.appendChild(el2); });
+
+      var mw=$('#dgMods'); mw.innerHTML='';
+      d.mods.forEach(function(name,i){
+        var it=document.createElement('div'); it.className='cov__item'; it.style.animationDelay=(reduce?0:i*55)+'ms';
+        it.innerHTML='<span class="cov__dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>'+
+          '<span><span class="cov__name">'+name+'</span><span class="cov__why">'+(MOD_WHY[name]||'Modalidade que merece análise para a sua operação.')+'</span></span>';
+        mw.appendChild(it);
+      });
+
+      // WhatsApp — template completo
+      var L='\n';
+      var msg='Olá!'+L+'Acabei de concluir o Diagnóstico de Exposição Empresarial da ZÁVIA.'+L+'Gostaria de receber meu diagnóstico completo.'+L+L+
+        'Segmento: '+s.label+L+
+        'Atividade: '+(state.atividade||'—')+L+
+        'Cidade: '+(state.cidade||'—')+L+
+        'Estado: '+(state.estado||'—')+L+
+        'Faturamento: '+(optText(el.faturamento)||'—')+L+
+        'Colaboradores: '+(optText(el.colaboradores)||'—')+L+
+        'Nível de exposição: '+d.level+L+L+
+        'Principais riscos identificados:'+L+d.waRisks.map(function(r){return '- '+r;}).join(L)+L+L+
+        'Modalidades recomendadas para análise:'+L+d.mods.map(function(m){return '- '+m;}).join(L)+L+L+
+        'Aguardo o diagnóstico personalizado.'+L+L+'Código: ZV-EXP';
+      $('#dgWa').href='https://wa.me/5511934248161?text='+encodeURIComponent(msg);
+    }
+
+    /* ---------- Wizard controller ---------- */
+    function isValid(i){
+      var step=STEPS[i];
+      if(step==='setor') return !!state.sector;
+      if(step==='atividade') return state.atividade.trim().length>=2;
+      if(step==='perfil') return !!state.faturamento && !!state.colaboradores && state.cidade.trim().length>=2 && !!state.estado;
+      if(step==='exposicoes') return allAnswered();
+      return true;
+    }
+    function validate(){
+      var v=isValid(state.step);
+      el.next.disabled=!v;
+      return v;
+    }
+    function showStep(i){
+      Array.prototype.forEach.call(el.steps, function(st,idx){
+        st.hidden = idx!==i;
+        st.classList.toggle('wz-active', idx===i);
+      });
+      var isResult = STEPS[i]==='resultado';
+      el.nav.hidden = isResult;
+      el.back.hidden = (i===0);
+      el.reset.hidden = (i===0);
+      el.next.innerHTML = (STEPS[i]==='exposicoes')
+        ? 'Ver meu diagnóstico <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+        : 'Continuar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      var inputIdx=Math.min(i,4);
+      el.fill.style.width=(inputIdx/4*100)+'%';
+      el.stepLabel.textContent = isResult ? 'Diagnóstico concluído' : ('Etapa '+(i+1)+' de 4');
+    }
+    function go(i){
+      i=Math.max(0,Math.min(STEPS.length-1,i));
+      state.step=i;
+      if(STEPS[i]==='exposicoes') renderQuestions();
+      if(STEPS[i]==='resultado') renderResult();
+      showStep(i); validate(); save();
+      // traz o topo do wizard para a viewport
+      scrollToWizard();
+    }
+    function scrollToWizard(){
+      var y=el.wizard.getBoundingClientRect().top + window.pageYOffset - 90;
+      if(window.__lenis){ window.__lenis.scrollTo(y); } else { window.scrollTo({top:y, behavior:reduce?'auto':'smooth'}); }
+    }
+
+    el.next.addEventListener('click', function(){
+      if(!validate()) return;
+      if(STEPS[state.step]==='exposicoes'){
+        // micro "análise" para reforçar a sensação de diagnóstico
+        var original=el.next.innerHTML; el.next.disabled=true; el.next.textContent='Analisando…';
+        setTimeout(function(){ el.next.innerHTML=original; go(state.step+1); }, reduce?0:650);
+        return;
+      }
+      go(state.step+1);
+    });
+    el.back.addEventListener('click', function(){ if(state.step>0) go(state.step-1); });
+    el.reset.addEventListener('click', function(){
+      clearSave();
+      state={ step:0, sector:null, atividade:'', faturamento:'', colaboradores:'', cidade:'', estado:'', answers:{} };
+      el.atividade.value=''; el.cidade.value=''; el.faturamento.value=''; el.colaboradores.value=''; el.estado.value='';
+      markSector(); go(0);
+    });
+    // Voltar do diagnóstico para revisar as respostas (sem recomeçar)
+    $('#dgBack').addEventListener('click', function(){ go(3); });
+
+    /* ---------- Restaurar sessão (salvamento automático) ---------- */
+    function restore(){
+      if(!load()) return;
+      markSector();
+      if(el.atividade) el.atividade.value=state.atividade||'';
+      el.cidade.value=state.cidade||'';
+      el.faturamento.value=state.faturamento||'';
+      el.colaboradores.value=state.colaboradores||'';
+      el.estado.value=state.estado||'';
+      // avança até a primeira etapa ainda incompleta (no máximo, onde o usuário estava)
+      var target=0;
+      for(var i=0;i<state.step;i++){ if(isValid(i)) target=i+1; else break; }
+      go(target);
+    }
+
+    /* ---------- Nav / Lenis / reveal ---------- */
+    var nav=document.getElementById('nav');
+    var onScroll=function(){ nav.classList.toggle('scrolled', window.scrollY>40); };
+    onScroll();
+    if(!reduce && window.Lenis){
+      var lenis=new Lenis({ lerp:0.1, wheelMultiplier:1, smoothWheel:true });
+      window.__lenis=lenis; lenis.on('scroll', onScroll);
+      (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
+      Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function(a){
+        a.addEventListener('click', function(e){ var id=a.getAttribute('href'); if(id.length>1){ var t=document.querySelector(id); if(t){ e.preventDefault(); lenis.scrollTo(t,{offset:-70}); } } });
+      });
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){
+        var kids=en.target.querySelectorAll('.up');
+        Array.prototype.forEach.call(kids, function(k,i){ k.style.transitionDelay=Math.min(i*70,460)+'ms'; });
+        en.target.classList.add('in'); io.unobserve(en.target);
+      }});
+    }, { threshold:0.12, rootMargin:'0px 0px -7% 0px' });
+    Array.prototype.forEach.call(document.querySelectorAll('#hero, .section'), function(s){ io.observe(s); });
+    requestAnimationFrame(function(){
+      Array.prototype.forEach.call(document.querySelectorAll('#hero, .section'), function(s){
+        var r=s.getBoundingClientRect(); if(r.top<innerHeight && r.bottom>0){ s.classList.add('in'); }
+      });
+    });
+
+    /* ---------- WhatsApp genérico (rodapé) ---------- */
+    var waGen='https://wa.me/5511934248161?text='+encodeURIComponent('Olá! Gostaria de conhecer o Diagnóstico de Exposição Empresarial da ZÁVIA.');
+    Array.prototype.forEach.call(document.querySelectorAll('.js-wa'), function(a){ a.href=waGen; a.target='_blank'; a.rel='noopener'; });
+
+    /* ---------- Init ---------- */
+    showStep(0); validate();
+    restore();
+  })();
+  </script>
+</body>
+</html>
