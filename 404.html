@@ -26,12 +26,12 @@ a { color: #38BDF8; }
   var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
   var rota = { s: ["sim", "w"], se: ["sim", "e"], x: ["sair", "w"], xe: ["sair", "e"] }[partes[0]];
   var FORMS = ["rc", "rc-advogados"]; // /<formulário>/<campanha>/<variação>
-  var PUB = /^ZV-(CTB|EMP|CND|PRF|TRN|AUT|RES|VID|INS)-(\d{3})(-[A-C])?-(ig|fb|li|yt|wa|bni|gg|qr|bio|ev|parc|pmeta|pgoogle)$/;
+  var PUB = /^ZV-(CTB|EMP|CND|PRF|TRN|OBR|AUT|RES|VID|INS)-(\d{3})(-[A-C])?-(ig|fb|li|yt|wa|bni|gg|qr|bio|ev|parc|pmeta|pgoogle)$/;
   var v = partes[0] === "v" ? PUB.exec(String(partes[1] || "").replace(/^zv-/, "ZV-").toUpperCase().replace(/-([A-Z]+)$/, function (m, c) { return "-" + c.toLowerCase(); })) : null;
   if (v) {
     // destino por público: formulário de RC, formulário Empresarial ou WhatsApp com mensagem pronta (/w/)
     var pub = v[0], cont = pub.slice(0, pub.lastIndexOf("-")), canal = v[4];
-    var DEST = { CTB: ["rc", "contabilidade"], PRF: ["rc", "profissionais"], EMP: ["empresarial", "empresas"], TRN: ["empresarial", "transportadoras"],
+    var DEST = { CTB: ["rc", "contabilidade"], PRF: ["rc", "profissionais"], EMP: ["empresarial", "empresas"], TRN: ["empresarial", "transportadoras"], OBR: ["w", "obras"],
       CND: ["w", "condominios"], AUT: ["w", "auto"], RES: ["w", "residencial"], VID: ["w", "vida"], INS: ["w", "institucional"] }[v[1]];
     var MEIO = { pmeta: "paid_social", pgoogle: "cpc", qr: "qr", bni: "direct_message", wa: "direct_message", ev: "event", parc: "referral", gg: "organic" }[canal] || "organic_social";
     try { if (navigator.sendBeacon) navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: "clique" })); } catch (x) {}

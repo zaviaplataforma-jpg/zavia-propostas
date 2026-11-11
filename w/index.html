@@ -51,7 +51,7 @@ footer { margin-top: 22px; font-size: 11.5px; color: var(--mut); text-align: cen
   var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
   var camp = limpa(q.get("c")), varia = limpa(q.get("v"));
   // ID do vídeo e canal (links curtos /v/): vão no código da mensagem e no contador do Painel, sem dado pessoal
-  var CONT = /^ZV-(CTB|EMP|CND|PRF|TRN|AUT|RES|VID|INS)-\d{3}(-[A-C])?$/;
+  var CONT = /^ZV-(CTB|EMP|CND|PRF|TRN|OBR|AUT|RES|VID|INS)-\d{3}(-[A-C])?$/;
   var canal = limpa(q.get("s")).toLowerCase(), pub = CONT.test(varia) && canal ? varia + "-" + canal : "";
   var conta = function (e) {
     if (!pub || !navigator.sendBeacon) return;
@@ -60,6 +60,7 @@ footer { margin-top: 22px; font-size: 11.5px; color: var(--mut); text-align: cen
   conta("diagnostico");
   var MSG = {
     cnd: ["Quero um Raio-X do seguro do meu condomínio.", "ZV-RAIOX"],
+    obr: ["Quero conferir o seguro da minha obra.", "ZV-OBRA"],
     aut: ["Quero entender as opções de seguro auto.", "ZV-AUTO"],
     res: ["Quero entender as opções de seguro residencial.", "ZV-RES"],
     vid: ["Quero entender as opções de seguro de vida.", "ZV-VIDA"],
