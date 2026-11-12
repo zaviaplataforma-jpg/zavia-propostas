@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Cotação de Seguro Auto · Zavia Seguros</title>
-<meta name="description" content="Responda em cerca de 3 minutos e receba as melhores opções de seguro para o seu carro, comparando seguradoras.">
+<meta name="description" content="Responda em cerca de 4 minutos e receba as melhores opções de seguro para o seu carro, comparando seguradoras.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,6 +59,10 @@ button.vol { flex: 0 0 auto; background: var(--sunk); color: var(--fg); border: 
 button svg { width: 20px; height: 20px; }
 button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 .nota { font-size: 12px; color: var(--mut); text-align: center; margin: -2px 0 0; }
+.anexo { display: grid; gap: 6px; font-size: 13px; color: var(--mut); border: 1px dashed var(--line); border-radius: 12px; padding: 12px; }
+.anexo input[type=file] { padding: 8px; font-size: 14px; }
+.anexo .arq { color: var(--ok); font-size: 12.5px; min-height: 1em; }
+.ok .anexar { margin: 14px auto 0; max-width: 320px; }
 .dica { font-size: 12px; color: var(--mut); margin: -8px 0 0; }
 .ok { display: none; text-align: center; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--ok); border-radius: 16px; padding: 22px 16px; }
 .ok.on { display: block; }
@@ -74,42 +78,79 @@ footer a { color: var(--mut); }
   <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
 
   <h1>Cotação de <em>seguro do seu carro</em></h1>
-  <p class="lead">São 4 telas curtas, uns 3 minutos. Um corretor da Zavia compara seguradoras e te manda só as melhores opções pelo WhatsApp, sem compromisso. Não sabe alguma resposta? Marque "não sei" e a gente completa depois.</p>
+  <p class="lead">São 5 telas curtas, uns 4 minutos. Com estas respostas a Zavia cota nas seguradoras e te manda só o orçamento final pelo WhatsApp, sem pedir mais nada depois e sem compromisso.</p>
 
   <form id="f" novalidate>
-    <div class="prog" aria-hidden="true"><span id="prog-t">1 de 4</span><div class="tr"><div id="prog-b" style="width:25%"></div></div></div>
+    <div class="prog" aria-hidden="true"><span id="prog-t">1 de 5</span><div class="tr"><div id="prog-b" style="width:20%"></div></div></div>
 
     <!-- 1. Você -->
     <div class="passo" data-p="1">
       <h2>Você</h2>
-      <label><b>Seu nome</b><input name="nome" autocomplete="name" maxlength="80" required></label>
+      <label><b>Nome completo</b><input name="nome" autocomplete="name" maxlength="80" required></label>
+      <label><b>CPF</b><input name="cpf" inputmode="numeric" placeholder="000.000.000-00" maxlength="14" required></label>
       <div class="dois">
         <label><b>WhatsApp</b><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20" required></label>
-        <label><b>E-mail</b> (opcional)<input name="email" type="email" autocomplete="email" maxlength="80"></label>
+        <label><b>E-mail</b><input name="email" type="email" autocomplete="email" maxlength="80" required></label>
       </div>
       <div class="dois">
         <label><b>Data de nascimento</b><input name="nascimento" inputmode="numeric" autocomplete="bday" placeholder="dd/mm/aaaa" maxlength="10" required></label>
-        <label><b>CEP de casa</b><input name="cepcasa" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required></label>
+        <label><b>Primeira habilitação (CNH)</b><input name="hab" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" required></label>
       </div>
       <div class="q"><b>Sexo</b>
         <div class="opcoes" data-r="sexo"><label><input type="radio" name="sexo" value="Feminino">Feminino</label><label><input type="radio" name="sexo" value="Masculino">Masculino</label></div></div>
       <label><b>Estado civil</b>
         <select name="civil" required><option value="">Escolha</option><option>Solteiro(a)</option><option>Casado(a) ou união estável</option><option>Divorciado(a)</option><option>Viúvo(a)</option></select></label>
-      <p class="dica">O CPF não é pedido aqui. Se a seguradora precisar, o corretor pede pelo WhatsApp.</p>
+      <label><b>Profissão</b><input name="profissao" maxlength="60" placeholder="ex.: engenheiro, vendedor, autônomo" required></label>
+      <p class="dica">A data da primeira habilitação está na sua CNH, no campo "1ª habilitação". Ela pesa no preço do seguro.</p>
     </div>
 
-    <!-- 2. O carro -->
+    <!-- 2. Endereço -->
     <div class="passo" data-p="2" hidden>
+      <h2>Endereço</h2>
+      <label><b>CEP de casa</b><input name="cepcasa" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required><span class="dica" id="cep-msg" style="margin:0"></span></label>
+      <label><b>Rua ou avenida</b><input name="rua" autocomplete="address-line1" maxlength="80" required></label>
+      <div class="dois">
+        <label><b>Número</b><input name="numero" maxlength="10" required></label>
+        <label><b>Complemento</b> (opcional)<input name="compl" maxlength="40"></label>
+      </div>
+      <div class="dois">
+        <label><b>Bairro</b><input name="bairro" maxlength="60" required></label>
+        <label><b>Cidade/UF</b><input name="cidade" maxlength="60" required></label>
+      </div>
+      <div class="q"><b>Você ou um familiar próximo é pessoa politicamente exposta (PEP)?</b>
+        <div class="opcoes" data-r="pep"><label><input type="radio" name="pep" value="Não">Não</label><label><input type="radio" name="pep" value="Sim">Sim</label></div></div>
+      <p class="dica">PEP é quem exerce ou exerceu cargo público relevante nos últimos 5 anos. A seguradora é obrigada a perguntar.</p>
+    </div>
+
+    <!-- 3. O carro -->
+    <div class="passo" data-p="3" hidden>
       <h2>O carro</h2>
       <div class="q"><b>O carro já tem placa?</b>
         <div class="opcoes" data-r="templaca"><label><input type="radio" name="templaca" value="Sim">Sim</label><label><input type="radio" name="templaca" value="Não">Não, é 0 km ou ainda vou comprar</label></div></div>
       <label id="q-placa" hidden><b>Placa</b><input name="placa" maxlength="8" placeholder="ABC1D23" autocapitalize="characters" spellcheck="false"></label>
       <label id="q-modelo"><b>Marca, modelo e versão</b> <span id="modelo-opc">(opcional, ajuda a conferir)</span><input name="modelo" maxlength="80" placeholder="ex.: VW Virtus Comfortline 1.0 TSI"></label>
       <label id="q-ano" hidden><b>Ano do modelo</b><input name="ano" inputmode="numeric" maxlength="4" placeholder="2025"></label>
+      <label><b>Chassi</b> (opcional, está no documento do carro)<input name="chassi" maxlength="17" autocapitalize="characters" spellcheck="false"></label>
+      <label class="anexo"><span><b>Foto do documento do carro (CRLV)</b> (opcional)</span><input type="file" name="fcrlv" accept="image/*,application/pdf"><span class="arq" id="arq-fcrlv"></span><span>Com o documento a gente confere placa, chassi e versão sem perguntar nada a mais. Ele não sai daqui sozinho: no fim você anexa no WhatsApp.</span></label>
+      <div class="q"><b>O carro está no seu nome?</b>
+        <div class="opcoes" data-r="dono"><label><input type="radio" name="dono" value="Sim">Sim</label><label><input type="radio" name="dono" value="Não">Não</label></div></div>
+      <div id="q-dono" hidden class="passo" style="gap:10px">
+        <div class="dois">
+          <label><b>Nome do dono</b><input name="donome" maxlength="80"></label>
+          <label><b>CPF ou CNPJ do dono</b><input name="dodoc" inputmode="numeric" maxlength="18"></label>
+        </div>
+      </div>
       <label><b>Para que você usa o carro</b>
         <select name="uso" required><option value="">Escolha</option><option>Particular (passeio, ir ao trabalho)</option><option>Trabalho com visitas a clientes</option><option>Aplicativo (Uber, 99) ou entregas</option><option>Táxi ou transporte de passageiros</option></select></label>
       <div class="q"><b>O carro tem</b> (marque se tiver)
         <div class="opcoes" data-c="extras"><label><input type="checkbox" name="extras" value="Financiamento">Financiamento</label><label><input type="checkbox" name="extras" value="Blindagem">Blindagem</label><label><input type="checkbox" name="extras" value="Kit gás (GNV)">Kit gás (GNV)</label><label><input type="checkbox" name="extras" value="Adaptação para PcD">Adaptação para PcD</label><label><input type="checkbox" name="extras" value="Rodas, som ou peças não originais">Rodas, som ou peças não originais</label></div></div>
+      <label id="q-banco" hidden><b>Banco do financiamento</b><input name="banco" maxlength="40" placeholder="ex.: Banco do Brasil, Santander"></label>
+      <div class="dois">
+        <label><b>Quantos km por mês, mais ou menos</b>
+          <select name="km" required><option value="">Escolha</option><option>Até 500 km</option><option>500 a 1.000 km</option><option>1.000 a 2.000 km</option><option>Mais de 2.000 km</option></select></label>
+        <label><b>Rastreador ou alarme</b>
+          <select name="rastreador" required><option value="">Escolha</option><option>Rastreador</option><option>Alarme</option><option>Rastreador e alarme</option><option>Nenhum</option></select></label>
+      </div>
       <div class="q"><b>Onde o carro dorme é o mesmo CEP de casa?</b>
         <div class="opcoes" data-r="mesmocep"><label><input type="radio" name="mesmocep" value="Sim">Sim</label><label><input type="radio" name="mesmocep" value="Não">Não</label></div></div>
       <label id="q-cepnoite" hidden><b>CEP onde o carro dorme</b><input name="cepnoite" inputmode="numeric" placeholder="00000-000" maxlength="9"></label>
@@ -123,8 +164,8 @@ footer a { color: var(--mut); }
       </div>
     </div>
 
-    <!-- 3. Quem dirige e seguro de hoje -->
-    <div class="passo" data-p="3" hidden>
+    <!-- 4. Quem dirige e seguro de hoje -->
+    <div class="passo" data-p="4" hidden>
       <h2>Quem dirige</h2>
       <div class="q"><b>Quem mais dirige o carro (mais da metade do tempo) é você?</b>
         <div class="opcoes" data-r="principal"><label><input type="radio" name="principal" value="Sim">Sim, sou eu</label><label><input type="radio" name="principal" value="Não">Não, outra pessoa</label></div></div>
@@ -135,12 +176,21 @@ footer a { color: var(--mut); }
           <label><b>Nascimento dele(a)</b><input name="cnasc" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10"></label>
         </div>
         <div class="dois">
+          <label><b>Nome completo</b><input name="cnome" maxlength="80"></label>
+          <label><b>CPF</b><input name="ccpf" inputmode="numeric" placeholder="000.000.000-00" maxlength="14"></label>
+        </div>
+        <label><b>Primeira habilitação dele(a)</b><input name="chab" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10"></label>
+        <div class="dois">
           <label><b>Sexo</b><select name="csexo"><option value="">Escolha</option><option>Feminino</option><option>Masculino</option></select></label>
           <label><b>Estado civil</b><select name="ccivil"><option value="">Escolha</option><option>Solteiro(a)</option><option>Casado(a) ou união estável</option><option>Divorciado(a)</option><option>Viúvo(a)</option></select></label>
         </div>
       </div>
       <div class="q"><b>Alguém de 18 a 25 anos dirige o carro, mesmo de vez em quando?</b>
         <div class="opcoes" data-r="jovem"><label><input type="radio" name="jovem" value="Não">Não</label><label><input type="radio" name="jovem" value="Sim">Sim</label></div></div>
+      <div id="q-jovem" hidden class="dois">
+        <label><b>Sexo do(s) jovem(ns)</b><select name="jsexo"><option value="">Escolha</option><option>Feminino</option><option>Masculino</option><option>Os dois</option></select></label>
+        <label><b>Idade do mais novo</b><input name="jidade" inputmode="numeric" maxlength="2" placeholder="ex.: 19"></label>
+      </div>
 
       <h2>Seguro de hoje</h2>
       <div class="q"><b>O carro tem seguro hoje?</b>
@@ -150,16 +200,17 @@ footer a { color: var(--mut); }
           <label><b>Seguradora</b><input name="seguradora" maxlength="40" placeholder="ex.: Porto, Allianz"></label>
           <label><b>Vence em</b><input name="vencimento" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10"></label>
         </div>
+        <label><b>Número da apólice ou do CI</b> (opcional, está na apólice)<input name="apolice" maxlength="40"></label>
         <label><b>Classe de bônus</b> (está na apólice)
           <select name="bonus"><option value="">Não sei</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></label>
         <div class="q"><b>Usou o seguro (sinistro) nos últimos 12 meses?</b>
           <div class="opcoes" data-r="sinistro"><label><input type="radio" name="sinistro" value="Não">Não</label><label><input type="radio" name="sinistro" value="Sim">Sim</label><label><input type="radio" name="sinistro" value="Não sei">Não sei</label></div></div>
-        <p class="dica">Se puder, mande a foto ou o PDF da apólice atual pelo WhatsApp depois. Ajuda a manter o seu bônus.</p>
+        <label class="anexo"><span><b>Apólice atual</b> (foto ou PDF, opcional)</span><input type="file" name="fapolice" accept="image/*,application/pdf"><span class="arq" id="arq-fapolice"></span><span>Com a apólice a gente mantém o seu bônus e compara as mesmas coberturas. No fim você anexa no WhatsApp.</span></label>
       </div>
     </div>
 
-    <!-- 4. O que você quer -->
-    <div class="passo" data-p="4" hidden>
+    <!-- 5. O que você quer -->
+    <div class="passo" data-p="5" hidden>
       <h2>O que você quer</h2>
       <label><b>Tipo de seguro</b>
         <select name="plano" required><option value="">Escolha</option><option>Completo (batida, roubo, incêndio e terceiros)</option><option>Só roubo e furto</option><option>Roubo e furto + danos a terceiros</option><option>Não sei, quero que me indiquem</option></select></label>
@@ -167,6 +218,15 @@ footer a { color: var(--mut); }
         <select name="franquia"><option value="">Não sei, quero comparar</option><option>Normal (seguro mais barato)</option><option>Reduzida (seguro mais caro, franquia menor)</option></select></label>
       <label><b>Carro reserva</b>
         <select name="reserva"><option value="">Não sei</option><option>Não preciso</option><option>7 dias</option><option>15 dias</option><option>30 dias</option></select></label>
+      <div class="q"><b>Coberturas extras que quer cotar</b> (marque se quiser)
+        <div class="opcoes" data-c="extrascob"><label><input type="checkbox" name="extrascob" value="Vidros, faróis e retrovisores">Vidros, faróis e retrovisores</label><label><input type="checkbox" name="extrascob" value="Assistência 24h com reboque ampliado">Reboque ampliado</label><label><input type="checkbox" name="extrascob" value="Acidentes pessoais de passageiros (APP)">Acidentes de passageiros</label><label><input type="checkbox" name="extrascob" value="Danos morais">Danos morais</label></div></div>
+      <div class="dois">
+        <label><b>Forma de pagamento</b>
+          <select name="pagamento" required><option value="">Escolha</option><option>Cartão de crédito</option><option>Débito em conta</option><option>Boleto</option></select></label>
+        <label><b>Parcelas</b>
+          <select name="parcelas" required><option value="">Escolha</option><option>À vista</option><option>Até 4x</option><option>Até 6x</option><option>O máximo possível</option></select></label>
+      </div>
+      <p class="dica">Número de cartão nunca é pedido aqui: no cartão, a própria seguradora manda um link seguro para cadastrar.</p>
       <label><b>Algo mais que a gente deve saber</b> (opcional)<input name="obs" maxlength="200" placeholder="ex.: quero vidros e faróis; tenho outro carro"></label>
 
       <label class="aceite"><input type="checkbox" name="ciencia"><span>Li o <a href="/privacidade/" target="_blank" rel="noopener">aviso de privacidade</a> e autorizo a Zavia a usar estes dados para cotar o meu seguro com as seguradoras parceiras. Se informei dados de outro condutor, ele(a) sabe e concorda.</span></label>
@@ -185,9 +245,13 @@ footer a { color: var(--mut); }
     <h2>Quase lá</h2>
     <p>Abrimos o WhatsApp com as suas respostas. Aperte <b>enviar</b> por lá para a cotação chegar até nós.</p>
     <p>Não abriu? <a id="ok-link" href="#" target="_blank" rel="noopener">Toque aqui para abrir o WhatsApp</a>.</p>
+    <div id="ok-anexos" hidden>
+      <p><b>Falta um passo:</b> anexe na mesma conversa <span id="ok-lista"></span>. No WhatsApp, toque no clipe (📎) e escolha o arquivo.</p>
+      <button type="button" class="anexar" id="ok-share" hidden>Enviar os arquivos agora</button>
+    </div>
   </div>
 
-  <footer>Os valores dependem da análise e da aceitação de cada seguradora e valem pelo prazo informado na cotação.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados pessoais: tudo segue direto para o WhatsApp da Zavia. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
+  <footer>Os valores dependem da análise e da aceitação de cada seguradora e valem pelo prazo informado na cotação.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados pessoais: tudo segue direto para o WhatsApp da Zavia. O endereço é completado pelo CEP com o serviço público ViaCEP. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
 </div>
 <script>
 (function () {
@@ -205,7 +269,7 @@ footer a { color: var(--mut); }
     try { navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: e })); } catch (x) {}
   };
   conta("diagnostico");
-  var f = document.getElementById("f"), passo = 1, TOTAL = 4;
+  var f = document.getElementById("f"), passo = 1, TOTAL = 5;
   var $ = function (id) { return document.getElementById(id); };
   var radio = function (n) { return (f.querySelector("[name=" + n + "]:checked") || {}).value || ""; };
   var marcados = function (n) { return Array.prototype.map.call(f.querySelectorAll("[name=" + n + "]:checked"), function (x) { return x.value; }); };
@@ -215,7 +279,27 @@ footer a { color: var(--mut); }
   var cep = function (d) { d = d.slice(0, 8); return d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d; };
   var data = function (d) { d = d.slice(0, 8); return d.length > 4 ? d.slice(0, 2) + "/" + d.slice(2, 4) + "/" + d.slice(4) : d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d; };
   mascara(f.cepcasa, cep); mascara(f.cepnoite, cep);
-  mascara(f.nascimento, data); mascara(f.cnasc, data); mascara(f.vencimento, data);
+  mascara(f.nascimento, data); mascara(f.cnasc, data); mascara(f.vencimento, data); mascara(f.hab, data); mascara(f.chab, data);
+  var cpfm = function (d) { d = d.slice(0, 11); return d.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2"); };
+  mascara(f.cpf, cpfm); mascara(f.ccpf, cpfm);
+  f.jidade.addEventListener("input", function () { f.jidade.value = f.jidade.value.replace(/\D/g, "").slice(0, 2); });
+  f.chassi.addEventListener("input", function () { f.chassi.value = f.chassi.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 17); });
+  function cpfOk(v) { var d = String(v || "").replace(/\D/g, ""), s = 0, r, i; if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
+    for (i = 0; i < 9; i++) s += +d[i] * (10 - i); r = s * 10 % 11 % 10; if (r !== +d[9]) return false;
+    for (s = 0, i = 0; i < 10; i++) s += +d[i] * (11 - i); r = s * 10 % 11 % 10; return r === +d[10]; }
+  // CEP preenche o endereço (ViaCEP); o cliente só confere e põe o número
+  var ultimoCep = "";
+  f.cepcasa.addEventListener("input", function () {
+    var d = f.cepcasa.value.replace(/\D/g, ""); if (d.length !== 8 || d === ultimoCep) return; ultimoCep = d;
+    $("cep-msg").textContent = "Buscando endereço…";
+    fetch("https://viacep.com.br/ws/" + d + "/json/").then(function (r) { return r.json(); }).then(function (j) {
+      if (j.erro) { $("cep-msg").textContent = "CEP não encontrado. Preencha o endereço."; return; }
+      if (j.logradouro && !f.rua.value) f.rua.value = j.logradouro;
+      if (j.bairro && !f.bairro.value) f.bairro.value = j.bairro;
+      if (j.localidade && !f.cidade.value) f.cidade.value = j.localidade + "/" + j.uf;
+      $("cep-msg").textContent = "Endereço preenchido. Confira e coloque o número."; if (!f.numero.value) f.numero.focus();
+    }).catch(function () { $("cep-msg").textContent = "Não deu para buscar o CEP agora. Preencha o endereço."; });
+  });
   f.placa.addEventListener("input", function () { f.placa.value = f.placa.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 7); });
   f.ano.addEventListener("input", function () { f.ano.value = f.ano.value.replace(/\D/g, "").slice(0, 4); });
 
@@ -236,6 +320,9 @@ footer a { color: var(--mut); }
     $("q-cepnoite").hidden = radio("mesmocep") !== "Não";
     $("q-condutor").hidden = radio("principal") !== "Não";
     $("seg-atual").hidden = radio("temseguro") !== "Sim";
+    $("q-dono").hidden = radio("dono") !== "Não";
+    $("q-banco").hidden = marcados("extras").indexOf("Financiamento") < 0;
+    $("q-jovem").hidden = radio("jovem") !== "Sim";
   }
   f.addEventListener("change", condicionais);
 
@@ -246,36 +333,46 @@ footer a { color: var(--mut); }
   function validar(p) {
     var e = [];
     if (p === 1) {
-      e.push(exige("nome", "Preencha seu nome."));
+      var nm = val("nome"), nmOk = /\S+\s+\S+/.test(nm); marcar(f.nome, !nmOk); e.push(nmOk ? "" : "Preencha seu nome completo.");
+      var cOk1 = cpfOk(val("cpf")); marcar(f.cpf, !cOk1); e.push(cOk1 ? "" : "Confira o CPF.");
       var tel = val("whatsapp").replace(/\D/g, ""), telOk = tel.length === 10 || tel.length === 11 || (tel.length >= 12 && tel.length <= 13 && tel.indexOf("55") === 0);
       marcar(f.whatsapp, !telOk); e.push(telOk ? "" : "Confira o WhatsApp, com DDD.");
-      var em = val("email"), emOk = !em || /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em); marcar(f.email, !emOk); e.push(emOk ? "" : "Confira o e-mail (ou deixe em branco).");
+      var em = val("email"), emOk = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em); marcar(f.email, !emOk); e.push(emOk ? "" : "Confira o e-mail.");
       var nOk = dataOk(val("nascimento"), 18, 100); marcar(f.nascimento, !nOk); e.push(nOk ? "" : "Confira a data de nascimento (dd/mm/aaaa).");
-      e.push(exigeCep("cepcasa"), exigeRadio("sexo", "Escolha o sexo."), exige("civil", "Escolha o estado civil."));
+      var hOk = dataOk(val("hab"), 0, 90); marcar(f.hab, !hOk); e.push(hOk ? "" : "Confira a data da primeira habilitação (dd/mm/aaaa).");
+      e.push(exigeRadio("sexo", "Escolha o sexo."), exige("civil", "Escolha o estado civil."), exige("profissao", "Diga a sua profissão."));
     } else if (p === 2) {
+      e.push(exigeCep("cepcasa"), exige("rua", "Preencha a rua."), exige("numero", "Preencha o número."), exige("bairro", "Preencha o bairro."), exige("cidade", "Preencha a cidade."), exigeRadio("pep", "Responda sobre PEP."));
+    } else if (p === 3) {
       e.push(exigeRadio("templaca", "Diga se o carro já tem placa."));
       if (radio("templaca") === "Sim") { var pl = val("placa"), plOk = /^[A-Z]{3}\d[A-Z0-9]\d{2}$/.test(pl); marcar(f.placa, !plOk); e.push(plOk ? "" : "Confira a placa (ex.: ABC1D23)."); }
       if (radio("templaca") === "Não") {
         e.push(exige("modelo", "Diga a marca, o modelo e a versão."));
         var an = +val("ano"), anOk = an >= 1980 && an <= new Date().getFullYear() + 1; marcar(f.ano, !anOk); e.push(anOk ? "" : "Confira o ano do modelo.");
       }
-      e.push(exige("uso", "Escolha para que usa o carro."), exigeRadio("mesmocep", "Diga onde o carro dorme."));
+      e.push(exigeRadio("dono", "Diga se o carro está no seu nome."));
+      if (radio("dono") === "Não") e.push(exige("donome", "Preencha o nome do dono do carro."), exige("dodoc", "Preencha o CPF ou CNPJ do dono."));
+      if (marcados("extras").indexOf("Financiamento") >= 0) e.push(exige("banco", "Diga o banco do financiamento."));
+      e.push(exige("uso", "Escolha para que usa o carro."), exige("km", "Escolha quantos km roda por mês."), exige("rastreador", "Diga se tem rastreador ou alarme."), exigeRadio("mesmocep", "Diga onde o carro dorme."));
       if (radio("mesmocep") === "Não") e.push(exigeCep("cepnoite"));
       e.push(exige("garagem", "Diga onde o carro fica à noite."));
-    } else if (p === 3) {
+    } else if (p === 4) {
       e.push(exigeRadio("principal", "Diga quem mais dirige o carro."));
       if (radio("principal") === "Não") {
         e.push(exige("cparentesco", "Diga quem é o condutor principal."));
         var cOk = dataOk(val("cnasc"), 18, 100); marcar(f.cnasc, !cOk); e.push(cOk ? "" : "Confira o nascimento do condutor (dd/mm/aaaa).");
-        e.push(exige("csexo", "Escolha o sexo do condutor."), exige("ccivil", "Escolha o estado civil do condutor."));
+        e.push(exige("csexo", "Escolha o sexo do condutor."), exige("ccivil", "Escolha o estado civil do condutor."), exige("cnome", "Preencha o nome do condutor."));
+        var cc = cpfOk(val("ccpf")); marcar(f.ccpf, !cc); e.push(cc ? "" : "Confira o CPF do condutor.");
+        var chOk = dataOk(val("chab"), 0, 90); marcar(f.chab, !chOk); e.push(chOk ? "" : "Confira a primeira habilitação do condutor.");
       }
+      if (radio("jovem") === "Sim") { e.push(exige("jsexo", "Diga o sexo do(s) jovem(ns).")); var ji = +val("jidade"); marcar(f.jidade, !(ji >= 18 && ji <= 25)); e.push(ji >= 18 && ji <= 25 ? "" : "Diga a idade do mais novo (18 a 25)."); }
       e.push(exigeRadio("jovem", "Responda se alguém de 18 a 25 anos dirige."), exigeRadio("temseguro", "Diga se o carro tem seguro hoje."));
       if (radio("temseguro") === "Sim") {
         var vc = val("vencimento"), vOk = !vc || dataOk(vc, -2, 1); marcar(f.vencimento, !vOk); e.push(vOk ? "" : "Confira o vencimento (dd/mm/aaaa) ou deixe em branco.");
         e.push(exigeRadio("sinistro", "Responda sobre sinistro nos últimos 12 meses."));
       }
     } else {
-      e.push(exige("plano", "Escolha o tipo de seguro."));
+      e.push(exige("plano", "Escolha o tipo de seguro."), exige("pagamento", "Escolha a forma de pagamento."), exige("parcelas", "Escolha as parcelas."));
       if (!f.ciencia.checked) e.push("Marque que leu o aviso de privacidade e autoriza a cotação.");
     }
     e = e.filter(Boolean);
@@ -304,16 +401,26 @@ footer a { color: var(--mut); }
     var L = [
       "Quero uma cotação de Seguro Auto.", "",
       "Nome: " + val("nome"),
+      "CPF: " + val("cpf"),
       "WhatsApp: " + val("whatsapp"),
       val("email") ? "E-mail: " + val("email") : null,
       "Nascimento: " + val("nascimento"),
       "Sexo: " + radio("sexo"),
       "Estado civil: " + val("civil"),
       "CEP de casa: " + val("cepcasa"),
+      "Endereço: " + [val("rua"), val("numero"), val("compl"), val("bairro"), val("cidade")].filter(Boolean).join(", "),
+      "Primeira habilitação: " + val("hab"),
+      "Profissão: " + val("profissao"),
+      "PEP: " + radio("pep"),
       "",
       temPlaca ? "Placa: " + val("placa") : "Placa: ainda não tem (0 km)",
       val("modelo") ? "Veículo: " + val("modelo") + (!temPlaca && val("ano") ? " " + val("ano") : "") : null,
+      val("chassi") ? "Chassi: " + val("chassi") : null,
+      "Carro no nome do segurado: " + radio("dono") + (radio("dono") === "Não" ? " (dono: " + val("donome") + ", " + val("dodoc") + ")" : ""),
+      marcados("extras").indexOf("Financiamento") >= 0 ? "Banco do financiamento: " + val("banco") : null,
       "Uso: " + val("uso"),
+      "Km por mês: " + val("km"),
+      "Rastreador/alarme: " + val("rastreador"),
       "Extras: " + (marcados("extras").join(", ") || "nenhum"),
       "CEP de pernoite: " + (radio("mesmocep") === "Sim" ? "o mesmo de casa" : val("cepnoite")),
       "Garagem à noite: " + val("garagem"),
@@ -321,16 +428,21 @@ footer a { color: var(--mut); }
       val("gesc") ? "Garagem na escola: " + val("gesc") : null,
       "",
       "Condutor principal: " + (outro ? [val("cparentesco"), "nascido(a) em " + val("cnasc"), val("csexo"), val("ccivil")].join(", ") : "eu mesmo(a)"),
-      "Condutor de 18 a 25 anos: " + radio("jovem"),
+      outro ? "Condutor: " + val("cnome") + ", CPF " + val("ccpf") + ", 1ª habilitação " + val("chab") : null,
+      "Condutor de 18 a 25 anos: " + radio("jovem") + (radio("jovem") === "Sim" ? " (" + val("jsexo") + ", mais novo com " + val("jidade") + " anos)" : ""),
       "Tem seguro hoje: " + radio("temseguro"),
       seg ? "Seguradora atual: " + (val("seguradora") || "não informou") : null,
       seg ? "Vencimento: " + (val("vencimento") || "não sei") : null,
       seg ? "Bônus: " + (val("bonus") || "não sei") : null,
+      seg && val("apolice") ? "Apólice/CI: " + val("apolice") : null,
       seg ? "Sinistro em 12 meses: " + radio("sinistro") : null,
+      anexos().length ? "Anexos que vou mandar: " + anexos().map(function (a) { return a.nome; }).join(" e ") : null,
       "",
       "Tipo de seguro: " + val("plano"),
       "Franquia: " + (val("franquia") || "quero comparar"),
       "Carro reserva: " + (val("reserva") || "não sei"),
+      "Coberturas extras: " + (marcados("extrascob").join(", ") || "nenhuma"),
+      "Pagamento: " + val("pagamento") + ", " + val("parcelas"),
       val("obs") ? "Observações: " + val("obs") : null,
       "Aceita sugestões de outros seguros: " + (f.ofertas.checked ? "Sim" : "Não"),
       "Consentimento: li o " + AVISO + " e autorizo a cotação, em " + quando,
@@ -339,10 +451,35 @@ footer a { color: var(--mut); }
     ].filter(function (l) { return l !== null; }).join("\n"); // null = campo que não se aplica
     var url = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(L);
     $("ok-link").href = url;
+    var ax = anexos();
+    if (ax.length) {
+      $("ok-anexos").hidden = false;
+      $("ok-lista").textContent = ax.map(function (a) { return a.nome; }).join(" e ");
+      var arqs = ax.map(function (a) { return a.file; });
+      // No celular, o menu de compartilhar manda os arquivos direto para o WhatsApp
+      if (navigator.canShare && navigator.canShare({ files: arqs })) {
+        $("ok-share").hidden = false;
+        $("ok-share").onclick = function () { navigator.share({ files: arqs, text: "Documentos da cotação de seguro auto" }).catch(function () {}); };
+      }
+    }
     f.style.display = "none"; $("ok").className = "ok on";
     window.scrollTo(0, 0);
     conta("envio");
     window.location.href = url;
+  });
+  // Anexos: ficam só no aparelho; o link do WhatsApp leva texto, então o cliente anexa na conversa
+  var ANEXOS = { fcrlv: "a foto do documento do carro (CRLV)", fapolice: "a apólice atual" };
+  function anexos() {
+    return Object.keys(ANEXOS).filter(function (n) {
+      var el = f[n]; if (!el || !el.files || !el.files[0]) return false;
+      return n !== "fapolice" || radio("temseguro") === "Sim";
+    }).map(function (n) { return { nome: ANEXOS[n], file: f[n].files[0] }; });
+  }
+  Object.keys(ANEXOS).forEach(function (n) {
+    f[n].addEventListener("change", function () {
+      var a = this.files && this.files[0];
+      $("arq-" + n).textContent = a ? "Arquivo escolhido: " + a.name : "";
+    });
   });
   mostrar(1);
 })();
