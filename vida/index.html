@@ -65,7 +65,7 @@ button{font:inherit;cursor:pointer}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px 16px}
 .f{display:flex;flex-direction:column;gap:4px;min-width:0}
 .f label{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
-input[type=number],input[type=text],input[type=date],select.in{font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%;font-variant-numeric:tabular-nums}
+input[type=number],input[type=text],input[type=date],input[type=email],input[type=tel],select.in{font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%;font-variant-numeric:tabular-nums}
 input:focus{border-color:var(--gold);outline:none}
 .lgpd{display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border-radius:8px;padding:10px 14px;font-size:13.5px;margin-bottom:16px}
 .lgpd b{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;border:1px solid var(--gold);color:var(--gold);padding:1px 6px;border-radius:3px;flex:none;margin-top:2px}
@@ -155,6 +155,7 @@ fieldset.saude{border:none;padding:0;margin:0;min-width:0}
 fieldset.saude:disabled{opacity:.45}
 table.vidas{min-width:640px}
 table.vidas input,table.vidas select{padding:6px 8px;font-size:14px}
+table.vidas select{min-width:64px}
 table.vidas td{white-space:normal}
 @media (max-width:760px){
 .modesel{grid-template-columns:1fr}
@@ -218,7 +219,7 @@ table.vidas td{white-space:normal}
 <!-- 2 Colaboradores -->
 <section class="step" id="s2">
 <header><span class="num">2</span><h2>Colaboradores por perfil</h2><p class="hint">Agrupe a equipe em perfis representativos. Cada perfil gera a sua necessidade de proteção.</p></header>
-<div class="lgpd"><b>LGPD</b><span>Use perfis agregados (ex.: "eletricista com família"), sem nomes nem CPF. A lista de vidas para a cotação fica na etapa 6. Os dados ficam só neste navegador.</span></div>
+<div class="lgpd"><b>LGPD</b><span>Nesta etapa use perfis agregados (ex.: "eletricista com família"). A lista nominal para a cotação fica na etapa 6. Os dados ficam só neste navegador.</span></div>
 <div class="profiles" id="profiles"></div>
 <div class="copyrow"><button class="btn" id="addProf" type="button">Adicionar perfil</button><span class="note" id="vidasCheck"></span></div>
 </section>
@@ -260,15 +261,27 @@ table.vidas td{white-space:normal}
 </section>
 <!-- 6 Dados para cotação (CNPJ) -->
 <section class="step" id="cotPJ">
-<header><span class="num">6</span><h2>Dados para cotação</h2><p class="hint">Com estes dados, a Zavia cota nas seguradoras e devolve só o orçamento final, sem idas e vindas.</p></header>
+<header><span class="num">6</span><h2>Dados para cotação e proposta</h2><p class="hint">Tudo o que as seguradoras pedem para cotar e emitir. Com isso, a Zavia devolve só o orçamento final, sem pedir mais nada depois.</p></header>
 <div class="readiness" id="pjReady"></div>
 <h3 class="sub3">Empresa</h3>
 <div class="grid">
+<div class="f"><label for="cjRazao">Razão social</label><input type="text" id="cjRazao"></div>
 <div class="f"><label for="cjCnpj">CNPJ</label><input type="text" id="cjCnpj" inputmode="numeric" placeholder="00.000.000/0000-00"></div>
 <div class="f"><label for="cjCnae">Atividade principal (CNAE)</label><input type="text" id="cjCnae" placeholder="Ex.: 4321-5/00 instalações elétricas"></div>
 <div class="f"><label for="cjUF">Estado (UF)</label><select class="in" id="cjUF"></select></div>
 <div class="f"><label for="cjCidade">Cidade</label><input type="text" id="cjCidade"></div>
-<div class="f"><label for="cjResp">Responsável e cargo</label><input type="text" id="cjResp" placeholder="Ex.: Ana, sócia"></div>
+<div class="f"><label for="cjCep">CEP</label><input type="text" id="cjCep" inputmode="numeric" maxlength="9" placeholder="00000-000"></div>
+<div class="f"><label for="cjEnd">Rua / avenida</label><input type="text" id="cjEnd" ></div>
+<div class="f"><label for="cjNum">Número</label><input type="text" id="cjNum" ></div>
+<div class="f"><label for="cjCompl">Complemento</label><input type="text" id="cjCompl" ></div>
+<div class="f"><label for="cjBairro">Bairro</label><input type="text" id="cjBairro" ></div>
+<div class="f"><label for="cjEmail">E-mail da empresa</label><input type="email" id="cjEmail" ></div>
+<div class="f"><label for="cjTel">Telefone da empresa</label><input type="tel" id="cjTel" ></div>
+<div class="f"><label for="cjResp">Responsável (nome completo e cargo)</label><input type="text" id="cjResp" placeholder="Ex.: Ana Souza, sócia"></div>
+<div class="f"><label for="cjRespCpf">CPF do responsável</label><input type="text" id="cjRespCpf" inputmode="numeric" maxlength="14" placeholder="000.000.000-00"><span class="note" id="cjRespCpfMsg" style="margin:0;font-size:12px;color:var(--red)"></span></div>
+<div class="f"><label for="cjRespEmail">E-mail do responsável</label><input type="email" id="cjRespEmail" ></div>
+<div class="f"><label for="cjRespCel">Celular do responsável</label><input type="tel" id="cjRespCel" ></div>
+<div class="f"><label for="cjPep">Algum sócio ou representante é pessoa politicamente exposta (PEP)?</label><select class="in" id="cjPep"><option value="">Selecione</option><option>Não</option><option>Sim</option></select></div>
 <div class="f"><label for="cjInicio">Início desejado</label><input type="date" id="cjInicio"></div>
 </div>
 <h3 class="sub3">Seguro desejado</h3>
@@ -291,16 +304,26 @@ table.vidas td{white-space:normal}
 <div class="f"><label for="cjSinQ">Se sim, quais</label><input type="text" id="cjSinQ"></div>
 <div class="f"><label for="cjAfast">Alguém afastado (INSS) hoje?</label><select class="in" id="cjAfast"><option value="">Selecione</option><option>Não</option><option>Sim</option></select></div>
 </div>
+<h3 class="sub3">Beneficiários e pagamento</h3>
+<div class="grid">
+<div class="f"><label for="cjBen">Beneficiários</label><select class="in" id="cjBen"><option value="">Selecione</option><option>Herdeiros legais para todos</option><option>Cada colaborador indica os seus</option></select></div>
+<div class="f"><label for="cjPag">Forma de pagamento</label><select class="in" id="cjPag"><option value="">Selecione</option><option>Boleto</option><option>Débito em conta</option></select></div>
+<div class="f"><label for="cjDia">Dia de vencimento preferido</label><input type="number" id="cjDia" min="1" max="28" step="1"></div>
+<div class="f"><label for="cjBanco">Banco (se débito em conta)</label><input type="text" id="cjBanco" ></div>
+<div class="f"><label for="cjAg">Agência (se débito)</label><input type="text" id="cjAg" ></div>
+<div class="f"><label for="cjConta">Conta com dígito (se débito)</label><input type="text" id="cjConta" ></div>
+</div>
 <h3 class="sub3">Lista de vidas</h3>
-<div class="lgpd"><b>LGPD</b><span>Sem nomes nem CPF: só função, data de nascimento, sexo e salário de cada pessoa. Os nomes entram só na implantação, depois de aprovada a proposta.</span></div>
+<div class="lgpd"><b>LGPD</b><span>Nome completo, CPF, função, nascimento, sexo e salário de cada pessoa: é o que a seguradora pede para cotar e emitir. Os dados ficam só neste navegador até você enviar.</span></div>
 <div class="tablewrap"><table class="vidas" id="cjVidas"></table></div>
 <div class="copyrow"><button class="btn" type="button" id="cjAddVida">Adicionar pessoa</button><button class="btn" type="button" id="cjPasteBtn">Colar da planilha</button><button class="btn" type="button" id="cjCsv">Baixar lista (CSV)</button></div>
 <div id="cjPasteBox" hidden style="margin-top:10px">
-<p class="note" style="margin:0 0 6px">Cole as linhas da planilha na ordem: função, data de nascimento (dd/mm/aaaa), sexo (F ou M), salário. Uma pessoa por linha.</p>
-<textarea class="copyfb" id="cjPaste" placeholder="Eletricista	12/03/1988	M	4000"></textarea>
+<p class="note" style="margin:0 0 6px">Cole as linhas da planilha na ordem: nome, CPF, função, data de nascimento (dd/mm/aaaa), sexo (F ou M), salário. Uma pessoa por linha.</p>
+<textarea class="copyfb" id="cjPaste" placeholder="João Silva	111.444.777-35	Eletricista	12/03/1988	M	4000"></textarea>
 <div class="copyrow"><button class="btn primary" type="button" id="cjPasteOk">Adicionar à lista</button><span class="note" id="cjPasteMsg" style="margin:0"></span></div>
 </div>
 <p class="note" id="cjStats"></p>
+<p class="note">Em grupos pequenos ou com capital alto, a seguradora pode exigir declaração de saúde individual. Nesse caso, ela manda o formulário direto a cada colaborador, sem precisar passar pela empresa.</p>
 </section>
 <!-- Diagnóstico -->
 <section class="report" id="report">
@@ -312,7 +335,7 @@ table.vidas td{white-space:normal}
 <div class="cta">
 <p><b>Quer as melhores opções para esse cenário?</b> Um corretor da Zavia compara as seguradoras com base neste diagnóstico e responde pelo WhatsApp, sem compromisso.</p>
 <button class="btn wa" id="waBtn" type="button">Enviar diagnóstico pelo WhatsApp</button>
-<p style="font-size:12px">O botão abre o WhatsApp da Zavia com o resumo já escrito. É só apertar enviar. Vão o diagnóstico, os dados para cotação e a lista de vidas, sem nomes nem CPF.</p>
+<p style="font-size:12px">O botão abre o WhatsApp da Zavia com o resumo já escrito. É só apertar enviar. Vão o diagnóstico, os dados da proposta e a lista de vidas. Acima de 20 pessoas, anexe a planilha baixada na etapa 6.</p>
 </div>
 <div class="copyrow"><button class="btn" id="copyBtn" type="button">Copiar resumo</button><span id="copymsg"></span></div>
 <textarea id="copyfallback" hidden readonly></textarea>
@@ -338,7 +361,7 @@ table.vidas td{white-space:normal}
 <!-- 1 Você -->
 <section class="step">
 <header><span class="num">1</span><h2>Você e a sua renda</h2><p class="hint">Quem é o segurado e quanto a família depende da renda dele.</p></header>
-<div class="lgpd"><b>LGPD</b><span>Não pedimos CPF. Os dados ficam só neste navegador e só seguem para a Zavia se você enviar pelo WhatsApp. A declaração de saúde (etapa 8) só vai com a sua autorização.</span></div>
+<div class="lgpd"><b>LGPD</b><span>Os dados ficam só neste navegador e só seguem para a Zavia se você enviar pelo WhatsApp. Os dados pessoais e a declaração de saúde (etapa 8) servem só para cotar e emitir a apólice, e a saúde só vai com a sua autorização.</span></div>
 <div class="grid">
 <div class="f"><label for="fIdade">Idade</label><input type="number" id="fIdade" min="0" max="90" step="1"></div>
 <div class="f"><label for="fOcup">Profissão</label><input type="text" id="fOcup"></div>
@@ -423,11 +446,12 @@ table.vidas td{white-space:normal}
 </section>
 <!-- 8 Dados para cotação (CPF) -->
 <section class="step" id="cotPF">
-<header><span class="num">8</span><h2>Dados para cotação</h2><p class="hint">Com estes dados, a Zavia cota nas seguradoras e devolve só o orçamento final, sem idas e vindas.</p></header>
+<header><span class="num">8</span><h2>Dados para cotação e proposta</h2><p class="hint">Tudo o que as seguradoras pedem para cotar e emitir. Com isso, a Zavia devolve só o orçamento final, sem pedir mais nada depois.</p></header>
 <div class="readiness" id="pfReady"></div>
 <h3 class="sub3">Você</h3>
 <div class="grid">
-<div class="f"><label for="cfNome">Nome</label><input type="text" id="cfNome" autocomplete="name"></div>
+<div class="f"><label for="cfNome">Nome completo</label><input type="text" id="cfNome" autocomplete="name"></div>
+<div class="f"><label for="cfCpf">CPF</label><input type="text" id="cfCpf" inputmode="numeric" maxlength="14" placeholder="000.000.000-00"><span class="note" id="cfCpfMsg" style="margin:0;font-size:12px;color:var(--red)"></span></div>
 <div class="f"><label for="cfNasc">Data de nascimento</label><input type="date" id="cfNasc"></div>
 <div class="f"><label for="cfSexo">Sexo</label><select class="in" id="cfSexo"><option value="">Selecione</option><option>Feminino</option><option>Masculino</option></select></div>
 <div class="f"><label for="cfFuma">Fumante</label><select class="in" id="cfFuma"><option value="">Selecione</option><option>Não</option><option>Sim</option><option>Parou há menos de 2 anos</option></select></div>
@@ -436,6 +460,22 @@ table.vidas td{white-space:normal}
 <div class="f"><label for="cfCidade">Cidade</label><input type="text" id="cfCidade"></div>
 <div class="f"><label for="cfComp">Como comprova a renda</label><select class="in" id="cfComp"><option value="">Selecione</option><option>Holerite</option><option>Declaração de IR</option><option>Pró-labore</option><option>Extrato bancário</option></select></div>
 </div>
+<h3 class="sub3">Documento, contato e endereço</h3>
+<div class="grid">
+<div class="f"><label for="cfRg">RG ou CNH (número)</label><input type="text" id="cfRg" ></div>
+<div class="f"><label for="cfRgOrg">Órgão emissor / UF</label><input type="text" id="cfRgOrg" placeholder="Ex.: SSP/SP"></div>
+<div class="f"><label for="cfRgData">Data de emissão</label><input type="date" id="cfRgData" ></div>
+<div class="f"><label for="cfNac">Nacionalidade</label><input type="text" id="cfNac" placeholder="Brasileira"></div>
+<div class="f"><label for="cfEmail">E-mail</label><input type="email" id="cfEmail" autocomplete="email"></div>
+<div class="f"><label for="cfCel">Celular com DDD</label><input type="tel" id="cfCel" autocomplete="tel" placeholder="(11) 90000-0000"></div>
+<div class="f"><label for="cfCep">CEP</label><input type="text" id="cfCep" inputmode="numeric" maxlength="9" placeholder="00000-000"></div>
+<div class="f"><label for="cfEnd">Rua / avenida</label><input type="text" id="cfEnd" ></div>
+<div class="f"><label for="cfNum">Número</label><input type="text" id="cfNum" ></div>
+<div class="f"><label for="cfCompl">Complemento</label><input type="text" id="cfCompl" ></div>
+<div class="f"><label for="cfBairro">Bairro</label><input type="text" id="cfBairro" ></div>
+<div class="f"><label for="cfPep">Você ou um familiar próximo é pessoa politicamente exposta (PEP)?</label><select class="in" id="cfPep"><option value="">Selecione</option><option>Não</option><option>Sim</option></select></div>
+</div>
+<p class="note">PEP é quem exerce ou exerceu cargo público relevante nos últimos 5 anos (político, dirigente de estatal, juiz etc.). A seguradora é obrigada a perguntar.</p>
 <h3 class="sub3">Seguro desejado</h3>
 <div class="grid">
 <div class="f"><label for="cfProd">Tipo de seguro</label><select class="in" id="cfProd"><option value="">Selecione</option><option>Quero orientação</option><option>Temporário por 10 anos</option><option>Temporário por 20 anos</option><option>Até os 65 anos</option><option>Vida inteira (vitalício)</option><option>Com resgate (acumula reserva)</option></select></div>
@@ -448,6 +488,18 @@ table.vidas td{white-space:normal}
 <div class="grid" style="margin-top:12px">
 <div class="f" style="grid-column:1/-1"><label for="cfHobby">Esportes ou atividades de risco (moto, mergulho, voo, luta etc.)</label><input type="text" id="cfHobby" placeholder="Nenhum"></div>
 </div>
+<h3 class="sub3">Beneficiários e pagamento</h3>
+<div class="grid">
+<div class="f"><label for="cfBenTipo">Beneficiários</label><select class="in" id="cfBenTipo"><option value="">Selecione</option><option>Herdeiros legais</option><option>Quero indicar</option></select></div>
+<div class="f" style="grid-column:1/-1"><label for="cfBen">Se indicar: nome completo, parentesco, % e data de nascimento de cada um</label><textarea class="copyfb" id="cfBen" style="height:80px" placeholder="Maria Souza, cônjuge, 50%, 10/05/1990&#10;Pedro Souza, filho, 50%, 02/02/2015"></textarea></div>
+<div class="f"><label for="cfPag">Forma de pagamento</label><select class="in" id="cfPag"><option value="">Selecione</option><option>Boleto</option><option>Débito em conta</option><option>Cartão de crédito</option></select></div>
+<div class="f"><label for="cfPer">Periodicidade</label><select class="in" id="cfPer"><option value="">Selecione</option><option>Mensal</option><option>Anual</option></select></div>
+<div class="f"><label for="cfDia">Dia de vencimento preferido</label><input type="number" id="cfDia" min="1" max="28" step="1"></div>
+<div class="f"><label for="cfBanco">Banco (se débito em conta)</label><input type="text" id="cfBanco" ></div>
+<div class="f"><label for="cfAg">Agência (se débito)</label><input type="text" id="cfAg" ></div>
+<div class="f"><label for="cfConta">Conta com dígito (se débito)</label><input type="text" id="cfConta" ></div>
+</div>
+<p class="note">Número de cartão nunca é pedido aqui: no cartão, a própria seguradora envia o link seguro para cadastrar.</p>
 <h3 class="sub3">Declaração de saúde resumida</h3>
 <label class="chip consent"><input type="checkbox" id="cfConsent"> Autorizo a Zavia a usar meus dados, inclusive os de saúde, só para cotar e contratar o seguro (LGPD, art. 11). Posso pedir a exclusão a qualquer momento.</label>
 <fieldset id="cfSaude" class="saude" disabled>
@@ -460,9 +512,13 @@ table.vidas td{white-space:normal}
 <div class="f"><label for="cfCirurQ">Se sim, qual</label><input type="text" id="cfCirurQ"></div>
 <div class="f"><label for="cfMed">Usa medicação contínua?</label><select class="in" id="cfMed"><option value="">Selecione</option><option>Não</option><option>Sim</option></select></div>
 <div class="f"><label for="cfMedQ">Se sim, qual</label><input type="text" id="cfMedQ"></div>
+<div class="f"><label for="cfTrat">Está afastado do trabalho ou em tratamento médico hoje?</label><select class="in" id="cfTrat"><option value="">Selecione</option><option>Não</option><option>Sim</option></select></div>
+<div class="f"><label for="cfTratQ">Se sim, qual</label><input type="text" id="cfTratQ" ></div>
+<div class="f"><label for="cfDef">Tem alguma deficiência física, visual ou auditiva?</label><select class="in" id="cfDef"><option value="">Selecione</option><option>Não</option><option>Sim</option></select></div>
+<div class="f"><label for="cfDefQ">Se sim, qual</label><input type="text" id="cfDefQ" ></div>
 </div>
 </fieldset>
-<p class="note">A seguradora confirma a declaração de saúde na proposta. Informar tudo agora evita recusa ou mudança de preço depois. Não pedimos o seu CPF: ele entra só na proposta.</p>
+<p class="note">A seguradora confirma a declaração de saúde na proposta. Informar tudo agora evita recusa ou mudança de preço depois.</p>
 </section>
 <!-- Diagnóstico -->
 <section class="report" id="fReport">
@@ -474,7 +530,7 @@ table.vidas td{white-space:normal}
 <div class="cta">
 <p><b>Quer as melhores opções para o seu caso?</b> Um corretor da Zavia compara as seguradoras com base neste diagnóstico e responde pelo WhatsApp, sem compromisso.</p>
 <button class="btn wa" id="fWaBtn" type="button">Enviar diagnóstico pelo WhatsApp</button>
-<p style="font-size:12px">O botão abre o WhatsApp da Zavia com o resumo já escrito. É só apertar enviar. Vão o diagnóstico e os dados para cotação, sem CPF. A parte de saúde só vai se você autorizou.</p>
+<p style="font-size:12px">O botão abre o WhatsApp da Zavia com o resumo já escrito. É só apertar enviar. Vão o diagnóstico e os dados da proposta. A parte de saúde só vai se você autorizou.</p>
 </div>
 <div class="copyrow"><button class="btn" id="fCopyBtn" type="button">Copiar resumo</button><span id="fCopymsg" style="font-size:13px;color:var(--green)"></span></div>
 <textarea id="fCopyfallback" class="copyfb" hidden readonly></textarea>
@@ -900,13 +956,18 @@ const KEY="zavia-rmp-cot-v1";
 const UFS=["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
 const COB_PF=["Morte","Morte acidental adicional","Invalidez por acidente","Invalidez funcional por doença","Doenças graves","Diária por incapacidade (DIT)","Diária de internação","Funeral","Assistências (farmácia, residencial)"];
 const COB_PJ=["Morte","Morte acidental","Invalidez por acidente","Invalidez funcional por doença","Cônjuge","Filhos","Funeral familiar","Cesta básica / auxílio alimentação","Doenças graves","Diária por incapacidade (DIT)"];
-const PF_F=["cfNome","cfNasc","cfSexo","cfFuma","cfCivil","cfUF","cfCidade","cfComp","cfProd","cfCap","cfOrc","cfInicio","cfHobby","cfAlt","cfPeso","cfDoenca","cfDoencaQ","cfCirur","cfCirurQ","cfMed","cfMedQ"];
-const PJ_F=["cjCnpj","cjCnae","cjUF","cjCidade","cjResp","cjInicio","cjTipoCap","cjCap","cjCusteio","cjOrc","cjConv","cjConvQ","cjAtual","cjVenc","cjPremio","cjSin","cjSinQ","cjAfast"];
+const PF_F=["cfCpf","cfRg","cfRgOrg","cfRgData","cfNac","cfEmail","cfCel","cfCep","cfEnd","cfNum","cfCompl","cfBairro","cfPep","cfBenTipo","cfBen","cfPag","cfPer","cfDia","cfBanco","cfAg","cfConta","cfTrat","cfTratQ","cfDef","cfDefQ","cfNome","cfNasc","cfSexo","cfFuma","cfCivil","cfUF","cfCidade","cfComp","cfProd","cfCap","cfOrc","cfInicio","cfHobby","cfAlt","cfPeso","cfDoenca","cfDoencaQ","cfCirur","cfCirurQ","cfMed","cfMedQ"];
+const PJ_F=["cjRazao","cjCep","cjEnd","cjNum","cjCompl","cjBairro","cjEmail","cjTel","cjRespCpf","cjRespEmail","cjRespCel","cjPep","cjBen","cjPag","cjDia","cjBanco","cjAg","cjConta","cjCnpj","cjCnae","cjUF","cjCidade","cjResp","cjInicio","cjTipoCap","cjCap","cjCusteio","cjOrc","cjConv","cjConvQ","cjAtual","cjVenc","cjPremio","cjSin","cjSinQ","cjAfast"];
 const blank=()=>({pf:{cob:{},consent:false},pj:{cob:{},vidas:[]}});
 let C=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY)||"null");if(o&&o.pf&&o.pj&&Array.isArray(o.pj.vidas))return o}catch(e){}return blank()})();
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(C))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const brl=v=>Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+const cpfOk=v=>{const d=String(v||"").replace(/\D/g,"");if(d.length!==11||/^(\d)\1+$/.test(d))return false;let s=0;for(let i=0;i<9;i++)s+=+d[i]*(10-i);let r=s*10%11%10;if(r!==+d[9])return false;s=0;for(let i=0;i<10;i++)s+=+d[i]*(11-i);r=s*10%11%10;return r===+d[10]};
+const cpfFmt=v=>{const d=String(v||"").replace(/\D/g,"").slice(0,11);return d.replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d{1,2})$/,"$1-$2")};
+const cepFmt=v=>{const d=String(v||"").replace(/\D/g,"").slice(0,8);return d.length>5?d.slice(0,5)+"-"+d.slice(5):d};
+const mail=v=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(v||"").trim());
+const tel=v=>String(v||"").replace(/\D/g,"").length>=10;
 const dBR=iso=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||"");return m?`${m[3]}/${m[2]}/${m[1]}`:""};
 const idade=iso=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||"");if(!m)return null;const t=new Date(),y=t.getFullYear()-(+m[1]),pass=(t.getMonth()+1>+m[2])||((t.getMonth()+1===+m[2])&&t.getDate()>=+m[3]);const a=pass?y:y-1;return a>=0&&a<120?a:null};
 const ufOpts='<option value="">Selecione</option>'+UFS.map(u=>`<option>${u}</option>`).join("");
@@ -918,21 +979,26 @@ bindFields(PF_F,C.pf);bindFields(PJ_F,C.pj);
 chips($("cfCob"),COB_PF,C.pf.cob,"cfc");chips($("cjCob"),COB_PJ,C.pj.cob,"cjc");
 $("cfConsent").checked=!!C.pf.consent;$("cfSaude").disabled=!C.pf.consent;
 $("cfConsent").onchange=e=>{C.pf.consent=e.target.checked;$("cfSaude").disabled=!C.pf.consent;refresh()};
+[["cfCpf",cpfFmt],["cjRespCpf",cpfFmt],["cfCep",cepFmt],["cjCep",cepFmt]].forEach(([id,fn])=>{const el=$(id);el.addEventListener("input",()=>{const f=fn(el.value);if(f!==el.value){el.value=f;(id.startsWith("cf")?C.pf:C.pj)[id]=f;refresh()}})});
 $("cfNasc").addEventListener("change",()=>{const a=idade(C.pf.cfNasc);const fi=$("fIdade");if(a!=null&&fi){fi.value=a;fi.dispatchEvent(new Event("input"))}});
 renderVidas();refresh();
 }
 /* ---- lista de vidas ---- */
 function renderVidas(){
 const V=C.pj.vidas;
-$("cjVidas").innerHTML=`<thead><tr><th>#</th><th>Função</th><th>Nascimento</th><th>Idade</th><th>Sexo</th><th>Salário (R$)</th><th></th></tr></thead><tbody>`+(V.length?V.map((v,i)=>`<tr>
+$("cjVidas").innerHTML=`<thead><tr><th>#</th><th>Nome completo</th><th>CPF</th><th>Função</th><th>Nascimento</th><th>Idade</th><th>Sexo</th><th>Salário (R$)</th><th></th></tr></thead><tbody>`+(V.length?V.map((v,i)=>`<tr>
 <td class="m">${i+1}</td>
+<td><input type="text" id="vo_${i}" value="${esc(v.nome||"")}" aria-label="Nome ${i+1}"></td>
+<td><input type="text" id="vc_${i}" value="${esc(v.cpf||"")}" inputmode="numeric" maxlength="14" aria-label="CPF ${i+1}" style="min-width:130px${v.cpf&&!cpfOk(v.cpf)?";border-color:var(--red)":""}"></td>
 <td><input type="text" id="vf_${i}" value="${esc(v.func||"")}" aria-label="Função ${i+1}"></td>
 <td><input type="date" id="vn_${i}" value="${esc(v.nasc||"")}" aria-label="Nascimento ${i+1}"></td>
 <td class="m" id="vi_${i}">${idade(v.nasc)??"—"}</td>
 <td><select class="in" id="vs_${i}" aria-label="Sexo ${i+1}"><option value="">—</option><option ${v.sexo==="F"?"selected":""} value="F">F</option><option ${v.sexo==="M"?"selected":""} value="M">M</option></select></td>
 <td><input type="number" min="0" step="100" id="vw_${i}" value="${v.sal||""}" aria-label="Salário ${i+1}"></td>
-<td><button class="x" type="button" id="vx_${i}">Remover</button></td></tr>`).join(""):`<tr><td colspan="7" class="note">Nenhuma pessoa na lista. Adicione uma a uma ou cole da planilha.</td></tr>`)+`</tbody>`;
+<td><button class="x" type="button" id="vx_${i}">Remover</button></td></tr>`).join(""):`<tr><td colspan="9" class="note">Nenhuma pessoa na lista. Adicione uma a uma ou cole da planilha.</td></tr>`)+`</tbody>`;
 V.forEach((v,i)=>{
+$("vo_"+i).oninput=e=>{v.nome=e.target.value;refresh()};
+$("vc_"+i).oninput=e=>{const f=cpfFmt(e.target.value);e.target.value=f;v.cpf=f;e.target.style.borderColor=f.replace(/\D/g,"").length===11&&!cpfOk(f)?"var(--red)":"";refresh()};
 $("vf_"+i).oninput=e=>{v.func=e.target.value;refresh()};
 $("vn_"+i).onchange=e=>{v.nasc=e.target.value;$("vi_"+i).textContent=idade(v.nasc)??"—";refresh()};
 $("vs_"+i).onchange=e=>{v.sexo=e.target.value;refresh()};
@@ -940,54 +1006,68 @@ $("vw_"+i).oninput=e=>{v.sal=parseFloat(e.target.value)||0;refresh()};
 $("vx_"+i).onclick=()=>{V.splice(i,1);renderVidas();refresh()};
 });
 }
-$("cjAddVida").onclick=()=>{const V=C.pj.vidas;const last=V[V.length-1]||{};V.push({func:last.func||"",nasc:"",sexo:"",sal:last.sal||0});renderVidas();refresh();const f=$("vn_"+(V.length-1));if(f)f.focus()};
+$("cjAddVida").onclick=()=>{const V=C.pj.vidas;const last=V[V.length-1]||{};V.push({nome:"",cpf:"",func:last.func||"",nasc:"",sexo:"",sal:last.sal||0});renderVidas();refresh();const f=$("vo_"+(V.length-1));if(f)f.focus()};
 $("cjPasteBtn").onclick=()=>{$("cjPasteBox").hidden=!$("cjPasteBox").hidden;if(!$("cjPasteBox").hidden)$("cjPaste").focus()};
 const toISO=s=>{s=String(s||"").trim();let m=/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/.exec(s);if(m){let y=+m[3];if(y<100)y+=y>30?1900:2000;return `${y}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`}m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);return m?s:""};
 const toNum=s=>{s=String(s||"").replace(/[^\d,.-]/g,"");if(/,\d{1,2}$/.test(s))s=s.replace(/\./g,"").replace(",",".");else s=s.replace(/[.,](?=\d{3}(\D|$))/g,"");return parseFloat(s)||0};
 $("cjPasteOk").onclick=()=>{
 const lines=$("cjPaste").value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);let ok=0,bad=0;
 lines.forEach(l=>{const p=l.split(/\t|;/).map(x=>x.trim());if(p.length<2){bad++;return}
-const nasc=toISO(p[1]);if(!nasc&&/data|nasc/i.test(l)){return}
-const sx=(p[2]||"").charAt(0).toUpperCase();
-C.pj.vidas.push({func:p[0]||"",nasc,sexo:sx==="F"||sx==="M"?sx:"",sal:toNum(p[3])});ok++;if(!nasc)bad++});
+if(/nome|nasc|fun[cç]/i.test(l)&&!/\d{2}[\/.-]\d{2}/.test(l))return;
+let nome="",cpf="",func,ns,sxr,sal;
+if(p.length>=6&&String(p[1]).replace(/\D/g,"").length===11){[nome,cpf,func,ns,sxr,sal]=p}else{[func,ns,sxr,sal,nome,cpf]=p}
+const nasc=toISO(ns),sx=String(sxr||"").charAt(0).toUpperCase();
+C.pj.vidas.push({nome:nome||"",cpf:cpf?cpfFmt(cpf):"",func:func||"",nasc,sexo:sx==="F"||sx==="M"?sx:"",sal:toNum(sal)});ok++;if(!nasc)bad++});
 $("cjPasteMsg").textContent=`${ok} pessoa(s) adicionada(s)`+(bad?`; confira ${bad} linha(s) sem data válida.`:".");
 $("cjPaste").value="";renderVidas();refresh();
 };
 $("cjCsv").onclick=()=>{
-const rows=[["#","Funcao","Nascimento","Idade","Sexo","Salario"]].concat(C.pj.vidas.map((v,i)=>[i+1,v.func||"",dBR(v.nasc),idade(v.nasc)??"",v.sexo||"",String(v.sal||0).replace(".",",")]));
+const rows=[["#","Nome","CPF","Funcao","Nascimento","Idade","Sexo","Salario"]].concat(C.pj.vidas.map((v,i)=>[i+1,v.nome||"",v.cpf||"",v.func||"",dBR(v.nasc),idade(v.nasc)??"",v.sexo||"",String(v.sal||0).replace(".",",")]));
 const csv="﻿"+rows.map(r=>r.map(x=>/[;"\n]/.test(String(x))?`"${String(x).replace(/"/g,'""')}"`:x).join(";")).join("\r\n");
 try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="zavia-lista-de-vidas.csv";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}catch(e){}
 };
 function vidasStats(){
 const V=C.pj.vidas,ages=V.map(v=>idade(v.nasc)).filter(a=>a!=null);
 const f=[0,0,0,0];ages.forEach(a=>f[a<=30?0:a<=45?1:a<=60?2:3]++);
-return {n:V.length,ok:V.filter(v=>idade(v.nasc)!=null&&v.sexo).length,media:ages.length?Math.round(ages.reduce((s,a)=>s+a,0)/ages.length):null,max:ages.length?Math.max(...ages):null,fx:f,folha:V.reduce((s,v)=>s+(+v.sal||0),0),fem:V.filter(v=>v.sexo==="F").length,mas:V.filter(v=>v.sexo==="M").length};
+return {n:V.length,ok:V.filter(v=>idade(v.nasc)!=null&&v.sexo&&v.nome&&cpfOk(v.cpf)).length,media:ages.length?Math.round(ages.reduce((s,a)=>s+a,0)/ages.length):null,max:ages.length?Math.max(...ages):null,fx:f,folha:V.reduce((s,v)=>s+(+v.sal||0),0),fem:V.filter(v=>v.sexo==="F").length,mas:V.filter(v=>v.sexo==="M").length};
 }
 /* ---- prontidão ---- */
 const val=id=>{const el=$(id);return el?String(el.value||"").trim():""};
 function missingPF(){
-const m=[];const P=C.pf;
-if(!P.cfNasc)m.push("data de nascimento");if(!P.cfSexo)m.push("sexo");if(!P.cfFuma)m.push("fumante");if(!P.cfUF)m.push("estado");
-if(!val("fOcup"))m.push("profissão (etapa 1)");if(!(parseFloat(val("fRenda"))>0))m.push("renda (etapa 1)");if(!P.cfProd)m.push("tipo de seguro");
-if(!Object.values(P.cob).some(Boolean))m.push("coberturas");
-if(!P.consent)m.push("autorização da declaração de saúde");else{if(!P.cfAlt||!P.cfPeso)m.push("altura e peso");if(!P.cfDoenca||!P.cfCirur||!P.cfMed)m.push("respostas de saúde")}
-return m;
+const P=C.pf,m=[];let t=0;const ck=(ok,l)=>{t++;if(!ok)m.push(l)};
+ck(P.cfNome&&P.cfNome.trim().includes(" "),"nome completo");ck(cpfOk(P.cfCpf),"CPF válido");ck(P.cfNasc,"data de nascimento");ck(P.cfSexo,"sexo");ck(P.cfFuma,"fumante");ck(P.cfCivil,"estado civil");
+ck(P.cfRg&&P.cfRgOrg,"RG ou CNH com órgão emissor");ck(mail(P.cfEmail),"e-mail");ck(tel(P.cfCel),"celular");
+ck(String(P.cfCep||"").replace(/\D/g,"").length===8&&P.cfEnd&&P.cfNum&&P.cfBairro&&P.cfCidade&&P.cfUF,"endereço completo");ck(P.cfPep,"PEP");
+ck(val("fOcup"),"profissão (etapa 1)");ck(parseFloat(val("fRenda"))>0,"renda (etapa 1)");ck(P.cfComp,"comprovação de renda");
+ck(P.cfProd,"tipo de seguro");ck(Object.values(P.cob).some(Boolean),"coberturas");
+ck(P.cfBenTipo&&(P.cfBenTipo!=="Quero indicar"||String(P.cfBen||"").trim()),"beneficiários");
+ck(P.cfPag&&P.cfPer&&P.cfDia&&(P.cfPag!=="Débito em conta"||(P.cfBanco&&P.cfAg&&P.cfConta)),"pagamento");
+ck(P.consent,"autorização da declaração de saúde");
+ck(P.consent&&P.cfAlt&&P.cfPeso,"altura e peso");
+ck(P.consent&&P.cfDoenca&&P.cfCirur&&P.cfMed&&P.cfTrat&&P.cfDef,"respostas de saúde");
+ck(P.consent&&!["cfDoenca","cfCirur","cfMed","cfTrat","cfDef"].some(k=>P[k]==="Sim"&&!String(P[k+"Q"]||"").trim()),"detalhe das respostas \"Sim\" de saúde");
+return [m,t];
 }
 function missingPJ(){
-const m=[];const P=C.pj;
-if(!val("cNome"))m.push("nome da empresa (etapa 1)");if(String(P.cjCnpj||"").replace(/\D/g,"").length!==14)m.push("CNPJ");if(!P.cjCnae)m.push("atividade (CNAE)");if(!P.cjUF)m.push("estado");
-if(!P.cjTipoCap)m.push("como definir o capital");if(!P.cjCap)m.push("capital");if(!P.cjCusteio)m.push("quem paga");
-if(!Object.values(P.cob).some(Boolean))m.push("coberturas");if(!P.cjConv)m.push("convenção coletiva");if(!P.cjSin)m.push("sinistros");
-const s=vidasStats();if(!s.n)m.push("lista de vidas");else if(s.ok<s.n)m.push(`nascimento e sexo de ${s.n-s.ok} pessoa(s)`);
-return m;
+const P=C.pj,m=[];let t=0;const ck=(ok,l)=>{t++;if(!ok)m.push(l)};
+ck(P.cjRazao,"razão social");ck(String(P.cjCnpj||"").replace(/\D/g,"").length===14,"CNPJ");ck(P.cjCnae,"atividade (CNAE)");
+ck(String(P.cjCep||"").replace(/\D/g,"").length===8&&P.cjEnd&&P.cjNum&&P.cjBairro&&P.cjCidade&&P.cjUF,"endereço completo");
+ck(mail(P.cjEmail)&&tel(P.cjTel),"e-mail e telefone da empresa");
+ck(P.cjResp&&cpfOk(P.cjRespCpf)&&mail(P.cjRespEmail)&&tel(P.cjRespCel),"responsável (nome, CPF, e-mail e celular)");ck(P.cjPep,"PEP");
+ck(P.cjTipoCap&&P.cjCap,"capital");ck(P.cjCusteio,"quem paga");ck(Object.values(P.cob).some(Boolean),"coberturas");
+ck(P.cjConv&&(P.cjConv!=="Sim"||P.cjConvQ),"convenção coletiva");ck(P.cjAtual!==undefined&&String(P.cjAtual).trim()!=="","seguro atual (ou \"não tem\")");
+ck(P.cjSin&&(P.cjSin!=="Sim"||P.cjSinQ),"sinistros");ck(P.cjAfast,"afastados");ck(P.cjInicio,"início desejado");
+ck(P.cjBen,"beneficiários");ck(P.cjPag&&P.cjDia&&(P.cjPag!=="Débito em conta"||(P.cjBanco&&P.cjAg&&P.cjConta)),"pagamento");
+const s=vidasStats();ck(s.n>0,"lista de vidas");ck(s.n>0&&s.ok===s.n,s.n?`nome, CPF válido, nascimento e sexo de ${s.n-s.ok} pessoa(s)`:"dados das vidas");
+return [m,t];
 }
-function ready(el,m,total){
+function ready(el,[m,total]){
 const done=Math.max(0,total-m.length),p=Math.round(done/total*100);
-el.innerHTML=m.length?`<div class="rd-h"><b>${p}% pronto para cotar</b><span>Faltam: ${m.map(esc).join(", ")}.</span></div><div class="meter"><i style="width:${p}%"></i></div>`:`<div class="rd-h ok"><b>Pronto para cotar</b><span>Envie pelo WhatsApp no fim da página. A Zavia cota e devolve o orçamento final.</span></div><div class="meter"><i style="width:100%"></i></div>`;
+el.innerHTML=m.length?`<div class="rd-h"><b>${p}% pronto para cotar e emitir</b><span>Faltam: ${m.map(esc).join(", ")}.</span></div><div class="meter"><i style="width:${p}%"></i></div>`:`<div class="rd-h ok"><b>Pronto para cotar e emitir</b><span>Envie pelo WhatsApp no fim da página. A Zavia cota e devolve só o orçamento final.</span></div><div class="meter"><i style="width:100%"></i></div>`;
 }
 function refresh(){
 save();
-ready($("pfReady"),missingPF(),11);ready($("pjReady"),missingPJ(),12);
+ready($("pfReady"),missingPF());ready($("pjReady"),missingPJ());const cm=$("cfCpfMsg"),c1=String(C.pf.cfCpf||"").replace(/\D/g,"");cm.textContent=c1.length===11&&!cpfOk(c1)?"CPF inválido, confira os números.":"";const cm2=$("cjRespCpfMsg"),c2=String(C.pj.cjRespCpf||"").replace(/\D/g,"");cm2.textContent=c2.length===11&&!cpfOk(c2)?"CPF inválido, confira os números.":"";
 const s=vidasStats(),cv=parseFloat(val("cVidas"))||0;
 $("cjStats").textContent=s.n?`${s.n} pessoa(s) na lista${cv&&cv!==s.n?` (a etapa 1 informa ${cv})`:""} · idade média ${s.media??"—"} · mais velha ${s.max??"—"} · até 30: ${s.fx[0]} · 31 a 45: ${s.fx[1]} · 46 a 60: ${s.fx[2]} · 61+: ${s.fx[3]} · folha ${brl(s.folha)}.`:"";
 }
@@ -996,15 +1076,15 @@ document.addEventListener("input",e=>{if(e.target&&["fOcup","fRenda","cNome"].in
 const L=(a,b)=>b!==""&&b!=null?`${a}: ${b}\n`:"";
 const cobs=o=>Object.keys(o).filter(k=>o[k]).join(", ");
 window.__cotPF=()=>{const P=C.pf;const cap=P.cfCap?brl(P.cfCap):(window.__pfCap?brl(window.__pfCap)+" (escolhido no diagnóstico)":"");const a=idade(P.cfNasc);
-let t="\n\nDADOS PARA COTAÇÃO\n"+L("Nome",P.cfNome)+L("Nascimento",P.cfNasc?dBR(P.cfNasc)+(a!=null?` (${a} anos)`:""):"")+L("Sexo",P.cfSexo)+L("Fumante",P.cfFuma)+L("Estado civil",P.cfCivil)+L("Cidade/UF",[P.cfCidade,P.cfUF].filter(Boolean).join("/"))+L("Profissão",val("fOcup"))+L("Comprovação de renda",P.cfComp)+L("Tipo de seguro",P.cfProd)+L("Capital desejado",cap)+L("Orçamento máximo",P.cfOrc?brl(P.cfOrc)+"/mês":"")+L("Início desejado",dBR(P.cfInicio))+L("Coberturas",cobs(P.cob))+L("Esportes/atividades de risco",P.cfHobby);
-if(P.consent){const imc=P.cfAlt&&P.cfPeso?(P.cfPeso/Math.pow(P.cfAlt/100,2)).toFixed(1):"";t+="\nSAÚDE (autorizado pelo titular)\n"+L("Altura/peso",P.cfAlt&&P.cfPeso?`${P.cfAlt} cm / ${P.cfPeso} kg (IMC ${imc})`:"")+L("Doença grave ou crônica",P.cfDoenca?P.cfDoenca+(P.cfDoencaQ?": "+P.cfDoencaQ:""):"")+L("Cirurgia/internação 5 anos",P.cfCirur?P.cfCirur+(P.cfCirurQ?": "+P.cfCirurQ:""):"")+L("Medicação contínua",P.cfMed?P.cfMed+(P.cfMedQ?": "+P.cfMedQ:""):"")}
-const m=missingPF();return t+(m.length?`\nPendências: ${m.join(", ")}`:"\nPronto para cotar.");};
+let t="\n\nDADOS PARA COTAÇÃO E PROPOSTA\n"+L("Nome",P.cfNome)+L("CPF",P.cfCpf)+L("Documento",[P.cfRg,P.cfRgOrg,P.cfRgData?"emitido em "+dBR(P.cfRgData):""].filter(Boolean).join(" · "))+L("Nacionalidade",P.cfNac)+L("E-mail",P.cfEmail)+L("Celular",P.cfCel)+L("Endereço",[P.cfEnd,P.cfNum,P.cfCompl,P.cfBairro,P.cfCidade&&P.cfUF?P.cfCidade+"/"+P.cfUF:"",P.cfCep?"CEP "+P.cfCep:""].filter(Boolean).join(", "))+L("PEP",P.cfPep)+L("Nascimento",P.cfNasc?dBR(P.cfNasc)+(a!=null?` (${a} anos)`:""):"")+L("Sexo",P.cfSexo)+L("Fumante",P.cfFuma)+L("Estado civil",P.cfCivil)+L("Cidade/UF",[P.cfCidade,P.cfUF].filter(Boolean).join("/"))+L("Profissão",val("fOcup"))+L("Comprovação de renda",P.cfComp)+L("Tipo de seguro",P.cfProd)+L("Capital desejado",cap)+L("Orçamento máximo",P.cfOrc?brl(P.cfOrc)+"/mês":"")+L("Início desejado",dBR(P.cfInicio))+L("Coberturas",cobs(P.cob))+L("Esportes/atividades de risco",P.cfHobby)+L("Beneficiários",P.cfBenTipo==="Quero indicar"?String(P.cfBen||"").trim().replace(/\n/g," | "):P.cfBenTipo)+L("Pagamento",[P.cfPag,P.cfPer,P.cfDia?"dia "+P.cfDia:"",P.cfPag==="Débito em conta"?[P.cfBanco,P.cfAg&&"ag. "+P.cfAg,P.cfConta&&"cc "+P.cfConta].filter(Boolean).join(" "):""].filter(Boolean).join(" · "));
+if(P.consent){const imc=P.cfAlt&&P.cfPeso?(P.cfPeso/Math.pow(P.cfAlt/100,2)).toFixed(1):"";t+="\nSAÚDE (autorizado pelo titular)\n"+L("Altura/peso",P.cfAlt&&P.cfPeso?`${P.cfAlt} cm / ${P.cfPeso} kg (IMC ${imc})`:"")+L("Doença grave ou crônica",P.cfDoenca?P.cfDoenca+(P.cfDoencaQ?": "+P.cfDoencaQ:""):"")+L("Cirurgia/internação 5 anos",P.cfCirur?P.cfCirur+(P.cfCirurQ?": "+P.cfCirurQ:""):"")+L("Medicação contínua",P.cfMed?P.cfMed+(P.cfMedQ?": "+P.cfMedQ:""):"")+L("Afastado/em tratamento",P.cfTrat?P.cfTrat+(P.cfTratQ?": "+P.cfTratQ:""):"")+L("Deficiência",P.cfDef?P.cfDef+(P.cfDefQ?": "+P.cfDefQ:""):"")}
+const [m]=missingPF();return t+(m.length?`\nPendências: ${m.join(", ")}`:"\nPronto para cotar e emitir.");};
 window.__cotPJ=()=>{const P=C.pj,s=vidasStats();
-let t="\n\nDADOS PARA COTAÇÃO\n"+L("CNPJ",P.cjCnpj)+L("CNAE/atividade",P.cjCnae)+L("Cidade/UF",[P.cjCidade,P.cjUF].filter(Boolean).join("/"))+L("Responsável",P.cjResp)+L("Início desejado",dBR(P.cjInicio))+L("Capital",[P.cjTipoCap,P.cjCap].filter(Boolean).join(": "))+L("Custeio",P.cjCusteio)+L("Orçamento máximo",P.cjOrc?brl(P.cjOrc)+"/mês":"")+L("Coberturas",cobs(P.cob))+L("Convenção coletiva",P.cjConv?P.cjConv+(P.cjConvQ?": "+P.cjConvQ:""):"")+L("Seguro atual",P.cjAtual)+L("Vencimento atual",dBR(P.cjVenc))+L("Prêmio atual",P.cjPremio?brl(P.cjPremio)+"/mês":"")+L("Sinistros 3 anos",P.cjSin?P.cjSin+(P.cjSinQ?": "+P.cjSinQ:""):"")+L("Afastados INSS",P.cjAfast);
+let t="\n\nDADOS PARA COTAÇÃO E PROPOSTA\n"+L("Razão social",P.cjRazao)+L("CNPJ",P.cjCnpj)+L("Endereço",[P.cjEnd,P.cjNum,P.cjCompl,P.cjBairro,P.cjCep?"CEP "+P.cjCep:""].filter(Boolean).join(", "))+L("E-mail/telefone",[P.cjEmail,P.cjTel].filter(Boolean).join(" · "))+L("CPF do responsável",P.cjRespCpf)+L("Contato do responsável",[P.cjRespEmail,P.cjRespCel].filter(Boolean).join(" · "))+L("PEP",P.cjPep)+L("Beneficiários",P.cjBen)+L("Pagamento",[P.cjPag,P.cjDia?"dia "+P.cjDia:"",P.cjPag==="Débito em conta"?[P.cjBanco,P.cjAg&&"ag. "+P.cjAg,P.cjConta&&"cc "+P.cjConta].filter(Boolean).join(" "):""].filter(Boolean).join(" · "))+L("CNAE/atividade",P.cjCnae)+L("Cidade/UF",[P.cjCidade,P.cjUF].filter(Boolean).join("/"))+L("Responsável",P.cjResp)+L("Início desejado",dBR(P.cjInicio))+L("Capital",[P.cjTipoCap,P.cjCap].filter(Boolean).join(": "))+L("Custeio",P.cjCusteio)+L("Orçamento máximo",P.cjOrc?brl(P.cjOrc)+"/mês":"")+L("Coberturas",cobs(P.cob))+L("Convenção coletiva",P.cjConv?P.cjConv+(P.cjConvQ?": "+P.cjConvQ:""):"")+L("Seguro atual",P.cjAtual)+L("Vencimento atual",dBR(P.cjVenc))+L("Prêmio atual",P.cjPremio?brl(P.cjPremio)+"/mês":"")+L("Sinistros 3 anos",P.cjSin?P.cjSin+(P.cjSinQ?": "+P.cjSinQ:""):"")+L("Afastados INSS",P.cjAfast);
 if(s.n){t+=`\nVIDAS: ${s.n} (${s.fem} F, ${s.mas} M) · idade média ${s.media??"—"} · mais velha ${s.max??"—"} · folha ${brl(s.folha)}\n`;
-if(s.n<=20)t+=C.pj.vidas.map((v,i)=>`${i+1}. ${v.func||"—"} · ${dBR(v.nasc)||"sem data"}${idade(v.nasc)!=null?` (${idade(v.nasc)})`:""} · ${v.sexo||"—"} · ${brl(v.sal)}`).join("\n")+"\n";
-else t+=`Faixas: até 30: ${s.fx[0]} · 31-45: ${s.fx[1]} · 46-60: ${s.fx[2]} · 61+: ${s.fx[3]}. Lista completa segue em planilha.\n`}
-const m=missingPJ();return t+(m.length?`\nPendências: ${m.join(", ")}`:"\nPronto para cotar.");};
+if(s.n<=20)t+=C.pj.vidas.map((v,i)=>`${i+1}. ${v.nome||"—"} · CPF ${v.cpf||"—"} · ${v.func||"—"} · ${dBR(v.nasc)||"sem data"}${idade(v.nasc)!=null?` (${idade(v.nasc)})`:""} · ${v.sexo||"—"} · ${brl(v.sal)}`).join("\n")+"\n";
+else t+=`Faixas: até 30: ${s.fx[0]} · 31-45: ${s.fx[1]} · 46-60: ${s.fx[2]} · 61+: ${s.fx[3]}. Lista completa (nomes e CPFs) segue na planilha anexa.\n`}
+const [m]=missingPJ();return t+(m.length?`\nPendências: ${m.join(", ")}`:"\nPronto para cotar e emitir.");};
 window.__cotReset=m=>{if(m==="cpf")C.pf=blank().pf;else C.pj=blank().pj;save();init()};
 init();
 })();
