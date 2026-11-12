@@ -142,23 +142,6 @@ footer a{color:var(--muted)}
 .mode b{font-family:var(--f-display);font-size:18px}
 .mode span{color:var(--muted);font-size:13.5px}
 .copyfb{width:100%;height:160px;font-family:var(--f-mono);font-size:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px}
-/* etapas */
-.wiz{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(10,13,18,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px))}
-.wiz-in{max-width:1080px;margin:0 auto;display:flex;gap:12px;align-items:center}
-.wiz-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--muted)}
-.wiz-mid span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wiz-bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
-.wiz-bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
-.wiz .btn{padding:10px 16px}
-.wiz .btn:disabled{opacity:.4;cursor:default}
-.wrap{padding-bottom:110px!important}
-.btn.big{padding:14px 18px;font-size:16px}
-.linkbtn{background:none;border:none;color:var(--gold);text-decoration:underline;padding:0;font-size:12px}
-.after{background:var(--green-soft);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:13.5px}
-details.adv{margin-top:18px;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
-details.adv summary{cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:15px}
-details.adv[open] summary{margin-bottom:12px}
-@media (max-width:520px){.wiz-in{gap:8px}.wiz .btn{padding:9px 12px;font-size:13.5px}}
 /* cotação */
 .sub3{font-family:var(--f-display);font-size:16px;margin:22px 0 10px}
 .readiness{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:6px}
@@ -245,7 +228,7 @@ table.vidas td{white-space:normal}
 <header><span class="num">3</span><h2>Exposição a riscos</h2><p class="hint">Marque o que faz parte da rotina. A ferramenta indica quais coberturas ganham prioridade.</p></header>
 <div class="chips" id="riskChips"></div>
 <div class="prio" id="prio"></div>
-<details class="adv"><summary>Ajustar premissas dos cenários (opcional)</summary>
+<h3 style="font-family:var(--f-display);font-size:16px;margin:22px 0 10px">Premissas dos cenários</h3>
 <div class="grid">
 <div class="f"><label for="pMorte">Falecimento: meses de renda à família</label><input type="number" id="pMorte" min="1" step="1"></div>
 <div class="f"><label for="pInv">Invalidez: meses de renda a repor</label><input type="number" id="pInv" min="1" step="1"></div>
@@ -255,7 +238,6 @@ table.vidas td{white-space:normal}
 <div class="f"><label for="pRepo">Renda reposta no afastamento (%)</label><input type="number" id="pRepo" min="0" max="100" step="5"></div>
 </div>
 <p class="note">Renda reposta: o que o colaborador continua recebendo durante o afastamento (os primeiros 15 dias pela empresa, depois benefício do INSS para CLT). Ajuste conforme o caso; sócios costumam ter reposição menor.</p>
-</details>
 <div class="scen" id="scen"></div>
 </section>
 <!-- 4 Capital -->
@@ -276,21 +258,6 @@ table.vidas td{white-space:normal}
 <div class="plans" id="plans"></div>
 <div class="copyrow"><button class="btn" id="addPlan" type="button">Adicionar cotação</button></div>
 <p class="note">Planos diferentes não mudam só o capital: cônjuge, filhos, funeral e despesas hospitalares também variam. Compare as coberturas antes do preço.</p>
-</section>
-<!-- Diagnóstico -->
-<section class="report" id="report">
-<div class="eyebrow">Diagnóstico Závia · Proteção de Pessoas</div>
-<h2 id="rTitle">Empresa</h2>
-<dl id="rDl"></dl>
-<p class="closing">A proteção escolhida está alinhada ao padrão de segurança financeira que sua empresa deseja oferecer aos colaboradores?</p>
-<p class="fine">Estimativa de necessidade financeira com base nas informações fornecidas e em premissas ajustáveis. O diagnóstico identifica e orienta; não garante que o capital será suficiente em um caso real. Coberturas, carências, exclusões e aceitação seguem as condições gerais e a análise de cada seguradora. Invalidez funcional por doença não equivale a incapacidade para exercer a profissão. Preços sujeitos a recálculo na data de início da vigência.</p>
-<div class="cta">
-<p><b>Quer as melhores opções para esse cenário?</b> Um corretor da Zavia compara as seguradoras com base neste diagnóstico e responde pelo WhatsApp, sem compromisso.</p>
-<button class="btn primary big" type="button" data-go="cot">Quero cotar com a Zavia</button>
-<p style="font-size:12px">Na próxima etapa você informa os dados da empresa e das vidas. Com eles a Zavia cota e devolve só o orçamento final. <button class="linkbtn" id="waBtn" type="button">Prefere só enviar este diagnóstico?</button></p>
-</div>
-<div class="copyrow"><button class="btn" id="copyBtn" type="button">Copiar resumo</button><span id="copymsg"></span></div>
-<textarea id="copyfallback" hidden readonly></textarea>
 </section>
 <!-- 6 Dados para cotação (CNPJ) -->
 <section class="step" id="cotPJ">
@@ -357,7 +324,21 @@ table.vidas td{white-space:normal}
 </div>
 <p class="note" id="cjStats"></p>
 <p class="note">Em grupos pequenos ou com capital alto, a seguradora pode exigir declaração de saúde individual. Nesse caso, ela manda o formulário direto a cada colaborador, sem precisar passar pela empresa.</p>
-<div class="cta"><button class="btn wa" type="button" data-wa="waBtn">Enviar para cotação pelo WhatsApp</button><p style="font-size:12px">Abre o WhatsApp da Zavia com tudo já escrito. É só apertar enviar. Vão o diagnóstico, os dados da proposta e a lista de vidas. Acima de 20 pessoas, anexe a planilha baixada acima.</p><div class="after" hidden><b>Mensagem pronta no WhatsApp.</b> Aperte enviar por lá. Um corretor da Zavia compara as seguradoras e responde com o orçamento final por WhatsApp. Se faltar algo, a lista de pendências segue junto.</div></div>
+</section>
+<!-- Diagnóstico -->
+<section class="report" id="report">
+<div class="eyebrow">Diagnóstico Závia · Proteção de Pessoas</div>
+<h2 id="rTitle">Empresa</h2>
+<dl id="rDl"></dl>
+<p class="closing">A proteção escolhida está alinhada ao padrão de segurança financeira que sua empresa deseja oferecer aos colaboradores?</p>
+<p class="fine">Estimativa de necessidade financeira com base nas informações fornecidas e em premissas ajustáveis. O diagnóstico identifica e orienta; não garante que o capital será suficiente em um caso real. Coberturas, carências, exclusões e aceitação seguem as condições gerais e a análise de cada seguradora. Invalidez funcional por doença não equivale a incapacidade para exercer a profissão. Preços sujeitos a recálculo na data de início da vigência.</p>
+<div class="cta">
+<p><b>Quer as melhores opções para esse cenário?</b> Um corretor da Zavia compara as seguradoras com base neste diagnóstico e responde pelo WhatsApp, sem compromisso.</p>
+<button class="btn wa" id="waBtn" type="button">Enviar diagnóstico pelo WhatsApp</button>
+<p style="font-size:12px">O botão abre o WhatsApp da Zavia com o resumo já escrito. É só apertar enviar. Vão o diagnóstico, os dados da proposta e a lista de vidas. Acima de 20 pessoas, anexe a planilha baixada na etapa 6.</p>
+</div>
+<div class="copyrow"><button class="btn" id="copyBtn" type="button">Copiar resumo</button><span id="copymsg"></span></div>
+<textarea id="copyfallback" hidden readonly></textarea>
 </section>
 </div>
 <div id="viewCpf" hidden>
@@ -432,7 +413,7 @@ table.vidas td{white-space:normal}
 <header><span class="num">5</span><h2>Rotina e premissas</h2><p class="hint">Marque o que faz parte da sua vida. A ferramenta indica quais coberturas ganham prioridade.</p></header>
 <div class="chips" id="fRiskChips"></div>
 <div class="prio" id="fPrio"></div>
-<details class="adv"><summary>Ajustar premissas dos cenários (opcional)</summary>
+<h3 style="font-family:var(--f-display);font-size:16px;margin:22px 0 10px">Premissas dos cenários</h3>
 <div class="grid">
 <div class="f"><label for="fMeses">Falecimento: meses de renda à família</label><input type="number" id="fMeses" min="1" step="1"></div>
 <div class="f"><label for="fIndep">Idade em que os filhos ficam independentes</label><input type="number" id="fIndep" min="14" max="30" step="1"></div>
@@ -443,7 +424,6 @@ table.vidas td{white-space:normal}
 <div class="f"><label for="fRepo">Renda reposta no afastamento (%)</label><input type="number" id="fRepo" min="0" max="100" step="5"></div>
 </div>
 <p class="note" id="fMesesHint"></p>
-</details>
 <div class="scen" id="fScen"></div>
 </section>
 <!-- 6 Capital -->
@@ -463,21 +443,6 @@ table.vidas td{white-space:normal}
 <div class="plans" id="fPlans"></div>
 <div class="copyrow"><button class="btn" id="fAddPlan" type="button">Adicionar cotação</button></div>
 <p class="note">No seguro individual o preço muda com a idade, a profissão e as coberturas escolhidas (doenças graves, invalidez, diária por incapacidade, funeral). Compare as coberturas antes do preço.</p>
-</section>
-<!-- Diagnóstico -->
-<section class="report" id="fReport">
-<div class="eyebrow">Diagnóstico Závia · Proteção individual</div>
-<h2 id="fTitle">Seu diagnóstico</h2>
-<dl id="fDl"></dl>
-<p class="closing">A proteção que você tem hoje garante à sua família o tempo e o dinheiro de que ela precisaria?</p>
-<p class="fine">Estimativa de necessidade financeira com base nas informações fornecidas e em premissas ajustáveis. O diagnóstico identifica e orienta; não garante que o capital será suficiente em um caso real. Coberturas, carências, exclusões, limites de capital e aceitação seguem as condições gerais e a análise de cada seguradora, inclusive a declaração de saúde. Preços sujeitos a recálculo na data de início da vigência.</p>
-<div class="cta">
-<p><b>Quer as melhores opções para o seu caso?</b> Um corretor da Zavia compara as seguradoras com base neste diagnóstico e responde pelo WhatsApp, sem compromisso.</p>
-<button class="btn primary big" type="button" data-go="cot">Quero cotar com a Zavia</button>
-<p style="font-size:12px">Na próxima etapa você informa os dados para a proposta. Com eles a Zavia cota e devolve só o orçamento final. <button class="linkbtn" id="fWaBtn" type="button">Prefere só enviar este diagnóstico?</button></p>
-</div>
-<div class="copyrow"><button class="btn" id="fCopyBtn" type="button">Copiar resumo</button><span id="fCopymsg" style="font-size:13px;color:var(--green)"></span></div>
-<textarea id="fCopyfallback" class="copyfb" hidden readonly></textarea>
 </section>
 <!-- 8 Dados para cotação (CPF) -->
 <section class="step" id="cotPF">
@@ -554,7 +519,21 @@ table.vidas td{white-space:normal}
 </div>
 </fieldset>
 <p class="note">A seguradora confirma a declaração de saúde na proposta. Informar tudo agora evita recusa ou mudança de preço depois.</p>
-<div class="cta"><button class="btn wa" type="button" data-wa="fWaBtn">Enviar para cotação pelo WhatsApp</button><p style="font-size:12px">Abre o WhatsApp da Zavia com tudo já escrito. É só apertar enviar. Vão o diagnóstico e os dados da proposta. A parte de saúde só vai se você autorizou.</p><div class="after" hidden><b>Mensagem pronta no WhatsApp.</b> Aperte enviar por lá. Um corretor da Zavia compara as seguradoras e responde com o orçamento final por WhatsApp. Se faltar algo, a lista de pendências segue junto.</div></div>
+</section>
+<!-- Diagnóstico -->
+<section class="report" id="fReport">
+<div class="eyebrow">Diagnóstico Závia · Proteção individual</div>
+<h2 id="fTitle">Seu diagnóstico</h2>
+<dl id="fDl"></dl>
+<p class="closing">A proteção que você tem hoje garante à sua família o tempo e o dinheiro de que ela precisaria?</p>
+<p class="fine">Estimativa de necessidade financeira com base nas informações fornecidas e em premissas ajustáveis. O diagnóstico identifica e orienta; não garante que o capital será suficiente em um caso real. Coberturas, carências, exclusões, limites de capital e aceitação seguem as condições gerais e a análise de cada seguradora, inclusive a declaração de saúde. Preços sujeitos a recálculo na data de início da vigência.</p>
+<div class="cta">
+<p><b>Quer as melhores opções para o seu caso?</b> Um corretor da Zavia compara as seguradoras com base neste diagnóstico e responde pelo WhatsApp, sem compromisso.</p>
+<button class="btn wa" id="fWaBtn" type="button">Enviar diagnóstico pelo WhatsApp</button>
+<p style="font-size:12px">O botão abre o WhatsApp da Zavia com o resumo já escrito. É só apertar enviar. Vão o diagnóstico e os dados da proposta. A parte de saúde só vai se você autorizou.</p>
+</div>
+<div class="copyrow"><button class="btn" id="fCopyBtn" type="button">Copiar resumo</button><span id="fCopymsg" style="font-size:13px;color:var(--green)"></span></div>
+<textarea id="fCopyfallback" class="copyfb" hidden readonly></textarea>
 </section>
 </div>
 <footer>Estimativa com premissas ajustáveis. Os valores de seguro dependem da análise e da aceitação de cada seguradora.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados pessoais: o que você digita fica só neste navegador e só segue para a Zavia se você enviar pelo WhatsApp. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
@@ -961,7 +940,6 @@ try{localStorage.setItem(MKEY,mode)}catch(e){}
 $("viewCnpj").hidden=mode!=="cnpj";$("viewCpf").hidden=mode!=="cpf";
 document.querySelectorAll(".mode").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.m===mode)));
 $("hTitle").innerHTML=TXT[mode].h;$("hTag").textContent=TXT[mode].t;
-if(window.__onMode)window.__onMode(mode);
 }
 document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>set(b.dataset.m));
 $("exampleBtn").onclick=()=>window.__modes[mode].example();
@@ -1109,91 +1087,6 @@ else t+=`Faixas: até 30: ${s.fx[0]} · 31-45: ${s.fx[1]} · 46-60: ${s.fx[2]} �
 const [m]=missingPJ();return t+(m.length?`\nPendências: ${m.join(", ")}`:"\nPronto para cotar e emitir.");};
 window.__cotReset=m=>{if(m==="cpf")C.pf=blank().pf;else C.pj=blank().pj;save();init()};
 init();
-})();
-</script>
-<script>
-/* Experiência: etapas uma por vez, fases, preenchimento automático e campos condicionais */
-(function(){
-const $=id=>document.getElementById(id);
-const views={cnpj:$("viewCnpj"),cpf:$("viewCpf")};
-const KEY="zavia-rmp-etapa";
-let pos={};try{pos=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){}
-const savePos=()=>{try{localStorage.setItem(KEY,JSON.stringify(pos))}catch(e){}};
-const mode=()=>views.cpf.hidden?"cnpj":"cpf";
-const steps=v=>[...views[v].querySelectorAll(":scope > section.step, :scope > section.report")];
-const isCot=s=>s.id==="cotPJ"||s.id==="cotPF";
-const title=s=>{const h=s.querySelector("h2");return h?h.textContent.trim():""};
-const nav=document.createElement("nav");nav.className="wiz";nav.setAttribute("aria-label","Etapas");
-nav.innerHTML=`<div class="wiz-in"><button class="btn" type="button" id="wzPrev">Voltar</button><div class="wiz-mid"><span id="wzLbl"></span><div class="wiz-bar"><i id="wzBar"></i></div></div><button class="btn primary" type="button" id="wzNext">Continuar</button></div>`;
-document.body.appendChild(nav);
-function show(v,i,scroll){
-const S=steps(v);i=Math.max(0,Math.min(S.length-1,i|0));pos[v]=i;savePos();
-S.forEach((s,k)=>{s.hidden=k!==i});
-const cur=S[i],rep=S.findIndex(s=>s.classList.contains("report"));
-const band=views[v].querySelector(":scope > section.band");if(band)band.hidden=isCot(cur)||cur.classList.contains("report");
-const fase=i<=rep?"Diagnóstico":"Cotação";
-$("wzLbl").textContent=`${fase} · etapa ${i+1} de ${S.length}: ${title(cur)}`;
-$("wzBar").style.width=((i+1)/S.length*100)+"%";
-$("wzPrev").disabled=i===0;
-const nx=$("wzNext");nx.hidden=i===S.length-1;
-nx.textContent=i+1===rep?"Ver diagnóstico":i===rep?"Quero cotar com a Zavia":"Continuar";
-if(scroll){const top=views[v].getBoundingClientRect().top+window.scrollY-12;window.scrollTo({top,behavior:"smooth"})}
-}
-$("wzPrev").onclick=()=>show(mode(),(pos[mode()]||0)-1,true);
-$("wzNext").onclick=()=>show(mode(),(pos[mode()]||0)+1,true);
-const goRep=()=>{const S=steps(mode());show(mode(),S.findIndex(s=>s.classList.contains("report")),true)};
-const goCot=()=>{const S=steps(mode());show(mode(),S.findIndex(isCot),true)};
-$("goReport").onclick=goRep;
-["exampleBtn","resetBtn"].forEach(id=>$(id).addEventListener("click",()=>show(mode(),0,false)));
-document.querySelectorAll("[data-go=cot]").forEach(b=>b.onclick=goCot);
-document.querySelectorAll("[data-wa]").forEach(b=>b.onclick=()=>{$(b.dataset.wa).click();const a=b.parentElement.querySelector(".after");if(a)a.hidden=false});
-window.__onMode=m=>show(m,pos[m]||0,false);
-/* campos condicionais */
-const box=id=>{const el=$(id);return el?(el.closest(".f")||el.closest(".chip")||el):null};
-const vis=(id,on)=>{const b=box(id);if(b)b.hidden=!on};
-const v=id=>{const el=$(id);return el?String(el.value||"").trim():""};
-const yes=id=>v(id)==="Sim";
-function cond(){
-["cfDoenca","cfCirur","cfMed","cfTrat","cfDef","cjSin"].forEach(k=>vis(k+"Q",yes(k)));
-vis("cjConvQ",yes("cjConv"));
-vis("cfBen",v("cfBenTipo")==="Quero indicar");
-["Banco","Ag","Conta"].forEach(k=>{vis("cf"+k,v("cfPag")==="Débito em conta");vis("cj"+k,v("cjPag")==="Débito em conta")});
-const tem=v("cjAtual")&&!/^n(ã|a)o/i.test(v("cjAtual"));vis("cjVenc",tem);vis("cjPremio",tem);
-const fil=parseFloat(v("fFilhos"))>0;vis("fIdadeNovo",fil);vis("fEduc",fil);vis("fIndep",fil);
-vis("fMip",parseFloat(v("fImovel"))>0);vis("fContaEmp",parseFloat(v("fSegEmp"))>0);
-vis("fRendaConj",true);
-}
-document.addEventListener("input",cond);document.addEventListener("change",cond);
-["exampleBtn","resetBtn"].forEach(id=>$(id).addEventListener("click",()=>setTimeout(cond,0)));
-/* CEP -> endereço (ViaCEP) */
-function cepFill(cepId,map){
-const el=$(cepId);if(!el)return;let last="";
-const msg=document.createElement("span");msg.className="note";msg.style.cssText="margin:0;font-size:12px";el.parentElement.appendChild(msg);
-el.addEventListener("input",()=>{const d=el.value.replace(/\D/g,"");if(d.length!==8||d===last)return;last=d;msg.textContent="Buscando endereço…";
-fetch("https://viacep.com.br/ws/"+d+"/json/").then(r=>r.json()).then(j=>{if(j.erro){msg.textContent="CEP não encontrado. Preencha o endereço.";return}
-Object.entries(map).forEach(([k,id])=>{const t=$(id);if(t&&j[k]&&!t.value){t.value=j[k];t.dispatchEvent(new Event("input",{bubbles:true}));t.dispatchEvent(new Event("change",{bubbles:true}))}});
-msg.textContent="Endereço preenchido. Confira o número.";const n=$(map.__num);if(n&&!n.value)n.focus()}).catch(()=>{msg.textContent="Não deu para buscar o CEP agora. Preencha o endereço."})});
-}
-cepFill("cfCep",{logradouro:"cfEnd",bairro:"cfBairro",localidade:"cfCidade",uf:"cfUF",__num:"cfNum"});
-cepFill("cjCep",{logradouro:"cjEnd",bairro:"cjBairro",localidade:"cjCidade",uf:"cjUF",__num:"cjNum"});
-/* CNPJ -> dados da empresa (BrasilAPI, dados públicos da Receita) */
-(function(){const el=$("cjCnpj");if(!el)return;let last="";
-const msg=document.createElement("span");msg.className="note";msg.style.cssText="margin:0;font-size:12px";el.parentElement.appendChild(msg);
-const put=(id,val)=>{const t=$(id);if(t&&val&&!String(t.value||"").trim()){t.value=val;t.dispatchEvent(new Event("input",{bubbles:true}));t.dispatchEvent(new Event("change",{bubbles:true}))}};
-el.addEventListener("input",()=>{const d=el.value.replace(/\D/g,"");
-const f=d.slice(0,14).replace(/^(\d{2})(\d)/,"$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3").replace(/\.(\d{3})(\d)/,".$1/$2").replace(/(\d{4})(\d)/,"$1-$2");
-if(f!==el.value){el.value=f;el.dispatchEvent(new Event("change",{bubbles:true}))}
-if(d.length!==14||d===last)return;last=d;msg.textContent="Buscando dados da empresa…";
-fetch("https://brasilapi.com.br/api/cnpj/v1/"+d).then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{
-put("cjRazao",j.razao_social);put("cNome",j.nome_fantasia||j.razao_social);
-put("cjCnae",j.cnae_fiscal?(String(j.cnae_fiscal).replace(/^(\d{4})(\d)(\d{2})$/,"$1-$2/$3")+" "+(j.cnae_fiscal_descricao||"")).trim():"");put("cAtiv",j.cnae_fiscal_descricao);
-const cep=String(j.cep||"").replace(/\D/g,"");put("cjCep",cep.length===8?cep.slice(0,5)+"-"+cep.slice(5):"");
-put("cjEnd",[j.descricao_tipo_de_logradouro,j.logradouro].filter(Boolean).join(" "));put("cjNum",j.numero);put("cjCompl",j.complemento);put("cjBairro",j.bairro);
-put("cjCidade",j.municipio?j.municipio.toLowerCase().replace(/(^|\s)\S/g,s=>s.toUpperCase()):"");put("cjUF",j.uf);
-put("cjTel",j.ddd_telefone_1?String(j.ddd_telefone_1).replace(/\D/g,""):"");put("cjEmail",j.email?String(j.email).toLowerCase():"");
-msg.textContent=(j.descricao_situacao_cadastral&&j.descricao_situacao_cadastral!=="ATIVA"?"Atenção: CNPJ com situação "+j.descricao_situacao_cadastral+". ":"")+"Dados da Receita preenchidos. Confira.";
-}).catch(()=>{msg.textContent="Não deu para buscar o CNPJ agora. Preencha os dados."})});})();
-cond();show(mode(),pos[mode()]||0,false);
 })();
 </script>
 </body>
