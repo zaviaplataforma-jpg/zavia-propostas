@@ -18,6 +18,7 @@ a { color: #38BDF8; }
    /s/<campanha>/<variação>   → quero receber (WhatsApp)     /se/... → quero receber (e-mail)
    /x/<campanha>/<variação>   → sair da lista (WhatsApp)     /xe/... → sair da lista (e-mail)
    /v/<publicação>            → link de um vídeo, ex.: /v/ZV-CTB-001-A-ig (conta o clique e abre o destino do público)
+   /v/ZV-PAR-001-ig           → vídeo de parceiro: conta o clique e abre o WhatsApp do parceiro (parceiros/parceiros.js)
    Funciona com o domínio próprio e também com zaviaplataforma-jpg.github.io/zavia-propostas/. */
 (function () {
   "use strict";
@@ -26,9 +27,22 @@ a { color: #38BDF8; }
   var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
   var rota = { s: ["sim", "w"], se: ["sim", "e"], x: ["sair", "w"], xe: ["sair", "e"] }[partes[0]];
   var FORMS = ["rc", "rc-advogados"]; // /<formulário>/<campanha>/<variação>
-  var PUB = /^ZV-(CTB|EMP|CND|PRF|TRN|OBR|AUT|RES|VID|INS)-(\d{3})(-[A-C])?-(ig|fb|li|yt|wa|bni|gg|qr|bio|ev|parc|pmeta|pgoogle)$/;
+  var PUB = /^ZV-(CTB|EMP|CND|PRF|TRN|OBR|AUT|RES|VID|INS|PAR)-(\d{3})(-[A-C])?-(ig|fb|li|yt|wa|bni|gg|qr|bio|ev|parc|pmeta|pgoogle)$/;
   var v = partes[0] === "v" ? PUB.exec(String(partes[1] || "").replace(/^zv-/, "ZV-").toUpperCase().replace(/-([A-Z]+)$/, function (m, c) { return "-" + c.toLowerCase(); })) : null;
-  if (v) {
+  if (v && v[1] === "PAR") {
+    // vídeo de parceiro: conta o clique e abre o WhatsApp do parceiro (lista em parceiros/parceiros.js)
+    var pubP = v[0], numP = v[2];
+    try { if (navigator.sendBeacon) navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pubP, e: "clique" })); } catch (x) {}
+    var sc = document.createElement("script");
+    var vai = function () {
+      var lista = window.PARCEIROS || [], par = null;
+      for (var i = 0; i < lista.length; i++) if ((lista[i].videos || []).indexOf(numP) >= 0) par = lista[i];
+      if (par && par.ativo && par.whats) location.replace("https://wa.me/" + par.whats + "?text=" + encodeURIComponent("Vim pelo vídeo da Závia"));
+      else location.replace(base + "w/?c=parceiros&v=" + pubP.slice(0, pubP.lastIndexOf("-")) + "&t=ins");
+    };
+    sc.src = base + "parceiros/parceiros.js"; sc.onload = vai; sc.onerror = vai;
+    document.head.appendChild(sc);
+  } else if (v) {
     // destino por público: formulário de RC, formulário Empresarial ou WhatsApp com mensagem pronta (/w/)
     var pub = v[0], cont = pub.slice(0, pub.lastIndexOf("-")), canal = v[4];
     var DEST = { CTB: ["rc", "contabilidade"], PRF: ["rc", "profissionais"], EMP: ["empresarial", "empresas"], TRN: ["empresarial", "transportadoras"], OBR: ["w", "obras"],
