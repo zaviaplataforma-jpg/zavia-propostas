@@ -714,7 +714,7 @@ const worst=needs.reduce((a,b)=>b.c.A>a.c.A?b:a,needs[0]);
 const capsEval=[...new Set([base.capital,...S.plans.map(x=>x.capital)])].sort((a,b)=>a-b);
 const L=[
 ["Atividade",S.company.ativ],
-["Colaboradores analisados",String(S.company.vidas)],
+["Colaboradores analisados",(()=>{const a=profs.reduce((s,p)=>s+p.qtd,0),t=S.company.vidas;return t&&a<t?`${a} de ${t} (resultado parcial)`:String(a)})()],
 ["Necessidade estimada por perfil (falecimento)",needs.map(x=>`${x.p.nome} (${x.p.qtd}): ${brl(x.c.A)}`).join(" · ")],
 ["Invalidez por acidente",needs.map(x=>`${x.p.nome}: ${brl(x.c.B)}`).join(" · ")],
 ["Afastamento de "+S.prem.dias+" dias",needs.map(x=>`${x.p.nome}: ${brl(x.c.C)}`).join(" · ")+" (fora do capital de morte e invalidez)"],
