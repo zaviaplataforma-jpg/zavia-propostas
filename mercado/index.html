@@ -78,6 +78,9 @@ footer a { color: var(--mut); }
 .rs { position: relative; }
 .rs input { padding-left: 38px; font-variant-numeric: tabular-nums; }
 .rs::before { content: "R$"; position: absolute; left: 12px; bottom: 12px; font-size: 14px; color: var(--mut); pointer-events: none; }
+.retomar { display: flex; align-items: center; gap: 12px; background: var(--sunk); border: 1px solid var(--line); border-left: 3px solid var(--ok); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: 13px; color: var(--mut); }
+.retomar[hidden] { display: none; }
+.retomar button { flex: 0 0 auto; padding: 9px 12px; font-size: 13px; }
 .alerta { font-size: 12.5px; color: var(--gold); margin: -6px 0 0; }
 .alerta[hidden] { display: none; }
 </style>
@@ -88,6 +91,8 @@ footer a { color: var(--mut); }
 
   <h1>Seguro para <em>mercados, padarias e hortifrutis</em></h1>
   <p class="lead">São 5 telas, uns 8 minutos. Com estas respostas a Zavia cota nas seguradoras parceiras e te mostra as opções lado a lado. Valor que você não souber agora, ponha uma estimativa: a gente confere junto.</p>
+
+  <div class="retomar" id="retomar" hidden role="status"><span>Continuamos de onde você parou. Suas respostas ficam salvas só neste aparelho. Anexos e fotos precisam ser escolhidos de novo.</span><button type="button" class="vol" id="zerar">Começar do zero</button></div>
 
   <form id="f" novalidate>
     <div class="prog" aria-hidden="true"><span id="prog-t">1 de 5</span><div class="tr"><div id="prog-b" style="width:20%"></div></div></div>
@@ -292,7 +297,7 @@ footer a { color: var(--mut); }
     </div>
   </div>
 
-  <footer>Os valores dependem da análise e da aceitação de cada seguradora e valem pelo prazo informado na cotação.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados: tudo segue direto para o WhatsApp da Zavia. O endereço é completado pelo CEP com o serviço público ViaCEP. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
+  <footer>Os valores dependem da análise e da aceitação de cada seguradora e valem pelo prazo informado na cotação.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados em servidor: tudo segue direto para o WhatsApp da Zavia. Enquanto você preenche, o rascunho fica só neste aparelho e é apagado ao enviar. O endereço é completado pelo CEP com o serviço público ViaCEP. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
 </div>
 <script>
 (function () {
@@ -359,6 +364,48 @@ footer a { color: var(--mut); }
   }
   f.addEventListener("change", condicionais);
 
+  // Rascunho: salva as respostas neste aparelho (localStorage) para o cliente sair e voltar sem perder nada.
+  // Arquivos não podem ser salvos. O rascunho é apagado ao enviar ou em "Começar do zero".
+  var CHAVE = "zv-mercado-rascunho-v1", timer = null;
+  function salvar() {
+    var d = { passo: passo, quando: Date.now(), campos: {} };
+    Array.prototype.forEach.call(f.elements, function (el) {
+      if (!el.name || el.type === "file" || el.disabled) return;
+      if (el.type === "checkbox" || el.type === "radio") { if (!d.campos[el.name]) d.campos[el.name] = []; if (el.checked) d.campos[el.name].push(el.value); }
+      else d.campos[el.name] = el.value;
+    });
+    var algo = Array.prototype.some.call(f.elements, function (el) {
+      if (!el.name || el.type === "file" || el.disabled) return false;
+      if (el.type === "checkbox" || el.type === "radio") return el.checked !== el.defaultChecked;
+      return el.tagName === "SELECT" ? el.selectedIndex > 0 : String(el.value).trim() !== "";
+    });
+    try { if (algo) localStorage.setItem(CHAVE, JSON.stringify(d)); else localStorage.removeItem(CHAVE); } catch (x) {}
+  }
+  function agendar() { clearTimeout(timer); timer = setTimeout(salvar, 400); }
+  f.addEventListener("input", agendar); f.addEventListener("change", agendar);
+  window.addEventListener("pagehide", salvar);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") salvar(); });
+  function restaurar() {
+    var d = null;
+    try { d = JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch (x) {}
+    if (!d || !d.campos || Date.now() - (d.quando || 0) > 30 * 86400000) return 1;
+    Array.prototype.forEach.call(f.elements, function (el) {
+      if (!el.name || el.type === "file" || el.disabled || !(el.name in d.campos)) return;
+      var v = d.campos[el.name];
+      if (el.type === "checkbox" || el.type === "radio") el.checked = Array.isArray(v) && v.indexOf(el.value) >= 0;
+      else el.value = v;
+    });
+    $("retomar").hidden = false;
+    var p = +d.passo; return p >= 1 && p <= TOTAL ? p : 1;
+  }
+  $("zerar").addEventListener("click", function () {
+    clearTimeout(timer); f.reset(); $("retomar").hidden = true;
+    Object.keys(ANEXOS).forEach(function (n) { $("arq-" + n).textContent = ""; });
+    f.querySelectorAll("[aria-invalid]").forEach(function (el) { el.removeAttribute("aria-invalid"); });
+    try { localStorage.removeItem(CHAVE); } catch (x) {}
+    mostrar(1);
+  });
+
   function marcar(el, ruim) { if (el && el.setAttribute) el.setAttribute("aria-invalid", ruim ? "true" : "false"); }
   function exige(nome, msg) { var el = f[nome], v = val(nome), ruim = !v; marcar(el, ruim); return ruim ? msg : ""; }
   function exigeRadio(nome, msg) { var g = f.querySelector('[data-r="' + nome + '"]'), ruim = !radio(nome); marcar(g, ruim); return ruim ? msg : ""; }
@@ -405,6 +452,7 @@ footer a { color: var(--mut); }
     $("voltar").hidden = p === 1; $("nota-envio").hidden = p !== TOTAL;
     $("seguir").textContent = p === TOTAL ? "Enviar pelo WhatsApp" : "Continuar";
     $("erro").textContent = ""; condicionais(); window.scrollTo(0, 0);
+    if (typeof salvar === "function") salvar();
   }
   $("voltar").addEventListener("click", function () { mostrar(passo - 1); });
 
@@ -488,6 +536,8 @@ footer a { color: var(--mut); }
     f.style.display = "none"; $("ok").className = "ok on";
     window.scrollTo(0, 0);
     conta("envio");
+    clearTimeout(timer);
+    try { localStorage.removeItem(CHAVE); } catch (x) {}
     window.location.href = url;
   });
   var ANEXOS = { fapolice: "a apólice ou proposta atual", ffotos: "as fotos do mercado" };
@@ -503,7 +553,7 @@ footer a { color: var(--mut); }
       $("arq-" + n).textContent = k === 1 ? "Arquivo escolhido: " + this.files[0].name : k > 1 ? k + " arquivos escolhidos" : "";
     });
   });
-  mostrar(1);
+  mostrar(restaurar());
 })();
 </script>
 </body>
