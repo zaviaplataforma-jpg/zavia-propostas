@@ -466,6 +466,14 @@
     var $ = function(s,c){ return (c||document).querySelector(s); };
     var norm = function(s){ var r=(s||'').normalize('NFD'), o='', i, c; for(i=0;i<r.length;i++){ c=r.charCodeAt(i); if(c<768||c>879){ o+=r.charAt(i); } } return o.toLowerCase().trim(); };
 
+    /* ---------- Rastreio por vídeo (?v=ZV-...&s=canal), igual ao simulador de Vida: só contagem, sem dado pessoal ---------- */
+    var qs=new URLSearchParams(location.search), limpa=function(x){ return String(x||'').replace(/[^A-Za-z0-9_-]/g,'').slice(0,60); };
+    var camp=limpa(qs.get('c')), varia=limpa(qs.get('v')), canal=limpa(qs.get('s')).toLowerCase();
+    var pub=/^ZV-(CTB|EMP|CND|PRF|TRN|OBR|AUT|RES|VID|INS)-\d{3}(-[A-C])?$/.test(varia)&&canal ? varia+'-'+canal : '';
+    var conta=function(e){ if(!pub||!navigator.sendBeacon) return; try{ navigator.sendBeacon('https://painel-zavia.netlify.app/api/evento', JSON.stringify({p:pub,e:e})); }catch(x){} };
+    conta('diagnostico');
+    var codigo='ZV-EXP'+(camp?' '+camp:'')+(varia?' '+varia:'')+(pub?' '+canal:'');
+
     var IC = {
       check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>',
       eng:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-6h6v6"/></svg>',
@@ -713,8 +721,9 @@
         'Nível de exposição: '+d.level+L+L+
         'Principais riscos identificados:'+L+d.waRisks.map(function(r){return '- '+r;}).join(L)+L+L+
         'Modalidades recomendadas para análise:'+L+d.mods.map(function(m){return '- '+m;}).join(L)+L+L+
-        'Aguardo o diagnóstico personalizado.'+L+L+'Código: ZV-EXP';
+        'Aguardo o diagnóstico personalizado.'+L+L+'Código: '+codigo;
       $('#dgWa').href='https://wa.me/5511934248161?text='+encodeURIComponent(msg);
+      $('#dgWa').onclick=function(){ conta('envio'); };
     }
 
     /* ---------- Wizard controller ---------- */
