@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Seguro para Mercados · Zavia Seguros</title>
+<meta name="description" content="Ficha da Zavia para cotar o seguro do seu mercado, padaria, hortifruti ou adega nas seguradoras parceiras.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap">
+<style>
+/* Formulário público da Zavia: não guarda nada; ao enviar, abre o WhatsApp da Zavia com os dados e o código ZV-AUT. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0D12; --surface: #121722; --sunk: #0E131C; --line: #202938;
+  --fg: #EEF2F8; --mut: #8A95A8; --hub: #38BDF8; --hub-ink: #061018; --gold: #C9A961; --bad: #F87171; --ok: #22C55E;
+  --display: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --body: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: radial-gradient(ellipse at 50% -10%, rgba(56,189,248,.14), transparent 55%), var(--bg); color: var(--fg); font: 15px/1.55 var(--body); min-height: 100vh; }
+.wrap { max-width: 560px; margin: 0 auto; padding: max(20px, env(safe-area-inset-top)) 16px 48px; }
+.marca { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+.marca i { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.45); box-shadow: 0 0 16px rgba(56,189,248,.25); }
+.marca svg { width: 18px; height: 18px; fill: none; stroke: var(--hub); stroke-width: 2; }
+.marca b { display: block; font: 800 16px/1.1 var(--display); letter-spacing: .02em; }
+.marca small { font-size: 11.5px; color: var(--mut); }
+h1 { font: 800 26px/1.2 var(--display); margin: 0 0 10px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--hub); }
+.lead { color: var(--mut); margin: 0 0 18px; }
+form { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--hub); border-radius: 16px; padding: 18px 16px; }
+.passo { display: grid; gap: 14px; }
+.passo[hidden] { display: none; }
+.prog { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font: 600 12px var(--display); color: var(--mut); }
+.prog .tr { flex: 1; height: 6px; background: var(--sunk); border-radius: 99px; overflow: hidden; }
+.prog .tr div { height: 100%; background: var(--hub); border-radius: 99px; transition: width .3s ease; box-shadow: 0 0 10px rgba(56,189,248,.5); }
+h2 { font: 700 12px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--mut); margin: 6px 0 -4px; }
+label { display: grid; gap: 5px; font-size: 13px; color: var(--mut); }
+label b, .q b { color: var(--fg); font-weight: 500; }
+.q { display: grid; gap: 6px; font-size: 13px; color: var(--mut); }
+.q[hidden], label[hidden] { display: none; }
+input, select { font: 16px var(--body); padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--sunk); color: var(--fg); width: 100%; color-scheme: dark; }
+input:focus, select:focus { outline: 2px solid var(--hub); outline-offset: 1px; }
+input[aria-invalid="true"], select[aria-invalid="true"], .opcoes[aria-invalid="true"] { border-color: var(--bad); }
+.opcoes[aria-invalid="true"] { border: 1px solid var(--bad); border-radius: 12px; padding: 6px; }
+.dois { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.opcoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.opcoes label { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--sunk); color: var(--fg); cursor: pointer; font-size: 14px; }
+.opcoes input { width: auto; accent-color: var(--hub); margin: 0; }
+.opcoes label:has(input:checked) { border-color: var(--hub); background: rgba(56,189,248,.14); }
+.aceite { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-size: 12.5px; }
+.aceite input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--hub); }
+.aceite a { color: var(--hub); }
+.erro { color: var(--bad); font-size: 13px; min-height: 1em; margin: -4px 0 0; }
+.acoes { display: flex; gap: 10px; }
+button { font: 700 15px var(--display); padding: 14px 16px; border-radius: 12px; border: 0; background: var(--hub); color: var(--hub-ink); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 22px rgba(56,189,248,.35); flex: 1; }
+button.vol { flex: 0 0 auto; background: var(--sunk); color: var(--fg); border: 1px solid var(--line); box-shadow: none; }
+button svg { width: 20px; height: 20px; }
+button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.nota { font-size: 12px; color: var(--mut); text-align: center; margin: -2px 0 0; }
+.anexo { display: grid; gap: 6px; font-size: 13px; color: var(--mut); border: 1px dashed var(--line); border-radius: 12px; padding: 12px; }
+.anexo input[type=file] { padding: 8px; font-size: 14px; }
+.anexo .arq { color: var(--ok); font-size: 12.5px; min-height: 1em; }
+.ok .anexar { margin: 14px auto 0; max-width: 320px; }
+.dica { font-size: 12px; color: var(--mut); margin: -8px 0 0; }
+.ok { display: none; text-align: center; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--ok); border-radius: 16px; padding: 22px 16px; }
+.ok.on { display: block; }
+.ok h2 { color: var(--ok); margin: 0 0 8px; font-size: 13px; }
+.ok a { color: var(--hub); }
+footer { margin-top: 26px; font-size: 11.5px; color: var(--mut); text-align: center; line-height: 1.6; }
+footer a { color: var(--mut); }
+@media (max-width: 380px) { .dois { grid-template-columns: 1fr; } h1 { font-size: 23px; } }
+</style>
+<style>
+.total { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; background: var(--sunk); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 12px; padding: 12px 14px; font-size: 13px; color: var(--mut); }
+.total b { white-space: nowrap; font: 800 18px var(--display); color: var(--gold); font-variant-numeric: tabular-nums; }
+.rs { position: relative; }
+.rs input { padding-left: 38px; font-variant-numeric: tabular-nums; }
+.rs::before { content: "R$"; position: absolute; left: 12px; bottom: 12px; font-size: 14px; color: var(--mut); pointer-events: none; }
+.alerta { font-size: 12.5px; color: var(--gold); margin: -6px 0 0; }
+.alerta[hidden] { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marca"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 12 4l8 16M8.5 15h7"/></svg></i><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
+
+  <h1>Seguro para <em>mercados, padarias e hortifrutis</em></h1>
+  <p class="lead">São 5 telas, uns 8 minutos. Com estas respostas a Zavia cota nas seguradoras parceiras e te mostra as opções lado a lado. Valor que você não souber agora, ponha uma estimativa: a gente confere junto.</p>
+
+  <form id="f" novalidate>
+    <div class="prog" aria-hidden="true"><span id="prog-t">1 de 5</span><div class="tr"><div id="prog-b" style="width:20%"></div></div></div>
+
+    <!-- 1. Empresa -->
+    <div class="passo" data-p="1">
+      <h2>Você e a empresa</h2>
+      <div class="dois">
+        <label><b>Seu nome</b><input name="nome" autocomplete="name" maxlength="80" required></label>
+        <label><b>Você é</b>
+          <select name="cargo" required><option value="">Escolha</option><option>Dono(a) ou sócio(a)</option><option>Gerente</option><option>Contador(a)</option><option>Outro</option></select></label>
+      </div>
+      <div class="dois">
+        <label><b>WhatsApp</b><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20" required></label>
+        <label><b>E-mail</b> (opcional)<input name="email" type="email" autocomplete="email" maxlength="80"></label>
+      </div>
+      <label><b>CNPJ</b><input name="cnpj" inputmode="numeric" placeholder="00.000.000/0000-00" maxlength="18" required></label>
+      <label><b>Nome do mercado (como está na fachada)</b><input name="fantasia" autocomplete="organization" maxlength="100" required></label>
+      <div class="q"><b>O que funciona no local</b> (marque tudo)
+        <div class="opcoes" data-c="atividades">
+          <label><input type="checkbox" name="atividades" value="Mercado/mercearia">Mercado ou mercearia</label>
+          <label><input type="checkbox" name="atividades" value="Hortifruti">Hortifruti</label>
+          <label><input type="checkbox" name="atividades" value="Padaria com produção própria">Padaria (faz pão no local)</label>
+          <label><input type="checkbox" name="atividades" value="Padaria só revenda">Padaria (só revende)</label>
+          <label><input type="checkbox" name="atividades" value="Açougue">Açougue</label>
+          <label><input type="checkbox" name="atividades" value="Adega/bebidas">Adega ou bebidas</label>
+          <label><input type="checkbox" name="atividades" value="Lanchonete/salgados/rotisseria">Lanchonete, salgados ou rotisseria</label>
+          <label><input type="checkbox" name="atividades" value="Consumo no local (mesas)">Mesas para consumo no local</label>
+          <label><input type="checkbox" name="atividades" value="Conveniência">Conveniência</label>
+        </div></div>
+      <label><b>Outra atividade no local</b> (opcional)<input name="ativoutra" maxlength="80" placeholder="ex.: depósito de gás, lotérica, ração"></label>
+      <div class="dois">
+        <label><b>Horário de funcionamento</b>
+          <select name="horario" required><option value="">Escolha</option><option>Até 20h</option><option>Até 22h</option><option>Até meia-noite</option><option>Madrugada (fecha depois da meia-noite)</option><option>24 horas</option></select></label>
+        <label><b>Funcionários registrados</b>
+          <select name="funcionarios" required><option value="">Escolha</option><option>Só os donos</option><option>1 a 5</option><option>6 a 15</option><option>16 a 30</option><option>Mais de 30</option></select></label>
+      </div>
+      <div class="q"><b>Tem seguro hoje ou recebeu proposta de outra seguradora ou banco?</b>
+        <div class="opcoes" data-r="temseguro"><label><input type="radio" name="temseguro" value="Não">Não</label><label><input type="radio" name="temseguro" value="Tem seguro">Tem seguro</label><label><input type="radio" name="temseguro" value="Recebeu proposta">Recebeu proposta</label></div></div>
+      <div id="seg-atual" hidden class="passo" style="gap:10px">
+        <div class="dois">
+          <label><b>Seguradora ou banco</b><input name="seguradora" maxlength="40" placeholder="ex.: Bradesco, Porto"></label>
+          <label><b>Vence em</b> (se já tem)<input name="vencimento" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10"></label>
+        </div>
+        <label class="rs"><b>Valor por ano</b> (opcional)<input name="premioatual" inputmode="numeric" maxlength="12"></label>
+        <label class="anexo"><span><b>Apólice ou proposta</b> (foto ou PDF)</span><input type="file" name="fapolice" accept="image/*,application/pdf"><span class="arq" id="arq-fapolice"></span><span>Com ela a gente compara as mesmas coberturas, linha a linha. No fim você anexa no WhatsApp.</span></label>
+      </div>
+    </div>
+
+    <!-- 2. O local -->
+    <div class="passo" data-p="2" hidden>
+      <h2>O local</h2>
+      <label><b>CEP do mercado</b><input name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required><span class="dica" id="cep-msg" style="margin:0"></span></label>
+      <label><b>Rua ou avenida</b><input name="rua" maxlength="80" required></label>
+      <div class="dois">
+        <label><b>Número</b><input name="numero" maxlength="10" required></label>
+        <label><b>Complemento</b> (opcional)<input name="compl" maxlength="40" placeholder="loja, box"></label>
+      </div>
+      <div class="dois">
+        <label><b>Bairro</b><input name="bairro" maxlength="60" required></label>
+        <label><b>Cidade/UF</b><input name="cidade" maxlength="60" required></label>
+      </div>
+      <div class="q"><b>O imóvel é</b>
+        <div class="opcoes" data-r="imovel"><label><input type="radio" name="imovel" value="Alugado">Alugado</label><label><input type="radio" name="imovel" value="Próprio">Próprio</label></div></div>
+      <div class="q" id="q-exige" hidden><b>O contrato de aluguel exige seguro?</b>
+        <div class="opcoes" data-r="exige"><label><input type="radio" name="exige" value="Sim">Sim</label><label><input type="radio" name="exige" value="Não">Não</label><label><input type="radio" name="exige" value="Não sei">Não sei</label></div></div>
+      <label><b>Tipo de imóvel</b>
+        <select name="tipo" required><option value="">Escolha</option><option>Loja de rua (só o comércio no prédio)</option><option>Loja no térreo com moradia em cima</option><option>Galpão</option><option>Loja em galeria ou shopping</option><option>Casa adaptada</option></select></label>
+      <div class="dois">
+        <label><b>Paredes</b>
+          <select name="paredes" required><option value="">Escolha</option><option>Alvenaria (tijolo/bloco)</option><option>Alvenaria com partes em madeira</option><option>Metálica ou pré-moldada</option><option>Madeira</option></select></label>
+        <label><b>Cobertura</b>
+          <select name="cobertura" required><option value="">Escolha</option><option>Laje de concreto</option><option>Telha cerâmica</option><option>Telha metálica</option><option>Telha de fibrocimento</option><option>Outra</option></select></label>
+      </div>
+      <div class="dois">
+        <label><b>Área da loja</b>
+          <select name="area" required><option value="">Escolha</option><option>Até 100 m²</option><option>100 a 300 m²</option><option>300 a 600 m²</option><option>600 a 1.000 m²</option><option>Mais de 1.000 m²</option></select></label>
+        <label><b>Idade do prédio</b>
+          <select name="idade"><option value="">Não sei</option><option>Até 10 anos</option><option>10 a 30 anos</option><option>Mais de 30 anos</option></select></label>
+      </div>
+      <div class="q"><b>Vizinhos colados ao mercado</b> (marque se tiver)
+        <div class="opcoes" data-c="vizinhos"><label><input type="checkbox" name="vizinhos" value="Residências">Casas</label><label><input type="checkbox" name="vizinhos" value="Outras lojas">Outras lojas</label><label><input type="checkbox" name="vizinhos" value="Posto de combustível">Posto de combustível</label><label><input type="checkbox" name="vizinhos" value="Depósito de gás">Depósito de gás</label><label><input type="checkbox" name="vizinhos" value="Indústria ou oficina">Indústria ou oficina</label><label><input type="checkbox" name="vizinhos" value="Terreno vazio">Terreno vazio</label></div></div>
+      <div class="q"><b>Já entrou água da rua ou de enchente na loja?</b>
+        <div class="opcoes" data-r="alagou"><label><input type="radio" name="alagou" value="Nunca">Nunca</label><label><input type="radio" name="alagou" value="Uma vez">Uma vez</label><label><input type="radio" name="alagou" value="Mais de uma vez">Mais de uma vez</label></div></div>
+      <div class="q"><b>Tem rio ou córrego a menos de 300 metros?</b>
+        <div class="opcoes" data-r="corrego"><label><input type="radio" name="corrego" value="Não">Não</label><label><input type="radio" name="corrego" value="Sim">Sim</label><label><input type="radio" name="corrego" value="Não sei">Não sei</label></div></div>
+      <div class="q"><b>Falta energia na região com frequência?</b>
+        <div class="opcoes" data-r="energia"><label><input type="radio" name="energia" value="Raramente">Raramente</label><label><input type="radio" name="energia" value="Algumas vezes por ano">Algumas vezes por ano</label><label><input type="radio" name="energia" value="Todo mês">Todo mês</label></div></div>
+    </div>
+
+    <!-- 3. Valores -->
+    <div class="passo" data-p="3" hidden>
+      <h2>Quanto vale o que tem lá dentro</h2>
+      <p class="dica" style="margin:0">Valor para comprar tudo novo hoje (não o que pagou). Estimativa serve. Deixe 0 no que não tiver.</p>
+      <label class="rs" id="q-predio" hidden><b>Reconstruir o prédio</b> (só se for próprio, sem o terreno)<input name="vpredio" inputmode="numeric" maxlength="12"></label>
+      <label class="rs"><b>Refrigeração</b>câmara fria, balcões, freezers, geladeiras, ilhas<input name="vfrio" inputmode="numeric" maxlength="12"></label>
+      <label class="rs" id="q-vpadaria"><b>Padaria e cozinha</b>forno, masseira, cilindro, modeladora, fritadeira, chapa<input name="vpadaria" inputmode="numeric" maxlength="12"></label>
+      <label class="rs"><b>Caixas e eletrônicos</b>PDVs, balanças, computadores, câmeras, fatiadores<input name="veletro" inputmode="numeric" maxlength="12"></label>
+      <label class="rs"><b>Móveis e instalações</b>gôndolas, prateleiras, balcões secos, iluminação, reformas<input name="vmoveis" inputmode="numeric" maxlength="12"></label>
+      <div class="dois">
+        <label class="rs"><b>Estoque médio</b><input name="vestoque" inputmode="numeric" maxlength="12" required></label>
+        <label class="rs"><b>Estoque no pico</b> (ex.: dezembro)<input name="vpico" inputmode="numeric" maxlength="12"></label>
+      </div>
+      <div class="total" aria-live="polite"><span>Valor em risco (prédio + equipamentos + estoque médio)</span><b id="total">R$ 0</b></div>
+      <h2>Movimento</h2>
+      <div class="dois">
+        <label class="rs"><b>Faturamento por mês</b><input name="faturamento" inputmode="numeric" maxlength="12" required></label>
+        <label class="rs"><b>Custo fixo por mês</b> (aluguel, folha, contas)<input name="custofixo" inputmode="numeric" maxlength="12" required></label>
+      </div>
+      <p class="dica">O custo fixo define a cobertura de lucros cessantes: o que o seguro paga por mês se o mercado tiver que fechar depois de um incêndio.</p>
+      <label><b>Dinheiro que fica na loja à noite</b>
+        <select name="dinheiro" required><option value="">Escolha</option><option>Nada, recolho tudo</option><option>Até R$ 2 mil</option><option>R$ 2 a 5 mil</option><option>R$ 5 a 15 mil</option><option>Mais de R$ 15 mil</option></select></label>
+      <label><b>Mercadorias de valor alto</b>
+        <select name="valoralto"><option value="">Escolha</option><option>Não</option><option>Bebidas destiladas e vinhos</option><option>Cigarros</option><option>Cigarros e bebidas destiladas</option><option>Eletrônicos ou recargas</option></select></label>
+    </div>
+
+    <!-- 4. Riscos e proteção -->
+    <div class="passo" data-p="4" hidden>
+      <h2>Fogo e gás</h2>
+      <label id="q-forno"><b>Forno da padaria ou cozinha</b>
+        <select name="forno"><option value="">Escolha</option><option>Não tem forno</option><option>Elétrico</option><option>A gás</option><option>A lenha</option><option>Gás e elétrico</option></select></label>
+      <label><b>Gás</b>
+        <select name="gas" required><option value="">Escolha</option><option>Não usa gás</option><option>Botijão de 13 kg</option><option>Cilindros P45 em abrigo externo</option><option>Cilindros dentro da loja</option><option>Gás encanado</option></select></label>
+      <div class="q"><b>Frita no local</b> (salgados, pastel, frango)?
+        <div class="opcoes" data-r="fritura"><label><input type="radio" name="fritura" value="Não">Não</label><label><input type="radio" name="fritura" value="Sim">Sim</label></div></div>
+      <div class="q"><b>Combate a incêndio</b> (marque o que tiver)
+        <div class="opcoes" data-c="incendio"><label><input type="checkbox" name="incendio" value="Extintores na validade">Extintores na validade</label><label><input type="checkbox" name="incendio" value="Hidrantes">Hidrantes</label><label><input type="checkbox" name="incendio" value="AVCB/CLCB válido">AVCB ou CLCB válido</label><label><input type="checkbox" name="incendio" value="Detector de fumaça">Detector de fumaça</label><label><input type="checkbox" name="incendio" value="Brigada treinada">Funcionários treinados</label></div></div>
+      <div class="q"><b>A parte elétrica foi revisada nos últimos 5 anos?</b>
+        <div class="opcoes" data-r="eletrica"><label><input type="radio" name="eletrica" value="Sim">Sim</label><label><input type="radio" name="eletrica" value="Não">Não</label><label><input type="radio" name="eletrica" value="Não sei">Não sei</label></div></div>
+      <div class="q"><b>Tem gerador ou nobreak para a refrigeração?</b>
+        <div class="opcoes" data-r="gerador"><label><input type="radio" name="gerador" value="Não">Não</label><label><input type="radio" name="gerador" value="Gerador">Gerador</label><label><input type="radio" name="gerador" value="Nobreak">Nobreak</label></div></div>
+
+      <h2>Roubo</h2>
+      <div class="q"><b>Proteção</b> (marque o que tiver)
+        <div class="opcoes" data-c="protecao"><label><input type="checkbox" name="protecao" value="Alarme monitorado">Alarme monitorado</label><label><input type="checkbox" name="protecao" value="Alarme local">Alarme sem monitoramento</label><label><input type="checkbox" name="protecao" value="Câmeras gravando">Câmeras gravando</label><label><input type="checkbox" name="protecao" value="Porta de aço">Porta de aço</label><label><input type="checkbox" name="protecao" value="Grades">Grades</label><label><input type="checkbox" name="protecao" value="Cofre">Cofre</label><label><input type="checkbox" name="protecao" value="Vigia ou segurança">Vigia ou segurança</label><label><input type="checkbox" name="protecao" value="Nenhuma">Nenhuma</label></div></div>
+      <div class="q"><b>Fachada ou portas de vidro?</b>
+        <div class="opcoes" data-r="vidros"><label><input type="radio" name="vidros" value="Não">Não</label><label><input type="radio" name="vidros" value="Sim, pouco">Sim, pouco</label><label><input type="radio" name="vidros" value="Sim, fachada inteira">Sim, a fachada inteira</label></div></div>
+
+      <h2>Clientes e entregas</h2>
+      <div class="q"><b>Faz entregas?</b>
+        <div class="opcoes" data-r="entrega"><label><input type="radio" name="entrega" value="Não">Não</label><label><input type="radio" name="entrega" value="Veículo próprio">Veículo próprio</label><label><input type="radio" name="entrega" value="Motoboy ou aplicativo">Motoboy ou aplicativo</label></div></div>
+      <div class="q"><b>Tem estacionamento para clientes?</b>
+        <div class="opcoes" data-r="estac"><label><input type="radio" name="estac" value="Não">Não</label><label><input type="radio" name="estac" value="Sim">Sim</label></div></div>
+      <div class="q"><b>Teve algum prejuízo ou sinistro nos últimos 5 anos?</b> (roubo, incêndio, alagamento, processo de cliente)
+        <div class="opcoes" data-r="sinistro"><label><input type="radio" name="sinistro" value="Não">Não</label><label><input type="radio" name="sinistro" value="Sim">Sim</label></div></div>
+      <label id="q-sinistro" hidden><b>O que aconteceu, quando e de quanto</b><input name="sinistrodet" maxlength="160" placeholder="ex.: roubo em 2024, R$ 8 mil"></label>
+      <label class="anexo"><span><b>Fotos da fachada e de dentro</b> (opcional)</span><input type="file" name="ffotos" accept="image/*" multiple><span class="arq" id="arq-ffotos"></span><span>Ajudam a seguradora a aceitar sem vistoria. No fim você anexa no WhatsApp.</span></label>
+    </div>
+
+    <!-- 5. Coberturas -->
+    <div class="passo" data-p="5" hidden>
+      <h2>O que você quer proteger</h2>
+      <p class="dica" style="margin:0">Já deixamos marcado o pacote que a Zavia recomenda para mercados. Desmarque o que não quiser.</p>
+      <div class="q">
+        <div class="opcoes" data-c="coberturas">
+          <label><input type="checkbox" name="coberturas" value="Incêndio, raio e explosão" checked disabled>Incêndio, raio e explosão</label>
+          <label><input type="checkbox" name="coberturas" value="Danos elétricos" checked>Danos elétricos</label>
+          <label><input type="checkbox" name="coberturas" value="Vendaval e granizo" checked>Vendaval e granizo</label>
+          <label><input type="checkbox" name="coberturas" value="Roubo e furto qualificado" checked>Roubo e furto</label>
+          <label><input type="checkbox" name="coberturas" value="Mercadorias refrigeradas (falta de energia/quebra do frio)" checked>Mercadorias refrigeradas</label>
+          <label><input type="checkbox" name="coberturas" value="Lucros cessantes / despesas fixas" checked>Lucros cessantes (ficar fechado)</label>
+          <label><input type="checkbox" name="coberturas" value="RC operações (danos a clientes e terceiros)" checked>Danos a clientes e terceiros</label>
+          <label><input type="checkbox" name="coberturas" value="RC produtos (intoxicação alimentar)" checked>Intoxicação alimentar (produtos)</label>
+          <label><input type="checkbox" name="coberturas" value="RC empregador" checked>Acidente com funcionário</label>
+          <label><input type="checkbox" name="coberturas" value="Vidros e fachada" checked>Vidros e fachada</label>
+          <label><input type="checkbox" name="coberturas" value="Ruptura de tubulações" checked>Vazamento de tubulações</label>
+          <label><input type="checkbox" name="coberturas" value="Tumultos e greves" checked>Tumultos e greves</label>
+          <label><input type="checkbox" name="coberturas" value="Quebra de máquinas (câmara fria, forno)">Quebra de máquinas</label>
+          <label><input type="checkbox" name="coberturas" value="Alagamento/inundação">Alagamento</label>
+          <label><input type="checkbox" name="coberturas" value="Danos a veículos de clientes no estacionamento">Veículos no estacionamento</label>
+          <label><input type="checkbox" name="coberturas" value="Dinheiro em trânsito (ida ao banco)">Dinheiro a caminho do banco</label>
+        </div></div>
+      <div class="dois">
+        <label><b>Forma de pagamento</b>
+          <select name="pagamento" required><option value="">Escolha</option><option>Cartão de crédito</option><option>Débito em conta</option><option>Boleto</option></select></label>
+        <label><b>Parcelas</b>
+          <select name="parcelas" required><option value="">Escolha</option><option>À vista</option><option>Até 6x</option><option>Até 10x</option><option>O máximo possível</option></select></label>
+      </div>
+      <label><b>Algo mais que a gente deve saber</b> (opcional)<input name="obs" maxlength="200" placeholder="ex.: vou abrir outra loja; quero vida para os funcionários"></label>
+      <div class="q"><b>Quer cotar também</b> (opcional)
+        <div class="opcoes" data-c="cross"><label><input type="checkbox" name="cross" value="Vida em grupo dos funcionários">Vida dos funcionários</label><label><input type="checkbox" name="cross" value="Seguro do carro ou frota">Carro ou frota</label><label><input type="checkbox" name="cross" value="Plano de saúde empresarial">Plano de saúde</label></div></div>
+
+      <label class="aceite"><input type="checkbox" name="ciencia"><span>Li o <a href="/privacidade/" target="_blank" rel="noopener">aviso de privacidade</a> e autorizo a Zavia a usar estes dados para cotar o seguro da empresa com as seguradoras parceiras. As informações são verdadeiras e sei que dados errados podem afetar uma indenização.</span></label>
+      <label class="aceite"><input type="checkbox" name="ofertas"><span>Opcional: aceito receber, de vez em quando, sugestões de outros seguros. Posso cancelar quando quiser.</span></label>
+    </div>
+
+    <p class="erro" id="erro" role="alert"></p>
+    <div class="acoes">
+      <button type="button" class="vol" id="voltar" hidden>Voltar</button>
+      <button type="submit" id="seguir">Continuar</button>
+    </div>
+    <p class="nota" id="nota-envio" hidden>O botão abre o WhatsApp da Zavia com suas respostas já escritas. É só apertar enviar.</p>
+  </form>
+
+  <div class="ok" id="ok" role="status">
+    <h2>Quase lá</h2>
+    <p>Abrimos o WhatsApp com as suas respostas. Aperte <b>enviar</b> por lá para a cotação chegar até nós.</p>
+    <p>Não abriu? <a id="ok-link" href="#" target="_blank" rel="noopener">Toque aqui para abrir o WhatsApp</a>.</p>
+    <div id="ok-anexos" hidden>
+      <p><b>Falta um passo:</b> anexe na mesma conversa <span id="ok-lista"></span>. No WhatsApp, toque no clipe (📎) e escolha o arquivo.</p>
+      <button type="button" class="anexar" id="ok-share" hidden>Enviar os arquivos agora</button>
+    </div>
+  </div>
+
+  <footer>Os valores dependem da análise e da aceitação de cada seguradora e valem pelo prazo informado na cotação.<br>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · Corretora SUSEP 262179983<br>Esta página não guarda dados: tudo segue direto para o WhatsApp da Zavia. O endereço é completado pelo CEP com o serviço público ViaCEP. Contamos só os acessos, sem identificar você. <a href="/privacidade/">Aviso de privacidade</a></footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var WHATS = "5511934248161"; // WhatsApp comercial da Zavia
+  var AVISO = "aviso de privacidade de 05/11/2026";
+  var q = new URLSearchParams(location.search);
+  var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
+  var camp = limpa(q.get("c")), varia = limpa(q.get("v"));
+  var CONT = /^ZV-(CTB|EMP|CND|PRF|TRN|OBR|AUT|RES|VID|INS|MER)-\d{3}(-[A-C])?$/;
+  var canal = limpa(q.get("s")).toLowerCase(), pub = CONT.test(varia) && canal ? varia + "-" + canal : "";
+  var conta = function (e) {
+    if (!pub || !navigator.sendBeacon) return;
+    try { navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: e })); } catch (x) {}
+  };
+  conta("diagnostico");
+  var f = document.getElementById("f"), passo = 1, TOTAL = 5;
+  var $ = function (id) { return document.getElementById(id); };
+  var radio = function (n) { return (f.querySelector("[name=" + n + "]:checked") || {}).value || ""; };
+  var marcados = function (n) { return Array.prototype.map.call(f.querySelectorAll("[name=" + n + "]:checked"), function (x) { return x.value; }); };
+  var val = function (n) { return String(f[n].value || "").trim(); };
+
+  function mascara(el, fn) { el.addEventListener("input", function () { el.value = fn(el.value.replace(/\D/g, "")); }); }
+  var cepm = function (d) { d = d.slice(0, 8); return d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d; };
+  var data = function (d) { d = d.slice(0, 8); return d.length > 4 ? d.slice(0, 2) + "/" + d.slice(2, 4) + "/" + d.slice(4) : d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d; };
+  var cnpjm = function (d) { d = d.slice(0, 14); return d.replace(/^(\d{2})(\d)/, "$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3").replace(/\.(\d{3})(\d)/, ".$1/$2").replace(/(\d{4})(\d)/, "$1-$2"); };
+  var milhar = function (d) { d = d.replace(/^0+(?=\d)/, "").slice(0, 9); return d.replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
+  mascara(f.cep, cepm); mascara(f.vencimento, data); mascara(f.cnpj, cnpjm);
+  var DINHEIRO = ["premioatual", "vpredio", "vfrio", "vpadaria", "veletro", "vmoveis", "vestoque", "vpico", "faturamento", "custofixo"];
+  DINHEIRO.forEach(function (n) { mascara(f[n], milhar); f[n].addEventListener("input", soma); });
+  var num = function (n) { return +(val(n).replace(/\D/g, "")) || 0; };
+  var brl = function (v) { return "R$ " + String(v).replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
+  function total() { return (radio("imovel") === "Próprio" ? num("vpredio") : 0) + num("vfrio") + (padaria() ? num("vpadaria") : 0) + num("veletro") + num("vmoveis") + num("vestoque"); }
+  function soma() { $("total").textContent = brl(total()); }
+
+  function cnpjOk(v) { var d = String(v || "").replace(/\D/g, ""); if (d.length !== 14 || /^(\d)\1+$/.test(d)) return false;
+    var calc = function (n) { var s = 0, p = n - 7, i; for (i = 0; i < n; i++) { s += +d[i] * p--; if (p < 2) p = 9; } var r = s % 11; return r < 2 ? 0 : 11 - r; };
+    return calc(12) === +d[12] && calc(13) === +d[13]; }
+
+  var ultimoCep = "";
+  f.cep.addEventListener("input", function () {
+    var d = f.cep.value.replace(/\D/g, ""); if (d.length !== 8 || d === ultimoCep) return; ultimoCep = d;
+    $("cep-msg").textContent = "Buscando endereço…";
+    fetch("https://viacep.com.br/ws/" + d + "/json/").then(function (r) { return r.json(); }).then(function (j) {
+      if (j.erro) { $("cep-msg").textContent = "CEP não encontrado. Preencha o endereço."; return; }
+      if (j.logradouro && !f.rua.value) f.rua.value = j.logradouro;
+      if (j.bairro && !f.bairro.value) f.bairro.value = j.bairro;
+      if (j.localidade && !f.cidade.value) f.cidade.value = j.localidade + "/" + j.uf;
+      $("cep-msg").textContent = "Endereço preenchido. Confira e coloque o número."; if (!f.numero.value) f.numero.focus();
+    }).catch(function () { $("cep-msg").textContent = "Não deu para buscar o CEP agora. Preencha o endereço."; });
+  });
+
+  function padaria() { var a = marcados("atividades"); return a.indexOf("Padaria com produção própria") >= 0 || a.indexOf("Lanchonete/salgados/rotisseria") >= 0; }
+  function dataOk(s) { var m = String(s).match(/^(\d{2})\/(\d{2})\/(\d{4})$/); if (!m) return false; var d = new Date(+m[3], +m[2] - 1, +m[1]); return d.getDate() === +m[1] && d.getMonth() === +m[2] - 1; }
+
+  function condicionais() {
+    $("seg-atual").hidden = !radio("temseguro") || radio("temseguro") === "Não";
+    $("q-exige").hidden = radio("imovel") !== "Alugado";
+    $("q-predio").hidden = radio("imovel") !== "Próprio";
+    $("q-vpadaria").hidden = !padaria();
+    $("q-forno").hidden = !padaria();
+    $("q-sinistro").hidden = radio("sinistro") !== "Sim";
+    soma();
+  }
+  f.addEventListener("change", condicionais);
+
+  function marcar(el, ruim) { if (el && el.setAttribute) el.setAttribute("aria-invalid", ruim ? "true" : "false"); }
+  function exige(nome, msg) { var el = f[nome], v = val(nome), ruim = !v; marcar(el, ruim); return ruim ? msg : ""; }
+  function exigeRadio(nome, msg) { var g = f.querySelector('[data-r="' + nome + '"]'), ruim = !radio(nome); marcar(g, ruim); return ruim ? msg : ""; }
+  function exigeMarca(nome, msg) { var g = f.querySelector('[data-c="' + nome + '"]'), ruim = !marcados(nome).length; marcar(g, ruim); return ruim ? msg : ""; }
+  function validar(p) {
+    var e = [];
+    if (p === 1) {
+      e.push(exige("nome", "Preencha seu nome."), exige("cargo", "Diga se você é dono, gerente ou outro."));
+      var tel = val("whatsapp").replace(/\D/g, ""), telOk = tel.length === 10 || tel.length === 11 || (tel.length >= 12 && tel.length <= 13 && tel.indexOf("55") === 0);
+      marcar(f.whatsapp, !telOk); e.push(telOk ? "" : "Confira o WhatsApp, com DDD.");
+      var em = val("email"), emOk = !em || /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em); marcar(f.email, !emOk); e.push(emOk ? "" : "Confira o e-mail ou deixe em branco.");
+      var cOk = cnpjOk(val("cnpj")); marcar(f.cnpj, !cOk); e.push(cOk ? "" : "Confira o CNPJ.");
+      e.push(exige("fantasia", "Diga o nome do mercado."), exigeMarca("atividades", "Marque o que funciona no local."), exige("horario", "Escolha o horário."), exige("funcionarios", "Escolha quantos funcionários."), exigeRadio("temseguro", "Diga se tem seguro ou proposta."));
+      var vc = val("vencimento"), vOk = !vc || dataOk(vc); marcar(f.vencimento, !vOk); e.push(vOk ? "" : "Confira o vencimento (dd/mm/aaaa) ou deixe em branco.");
+    } else if (p === 2) {
+      var d = val("cep").replace(/\D/g, ""); marcar(f.cep, d.length !== 8); e.push(d.length === 8 ? "" : "Confira o CEP (8 números).");
+      e.push(exige("rua", "Preencha a rua."), exige("numero", "Preencha o número."), exige("bairro", "Preencha o bairro."), exige("cidade", "Preencha a cidade."),
+        exigeRadio("imovel", "Diga se o imóvel é alugado ou próprio."), exige("tipo", "Escolha o tipo de imóvel."), exige("paredes", "Escolha as paredes."), exige("cobertura", "Escolha a cobertura do telhado."), exige("area", "Escolha a área."),
+        exigeRadio("alagou", "Responda sobre alagamento."), exigeRadio("corrego", "Responda sobre rio ou córrego."), exigeRadio("energia", "Responda sobre falta de energia."));
+    } else if (p === 3) {
+      if (radio("imovel") === "Próprio") { marcar(f.vpredio, !num("vpredio")); e.push(num("vpredio") ? "" : "Ponha uma estimativa para reconstruir o prédio."); }
+      e.push(exige("vestoque", "Ponha o estoque médio (estimativa serve)."));
+      var eq = num("vfrio") + num("vpadaria") + num("veletro") + num("vmoveis"); marcar(f.vfrio, !eq); e.push(eq ? "" : "Ponha o valor de pelo menos um grupo de equipamentos.");
+      e.push(exige("faturamento", "Ponha o faturamento por mês (estimativa serve)."), exige("custofixo", "Ponha o custo fixo por mês."), exige("dinheiro", "Diga quanto dinheiro fica à noite."));
+    } else if (p === 4) {
+      if (padaria()) e.push(exige("forno", "Diga o tipo de forno."));
+      e.push(exige("gas", "Diga como usa gás."), exigeRadio("fritura", "Diga se frita no local."), exigeRadio("eletrica", "Responda sobre a parte elétrica."), exigeRadio("gerador", "Diga se tem gerador ou nobreak."),
+        exigeMarca("protecao", "Marque a proteção (ou Nenhuma)."), exigeRadio("vidros", "Responda sobre vidros."), exigeRadio("entrega", "Diga se faz entregas."), exigeRadio("estac", "Diga se tem estacionamento."), exigeRadio("sinistro", "Responda sobre sinistros."));
+      if (radio("sinistro") === "Sim") e.push(exige("sinistrodet", "Conte o que aconteceu."));
+    } else {
+      e.push(exige("pagamento", "Escolha a forma de pagamento."), exige("parcelas", "Escolha as parcelas."));
+      if (!f.ciencia.checked) e.push("Marque que leu o aviso de privacidade e autoriza a cotação.");
+    }
+    e = e.filter(Boolean);
+    $("erro").textContent = e[0] || "";
+    if (e.length) { var x = f.querySelector('.passo[data-p="' + p + '"] [aria-invalid="true"]'); if (x && x.focus) x.focus(); }
+    return !e.length;
+  }
+
+  function mostrar(p) {
+    passo = p;
+    f.querySelectorAll(".passo[data-p]").forEach(function (el) { el.hidden = +el.getAttribute("data-p") !== p; });
+    $("prog-t").textContent = p + " de " + TOTAL; $("prog-b").style.width = (p / TOTAL * 100) + "%";
+    $("voltar").hidden = p === 1; $("nota-envio").hidden = p !== TOTAL;
+    $("seguir").textContent = p === TOTAL ? "Enviar pelo WhatsApp" : "Continuar";
+    $("erro").textContent = ""; condicionais(); window.scrollTo(0, 0);
+  }
+  $("voltar").addEventListener("click", function () { mostrar(passo - 1); });
+
+  f.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!validar(passo)) return;
+    if (passo < TOTAL) return mostrar(passo + 1);
+    var seg = radio("temseguro") !== "Não", pad = padaria(), prop = radio("imovel") === "Próprio";
+    var R = function (n) { return num(n) ? brl(num(n)) : "não informou"; };
+    var hoje = new Date(), quando = ("0" + hoje.getDate()).slice(-2) + "/" + ("0" + (hoje.getMonth() + 1)).slice(-2) + "/" + hoje.getFullYear() + " " + ("0" + hoje.getHours()).slice(-2) + ":" + ("0" + hoje.getMinutes()).slice(-2);
+    var cob = ["Incêndio, raio e explosão"].concat(marcados("coberturas").filter(function (c) { return c.indexOf("Incêndio") !== 0; }));
+    var L = [
+      "Quero uma cotação de Seguro para Mercado.", "",
+      "Nome: " + val("nome") + " (" + val("cargo") + ")",
+      "WhatsApp: " + val("whatsapp"),
+      val("email") ? "E-mail: " + val("email") : null,
+      "CNPJ: " + val("cnpj"),
+      "Empresa: " + val("fantasia"),
+      "Atividades no local: " + marcados("atividades").join(", ") + (val("ativoutra") ? ", " + val("ativoutra") : ""),
+      "Horário: " + val("horario"),
+      "Funcionários: " + val("funcionarios"),
+      "Seguro hoje: " + radio("temseguro"),
+      seg ? "Seguradora/banco: " + (val("seguradora") || "não informou") + (val("vencimento") ? ", vence " + val("vencimento") : "") + (num("premioatual") ? ", " + brl(num("premioatual")) + "/ano" : "") : null,
+      "",
+      "CEP: " + val("cep"),
+      "Endereço: " + [val("rua"), val("numero"), val("compl"), val("bairro"), val("cidade")].filter(Boolean).join(", "),
+      "Imóvel: " + radio("imovel") + (radio("imovel") === "Alugado" ? " (contrato exige seguro: " + (radio("exige") || "não sei") + ")" : ""),
+      "Tipo: " + val("tipo"),
+      "Construção: paredes " + val("paredes") + "; cobertura " + val("cobertura"),
+      "Área: " + val("area") + (val("idade") ? "; prédio com " + val("idade") : ""),
+      "Vizinhos colados: " + (marcados("vizinhos").join(", ") || "nenhum informado"),
+      "Alagamento: " + radio("alagou") + "; córrego a menos de 300 m: " + radio("corrego"),
+      "Falta de energia: " + radio("energia"),
+      "",
+      prop ? "Prédio (reconstrução): " + R("vpredio") : null,
+      "Refrigeração: " + R("vfrio"),
+      pad ? "Padaria/cozinha: " + R("vpadaria") : null,
+      "Caixas e eletrônicos: " + R("veletro"),
+      "Móveis e instalações: " + R("vmoveis"),
+      "Estoque médio: " + R("vestoque") + (num("vpico") ? "; pico " + brl(num("vpico")) : ""),
+      "VALOR EM RISCO: " + brl(total()),
+      "Faturamento/mês: " + R("faturamento"),
+      "Custo fixo/mês: " + R("custofixo"),
+      "Dinheiro à noite: " + val("dinheiro"),
+      val("valoralto") ? "Mercadorias de valor alto: " + val("valoralto") : null,
+      "",
+      pad ? "Forno: " + val("forno") : null,
+      "Gás: " + val("gas"),
+      "Fritura no local: " + radio("fritura"),
+      "Combate a incêndio: " + (marcados("incendio").join(", ") || "nenhum marcado"),
+      "Elétrica revisada (5 anos): " + radio("eletrica"),
+      "Gerador/nobreak: " + radio("gerador"),
+      "Proteção contra roubo: " + marcados("protecao").join(", "),
+      "Vidros: " + radio("vidros"),
+      "Entregas: " + radio("entrega"),
+      "Estacionamento: " + radio("estac"),
+      "Sinistro em 5 anos: " + radio("sinistro") + (radio("sinistro") === "Sim" ? " (" + val("sinistrodet") + ")" : ""),
+      anexos().length ? "Anexos que vou mandar: " + anexos().map(function (a) { return a.nome; }).join(" e ") : null,
+      "",
+      "Coberturas desejadas: " + cob.join("; "),
+      "Pagamento: " + val("pagamento") + ", " + val("parcelas"),
+      marcados("cross").length ? "Quer cotar também: " + marcados("cross").join(", ") : null,
+      val("obs") ? "Observações: " + val("obs") : null,
+      "Aceita sugestões de outros seguros: " + (f.ofertas.checked ? "Sim" : "Não"),
+      "Consentimento: li o " + AVISO + " e autorizo a cotação, em " + quando,
+      "",
+      "Código: ZV-MER" + (camp ? " " + camp : "") + (varia ? " " + varia : "") + (pub ? " " + canal : "")
+    ].filter(function (l) { return l !== null; }).join("\n");
+    var url = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(L);
+    $("ok-link").href = url;
+    var ax = anexos();
+    if (ax.length) {
+      $("ok-anexos").hidden = false;
+      $("ok-lista").textContent = ax.map(function (a) { return a.nome; }).join(" e ");
+      var arqs = [].concat.apply([], ax.map(function (a) { return a.files; }));
+      if (navigator.canShare && navigator.canShare({ files: arqs })) {
+        $("ok-share").hidden = false;
+        $("ok-share").onclick = function () { navigator.share({ files: arqs, text: "Documentos da cotação do seguro do mercado" }).catch(function () {}); };
+      }
+    }
+    f.style.display = "none"; $("ok").className = "ok on";
+    window.scrollTo(0, 0);
+    conta("envio");
+    window.location.href = url;
+  });
+  var ANEXOS = { fapolice: "a apólice ou proposta atual", ffotos: "as fotos do mercado" };
+  function anexos() {
+    return Object.keys(ANEXOS).filter(function (n) {
+      var el = f[n]; if (!el || !el.files || !el.files.length) return false;
+      return n !== "fapolice" || radio("temseguro") !== "Não";
+    }).map(function (n) { return { nome: ANEXOS[n], files: Array.prototype.slice.call(f[n].files) }; });
+  }
+  Object.keys(ANEXOS).forEach(function (n) {
+    f[n].addEventListener("change", function () {
+      var k = this.files ? this.files.length : 0;
+      $("arq-" + n).textContent = k === 1 ? "Arquivo escolhido: " + this.files[0].name : k > 1 ? k + " arquivos escolhidos" : "";
+    });
+  });
+  mostrar(1);
+})();
+</script>
+</body>
+</html>
