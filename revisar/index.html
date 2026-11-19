@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zavia Seguros · Revisar minha apólice</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500&display=swap">
+<style>
+/* Revisão de apólice ou proposta (vídeos ZV-INS-005 SEGURO e ZV-INS-006 CORRETOR).
+   5 perguntas curtas; ao enviar, abre o WhatsApp da Závia com as respostas. Não guarda dado pessoal. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0D12; --surface: #121722; --line: #202938; --fg: #EEF2F8; --mut: #8A95A8;
+  --hub: #FFD400; --hub-ink: #14213D; --bad: #F87171;
+  --display: "Montserrat", "Segoe UI", system-ui, sans-serif; --body: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% -10%, rgba(255,212,0,.10), transparent 55%), var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 480px; margin: 0 auto; padding: max(28px, env(safe-area-inset-top)) 16px 40px; }
+.marca { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+.marca b { display: block; font: 800 16px/1.1 var(--display); }
+.marca small { font-size: 11.5px; color: var(--mut); }
+.card { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--hub); border-radius: 16px; padding: 22px 18px; }
+h1 { font: 800 22px/1.25 var(--display); margin: 0 0 8px; }
+p { margin: 0 0 16px; color: var(--mut); }
+label { display: block; font-weight: 500; margin: 14px 0 6px; }
+label small { color: var(--mut); font-weight: 400; }
+select, input, textarea { width: 100%; font: 15px var(--body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+textarea { min-height: 84px; resize: vertical; }
+select:focus, input:focus, textarea:focus { outline: 2px solid var(--hub); outline-offset: 1px; }
+button { width: 100%; margin-top: 18px; font: 700 15px var(--display); padding: 14px; border: 0; border-radius: 12px; background: var(--hub); color: var(--hub-ink); cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.aviso { margin-top: 14px; font-size: 13px; color: var(--mut); background: rgba(255,212,0,.06); border: 1px solid rgba(255,212,0,.25); border-radius: 10px; padding: 10px 12px; }
+.erro { color: var(--bad); font-size: 13px; margin-top: 8px; min-height: 1em; }
+.isca { position: absolute; left: -9999px; }
+footer { margin-top: 22px; font-size: 11.5px; color: var(--mut); text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marca"><span><b>ZÁVIA</b><small>Plataforma de Seguros</small></span></div>
+  <form class="card" id="f" novalidate>
+    <h1>Revisar a minha apólice</h1>
+    <p>Cinco perguntas rápidas. Ao enviar, abrimos o WhatsApp da Závia com as suas respostas. Você manda a apólice ou a proposta por lá, e a gente explica o que ela prevê.</p>
+
+    <label for="tipo">Qual seguro você quer revisar?</label>
+    <select id="tipo" required>
+      <option value="">Escolha</option>
+      <option>Empresa (patrimônio, lucros, equipamentos)</option>
+      <option>Obra ou RC (responsabilidade civil)</option>
+      <option>Vida (individual ou da equipe)</option>
+      <option>Auto</option>
+      <option>Residencial</option>
+      <option>Ainda vou contratar (tenho só a proposta)</option>
+      <option>Outro</option>
+    </select>
+
+    <label for="seg">Seguradora <small>(se souber)</small></label>
+    <input id="seg" maxlength="40" autocomplete="off">
+
+    <label for="mes">Quando vence?</label>
+    <select id="mes">
+      <option value="">Não sei</option>
+      <option>Nos próximos 30 dias</option>
+      <option>Em 1 a 3 meses</option>
+      <option>Em mais de 3 meses</option>
+      <option>Ainda não contratei</option>
+    </select>
+
+    <label for="duv">O que você quer entender? <small>(opcional)</small></label>
+    <textarea id="duv" maxlength="300" placeholder="Ex.: se o limite é suficiente, o que fica de fora, a franquia…"></textarea>
+
+    <label for="hora">Melhor horário para responder</label>
+    <select id="hora">
+      <option>Qualquer horário comercial</option>
+      <option>Manhã</option>
+      <option>Tarde</option>
+      <option>Fim do dia</option>
+    </select>
+
+    <input class="isca" id="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="erro" id="erro" role="alert"></div>
+    <button type="submit">Abrir o WhatsApp</button>
+    <div class="aviso">Ao mandar a foto ou o PDF da apólice, <b>tampe CPF, CNPJ e endereço</b>. A gente só precisa das coberturas, limites e franquias. A análise segue o que está escrito na apólice.</div>
+  </form>
+  <footer>ZAVIA PLATAFORMA DE SEGUROS LTDA · CNPJ 66.173.711/0001-76 · SUSEP 262179983<br>Esta página não guarda dados pessoais. Contamos só os acessos, sem identificar você. <a href="../privacidade/" style="color:inherit">Aviso de privacidade</a></footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var WHATS = "5511934248161"; // WhatsApp comercial da Zavia
+  var q = new URLSearchParams(location.search);
+  var limpa = function (s) { return String(s || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60); };
+  var varia = limpa(q.get("v")), canal = limpa(q.get("s")).toLowerCase();
+  var pub = /^ZV-INS-\d{3}$/.test(varia) && canal ? varia + "-" + canal : "";
+  var conta = function (e) {
+    if (!pub || !navigator.sendBeacon) return;
+    try { navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: e })); } catch (x) {}
+  };
+  conta("diagnostico");
+  var val = function (id) { return document.getElementById(id).value.trim(); };
+  document.getElementById("f").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (val("site")) return; // robô
+    if (!val("tipo")) { document.getElementById("erro").textContent = "Escolha qual seguro você quer revisar."; document.getElementById("tipo").focus(); return; }
+    var linhas = ["Quero revisar a minha apólice com a Závia.", "", "Seguro: " + val("tipo")];
+    if (val("seg")) linhas.push("Seguradora: " + val("seg"));
+    linhas.push("Vencimento: " + (val("mes") || "não sei"));
+    if (val("duv")) linhas.push("Quero entender: " + val("duv"));
+    linhas.push("Melhor horário: " + val("hora"), "", "Código: ZV-REVISAO" + (varia ? " " + varia : "") + (canal ? " " + canal : ""));
+    conta("envio");
+    location.href = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(linhas.join("\n"));
+  });
+})();
+</script>
+</body>
+</html>

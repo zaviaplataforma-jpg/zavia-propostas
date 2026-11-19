@@ -32,7 +32,9 @@ a { color: #38BDF8; }
     // destino por público: formulário de RC, formulário Empresarial ou WhatsApp com mensagem pronta (/w/)
     var pub = v[0], cont = pub.slice(0, pub.lastIndexOf("-")), canal = v[4];
     var DEST = { CTB: ["rc", "contabilidade"], PRF: ["rc", "profissionais"], EMP: ["empresarial", "empresas"], TRN: ["empresarial", "transportadoras"], OBR: ["w", "obras"],
-      CND: ["w", "condominios"], AUT: ["w", "auto"], RES: ["w", "residencial"], VID: ["w", "vida"], INS: ["w", "institucional"] }[v[1]];
+      CND: ["w", "condominios"], AUT: ["w", "auto"], RES: ["w", "residencial"], VID: ["vida", "vida"], INS: ["w", "institucional"] }[v[1]];
+    // vídeos educativos SEGURO (ZV-INS-005) e CORRETOR (ZV-INS-006) vão para a revisão de apólice
+    if (cont === "ZV-INS-005" || cont === "ZV-INS-006") DEST = ["revisar", "revisao"];
     var MEIO = { pmeta: "paid_social", pgoogle: "cpc", qr: "qr", bni: "direct_message", wa: "direct_message", ev: "event", parc: "referral", gg: "organic" }[canal] || "organic_social";
     try { if (navigator.sendBeacon) navigator.sendBeacon("https://painel-zavia.netlify.app/api/evento", JSON.stringify({ p: pub, e: "clique" })); } catch (x) {}
     location.replace(base + DEST[0] + "/?c=" + DEST[1] + "&v=" + cont + "&s=" + canal + (DEST[0] === "w" ? "&t=" + v[1].toLowerCase() : "") +
